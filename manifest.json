@@ -5,5 +5,6 @@
   "minAppVersion": "1.4.0",
   "description": "Render 3D and 2D Rubik's Cube (3x3x3 and 4x4x4) states, animated move sequences, and real-cube color solver inside Markdown code blocks.",
   "author": "Fabian Serna (FabiDev<3)",
+  "authorUrl": "https://github.com/fabianserna",
   "isDesktopOnly": false
 }

@@ -1,6 +1,7 @@
-# Dependencies
+# Dependencies & compiled output (main.js is attached to GitHub Releases)
 node_modules/
 package-lock.json
+main.js
 
 # OS & Editor files
 .DS_Store

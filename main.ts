@@ -952,6 +952,7 @@ class InsertRubikModal extends Modal {
   private onSubmit: (markdownBlock: string) => void;
   private openMapperByDefault: boolean;
   private player: TwistyPlayer | null = null;
+  private onWindowMouseUp: (() => void) | null = null;
 
   private draft: {
     title: string;
@@ -1244,8 +1245,9 @@ class InsertRubikModal extends Modal {
         cls: `rubik-viz-palette-btn ${meta.face === activeBrush ? "is-selected" : ""}`,
         attr: { type: "button" },
       });
-      const swatch = pBtn.createSpan({ cls: "rubik-viz-palette-swatch" });
-      swatch.style.backgroundColor = meta.hex;
+      pBtn.createSpan({
+        cls: `rubik-viz-palette-swatch rubik-viz-face-${meta.face}`,
+      });
       pBtn.createSpan({ text: meta.name });
       const countEl = pBtn.createSpan({
         cls: "rubik-viz-palette-count",
@@ -1276,9 +1278,10 @@ class InsertRubikModal extends Modal {
     netContainerEl.addEventListener("mousedown", () => {
       isMouseDown = true;
     });
-    window.addEventListener("mouseup", () => {
+    this.onWindowMouseUp = () => {
       isMouseDown = false;
-    });
+    };
+    window.addEventListener("mouseup", this.onWindowMouseUp);
 
     const netLayout: Array<{
       face: FaceletCode | null;
@@ -1298,14 +1301,14 @@ class InsertRubikModal extends Modal {
       { face: null, offset: -1 },
     ];
 
-    const colorHexMap: Record<FaceletCode, string> = {
-      U: "#f8fafc",
-      L: "#f97316",
-      F: "#22c55e",
-      R: "#ef4444",
-      B: "#3b82f6",
-      D: "#eab308",
-    };
+    const allFaceColorClasses = [
+      "rubik-viz-face-U",
+      "rubik-viz-face-L",
+      "rubik-viz-face-F",
+      "rubik-viz-face-R",
+      "rubik-viz-face-B",
+      "rubik-viz-face-D",
+    ];
 
     const validationStatusEl = mapperPanelEl.createDiv({
       cls: "rubik-viz-mapper-status is-valid",
@@ -1345,7 +1348,8 @@ class InsertRubikModal extends Modal {
         counts[c]++;
         const btn = stickerButtons[i];
         if (btn) {
-          btn.style.backgroundColor = colorHexMap[c];
+          btn.removeClass(...allFaceColorClasses);
+          btn.addClass(`rubik-viz-face-${c}`);
         }
       }
 
@@ -1655,7 +1659,7 @@ class InsertRubikModal extends Modal {
       text: "Vista previa en tiempo real",
     });
     const previewCenterBtn = previewTopBar.createEl("button", {
-      cls: "rubik-viz-btn",
+      cls: "rubik-viz-btn rubik-viz-preview-center-btn",
       text: "🎯 Centrar cubo",
       attr: {
         type: "button",
@@ -1663,7 +1667,6 @@ class InsertRubikModal extends Modal {
           "Centrar la cámara 3D en la posición natural (caras U, F y R)",
       },
     });
-    previewCenterBtn.style.marginLeft = "auto";
     previewCenterBtn.addEventListener("click", () => {
       if (this.player) {
         this.plugin.centerCubeCamera(this.player);
@@ -1974,6 +1977,10 @@ class InsertRubikModal extends Modal {
   }
 
   onClose(): void {
+    if (this.onWindowMouseUp) {
+      window.removeEventListener("mouseup", this.onWindowMouseUp);
+      this.onWindowMouseUp = null;
+    }
     if (this.player) {
       this.player.remove();
       this.player = null;

@@ -635,6 +635,10 @@
   color: var(--text-normal);
 }
 
+.rubik-viz-preview-center-btn {
+  margin-left: auto;
+}
+
 .rubik-viz-modal-viewport {
   width: 100%;
   height: 240px;
@@ -876,4 +880,28 @@
 .rubik-viz-mapper-actions .rubik-viz-btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+.rubik-viz-face-U {
+  background-color: #f8fafc;
+}
+
+.rubik-viz-face-L {
+  background-color: #f97316;
+}
+
+.rubik-viz-face-F {
+  background-color: #22c55e;
+}
+
+.rubik-viz-face-R {
+  background-color: #ef4444;
+}
+
+.rubik-viz-face-B {
+  background-color: #3b82f6;
+}
+
+.rubik-viz-face-D {
+  background-color: #eab308;
 }
