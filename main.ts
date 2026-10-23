@@ -453,6 +453,7 @@ export default class RubikVisualizerPlugin extends Plugin {
       hintFacelets: "floating",
       backView: "none",
     });
+    player.classList.add("rubik-viz-twisty-player");
 
     ctx.addChild(new RubikVizRenderChild(cardEl, viewportEl, player));
 
@@ -1690,6 +1691,7 @@ class InsertRubikModal extends Modal {
       hintFacelets: "floating",
       backView: "none",
     });
+    this.player.classList.add("rubik-viz-twisty-player");
     previewViewportEl.appendChild(this.player);
 
     const previewMovesBar = previewCardEl.createDiv({

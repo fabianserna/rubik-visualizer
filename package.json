@@ -18,14 +18,14 @@
   "author": "Fabian Serna (FabiDev<3)",
   "license": "MIT",
   "dependencies": {
-    "cubing": "^0.54.0"
+    "cubing": "0.54.5"
   },
   "devDependencies": {
-    "@types/node": "^20.11.0",
-    "builtin-modules": "^3.3.0",
-    "esbuild": "^0.20.0",
-    "obsidian": "latest",
-    "tslib": "^2.6.2",
-    "typescript": "^5.3.3"
+    "@types/node": "20.19.43",
+    "builtin-modules": "3.3.0",
+    "esbuild": "0.20.2",
+    "obsidian": "1.14.4",
+    "tslib": "2.8.1",
+    "typescript": "5.9.3"
   }
 }
