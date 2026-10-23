@@ -325,7 +325,7 @@ export default class RubikVisualizerPlugin extends Plugin {
       try {
         const parsed: unknown = parseYaml(trimmedSource);
         if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-          rawConfig = parsed as RubikVizConfig;
+          rawConfig = parsed;
         } else if (parsed !== null && parsed !== undefined) {
           this.renderError(
             el,
