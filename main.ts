@@ -323,7 +323,7 @@ export default class RubikVisualizerPlugin extends Plugin {
 
     if (trimmedSource.length > 0) {
       try {
-        const parsed = parseYaml(trimmedSource);
+        const parsed: unknown = parseYaml(trimmedSource);
         if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
           rawConfig = parsed as RubikVizConfig;
         } else if (parsed !== null && parsed !== undefined) {
@@ -684,11 +684,11 @@ export default class RubikVisualizerPlugin extends Plugin {
       oll: "OLL",
       pll: "PLL",
       f2l: "F2L",
-      centers: "centers-only" as ExperimentalStickering,
-      "centers-only": "centers-only" as ExperimentalStickering,
+      centers: "centers-only",
+      "centers-only": "centers-only",
     };
     const mask: ExperimentalStickering =
-      maskMap[rawMask.toLowerCase()] ?? (rawMask as ExperimentalStickering) ?? "full";
+      maskMap[rawMask.toLowerCase()] ?? (rawMask || "full");
 
     // 6. Tempo: positive number (default 1)
     const parsedTempo = Number(raw.tempo);
@@ -817,7 +817,7 @@ export default class RubikVisualizerPlugin extends Plugin {
       const orbitReq =
         player.experimentalModel?.twistySceneModel?.orbitCoordinatesRequest;
       if (orbitReq) {
-        orbitReq.set({ latitude: 0, longitude: 0 } as never);
+        orbitReq.set({ latitude: 0, longitude: 0 });
         orbitReq.set("auto");
       }
     } catch {
@@ -1274,7 +1274,7 @@ class InsertRubikModal extends Modal {
       cls: "rubik-viz-mapper-net",
     });
 
-    const stickerButtons: HTMLButtonElement[] = new Array(54);
+    const stickerButtons = new Array<HTMLButtonElement>(54);
     let isMouseDown = false;
     netContainerEl.addEventListener("mousedown", () => {
       isMouseDown = true;
@@ -2132,7 +2132,7 @@ class RealCubeSolver {
   }
 
   public static cubieToFacelets(s: CubieState): string {
-    const f: FaceletCode[] = new Array(54).fill("U");
+    const f = new Array<FaceletCode>(54).fill("U");
     f[FACE_OFFSETS.U + 4] = "U";
     f[FACE_OFFSETS.R + 4] = "R";
     f[FACE_OFFSETS.F + 4] = "F";
