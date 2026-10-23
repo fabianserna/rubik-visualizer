@@ -1,0 +1,31 @@
+{
+  "name": "rubik-visualizer",
+  "version": "1.0.0",
+  "description": "Rubik Studio Visualizer plugin for Obsidian (3x3 and 4x4 interactive 3D/2D cube visualizer)",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+  },
+  "keywords": [
+    "obsidian",
+    "plugin",
+    "rubik",
+    "cubing",
+    "twisty",
+    "3d"
+  ],
+  "author": "Fabian Serna (FabiDev<3)",
+  "license": "MIT",
+  "dependencies": {
+    "cubing": "^0.54.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "builtin-modules": "^3.3.0",
+    "esbuild": "^0.20.0",
+    "obsidian": "latest",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3"
+  }
+}

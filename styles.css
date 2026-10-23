@@ -1,0 +1,879 @@
+/* ==========================================================================
+   Rubik Studio Visualizer - Obsidian Plugin Styles
+   Adapts automatically to Obsidian Light & Dark themes via CSS variables
+   ========================================================================== */
+
+.rubik-viz-card {
+  background-color: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 14px 0;
+  color: var(--text-normal);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.rubik-viz-card:hover {
+  border-color: var(--background-modifier-border-hover, var(--interactive-accent));
+}
+
+/* Header: Title, Badges & Action Toolbar */
+.rubik-viz-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.rubik-viz-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rubik-viz-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-normal);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.rubik-viz-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+  user-select: none;
+}
+
+.rubik-viz-badge.is-4x4 {
+  background-color: var(--color-purple, var(--interactive-accent));
+}
+
+.rubik-viz-badge-mask {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-color: var(--background-primary-alt, var(--background-primary));
+  color: var(--text-muted);
+  border: 1px solid var(--background-modifier-border);
+  user-select: none;
+}
+
+/* Header Action Buttons (Reset & 3D/2D Toggle) */
+.rubik-viz-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rubik-viz-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--background-modifier-border);
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  user-select: none;
+}
+
+.rubik-viz-btn:hover {
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+  border-color: var(--interactive-accent);
+}
+
+.rubik-viz-btn:active {
+  transform: scale(0.97);
+}
+
+.rubik-viz-btn.is-active {
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+  border-color: var(--interactive-accent);
+}
+
+/* TwistyPlayer Viewport Container */
+.rubik-viz-viewport {
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    circle at center,
+    var(--background-primary-alt, rgba(128, 128, 128, 0.06)) 0%,
+    transparent 75%
+  );
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.rubik-viz-viewport twisty-player {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  background: transparent;
+}
+
+/* Setup Info Bar (Optional) */
+.rubik-viz-setup-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background-color: var(--background-primary);
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--background-modifier-border);
+  font-family: var(--font-monospace);
+  overflow-x: auto;
+}
+
+.rubik-viz-setup-label {
+  font-family: var(--font-interface);
+  font-weight: 600;
+  color: var(--text-normal);
+  white-space: nowrap;
+}
+
+/* Interactive Algorithm Move Sequence */
+.rubik-viz-alg-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 6px;
+  border-top: 1px solid var(--background-modifier-border);
+}
+
+.rubik-viz-alg-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.rubik-viz-alg-label-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rubik-viz-alg-label {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.rubik-viz-wide-legend {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 1px 8px;
+  border-radius: 999px;
+  color: var(--color-orange, #f59e0b);
+  background-color: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  user-select: none;
+}
+
+.rubik-viz-status-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rubik-viz-live-move-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-monospace);
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.12s ease;
+  user-select: none;
+}
+
+.rubik-viz-live-move-pill.is-animating {
+  transform: scale(1.08);
+  box-shadow: 0 0 12px var(--interactive-accent);
+}
+
+.rubik-viz-live-move-pill.is-hidden {
+  display: none;
+}
+
+.rubik-viz-alg-moves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.rubik-viz-move-btn {
+  font-family: var(--font-monospace);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 4px 9px;
+  border-radius: 6px;
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+  border: 1px solid var(--background-modifier-border);
+  cursor: pointer;
+  transition: all 0.14s ease;
+  user-select: none;
+  line-height: 1.2;
+}
+
+.rubik-viz-move-btn:hover {
+  border-color: var(--interactive-accent);
+  color: var(--interactive-accent);
+  transform: translateY(-1px);
+}
+
+.rubik-viz-move-btn.is-active {
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+  border-color: var(--interactive-accent);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.rubik-viz-move-btn.is-active.is-animating {
+  transform: scale(1.14) translateY(-1px);
+  box-shadow: 0 0 0 2px var(--background-secondary), 0 0 14px var(--interactive-accent);
+  z-index: 2;
+}
+
+.rubik-viz-move-btn.is-past {
+  border-color: var(--interactive-accent);
+  opacity: 0.85;
+}
+
+/* Highlighted 4x4 wide / inner-slice moves (Rw, Uw, r, l, 2R, 2U...) */
+.rubik-viz-move-btn.is-wide-or-inner {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: var(--color-orange, #f59e0b);
+  border-color: var(--color-orange, #f59e0b);
+  font-weight: 700;
+}
+
+.rubik-viz-move-btn.is-wide-or-inner:hover {
+  background-color: rgba(245, 158, 11, 0.28);
+  color: var(--color-orange, #f59e0b);
+  border-color: var(--color-orange, #f59e0b);
+  transform: translateY(-1px);
+}
+
+.rubik-viz-move-btn.is-wide-or-inner.is-active {
+  background-color: var(--color-orange, #f59e0b);
+  color: #111827;
+  border-color: var(--color-orange, #f59e0b);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+}
+
+.rubik-viz-move-btn.is-wide-or-inner.is-active.is-animating {
+  transform: scale(1.14) translateY(-1px);
+  box-shadow: 0 0 0 2px var(--background-secondary), 0 0 14px rgba(245, 158, 11, 0.85);
+  z-index: 2;
+}
+
+.rubik-viz-move-btn.is-wide-or-inner.is-past {
+  border-color: var(--color-orange, #f59e0b);
+  opacity: 0.88;
+}
+
+.rubik-viz-alg-empty {
+  font-size: 0.82rem;
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+/* Error State Display */
+.rubik-viz-error {
+  background-color: rgba(235, 87, 87, 0.1);
+  border: 1px solid var(--text-error, #eb5757);
+  border-left: 4px solid var(--text-error, #eb5757);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 12px 0;
+  color: var(--text-normal);
+  font-size: 0.88rem;
+}
+
+.rubik-viz-error-title {
+  font-weight: 700;
+  color: var(--text-error, #eb5757);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rubik-viz-error-details {
+  font-family: var(--font-monospace);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: pre-wrap;
+  margin-top: 6px;
+  padding: 6px 8px;
+  background-color: var(--background-primary);
+  border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .rubik-viz-card {
+    padding: 12px;
+  }
+
+  .rubik-viz-viewport {
+    height: 250px;
+    min-height: 220px;
+  }
+
+  .rubik-viz-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .rubik-viz-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* ==========================================================================
+   Modal: Insertar estado de cubo (InsertRubikModal)
+   ========================================================================== */
+
+.modal.rubik-viz-modal-container {
+  width: min(960px, 95vw);
+  max-width: 960px;
+}
+
+.rubik-viz-modal-header {
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.rubik-viz-modal-title {
+  margin: 0 0 4px 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-normal);
+}
+
+.rubik-viz-modal-subtitle {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+.rubik-viz-modal-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.rubik-viz-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rubik-viz-row-2col {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 10px;
+  align-items: end;
+}
+
+.rubik-viz-row-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.rubik-viz-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rubik-viz-field-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.rubik-viz-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.rubik-viz-input,
+.rubik-viz-select,
+.rubik-viz-textarea {
+  width: 100%;
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.86rem;
+}
+
+.rubik-viz-textarea {
+  resize: vertical;
+  min-height: 52px;
+  line-height: 1.4;
+}
+
+.rubik-viz-input.is-mono,
+.rubik-viz-textarea.is-mono {
+  font-family: var(--font-monospace);
+}
+
+.rubik-viz-segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  background-color: var(--background-primary);
+  padding: 3px;
+  border-radius: 7px;
+  border: 1px solid var(--background-modifier-border);
+}
+
+.rubik-viz-seg-btn {
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 5px 8px;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.rubik-viz-seg-btn.is-active {
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+
+.rubik-viz-quick-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.rubik-viz-chip-btn {
+  font-size: 0.72rem;
+  padding: 2px 7px;
+  border-radius: 5px;
+  border: 1px solid var(--background-modifier-border);
+  background-color: var(--background-secondary);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.rubik-viz-chip-btn:hover {
+  border-color: var(--interactive-accent);
+  color: var(--text-normal);
+}
+
+.rubik-viz-keypad {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background-color: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.rubik-viz-keypad-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.rubik-viz-keypad-label.is-wide {
+  color: var(--color-orange, #f59e0b);
+  margin-top: 2px;
+}
+
+.rubik-viz-keypad-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.rubik-viz-pad-btn {
+  font-family: var(--font-monospace);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--background-modifier-border);
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.rubik-viz-pad-btn:hover {
+  border-color: var(--interactive-accent);
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+
+.rubik-viz-pad-btn.is-wide-or-inner {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: var(--color-orange, #f59e0b);
+  border-color: var(--color-orange, #f59e0b);
+}
+
+.rubik-viz-pad-btn.is-wide-or-inner:hover {
+  background-color: var(--color-orange, #f59e0b);
+  color: #111827;
+}
+
+.rubik-viz-slider {
+  width: 100%;
+  cursor: pointer;
+}
+
+.rubik-viz-field.is-checkbox-field {
+  justify-content: center;
+  padding-bottom: 4px;
+}
+
+.rubik-viz-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--text-normal);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Modal Right Column: Live Preview & YAML Box */
+.rubik-viz-modal-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rubik-viz-modal-preview-card {
+  background-color: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rubik-viz-modal-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.rubik-viz-modal-preview-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-normal);
+}
+
+.rubik-viz-modal-viewport {
+  width: 100%;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.rubik-viz-modal-viewport twisty-player {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+.rubik-viz-modal-moves-preview {
+  padding-top: 6px;
+  border-top: 1px solid var(--background-modifier-border);
+  max-height: 88px;
+  overflow-y: auto;
+}
+
+.rubik-viz-modal-yaml-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rubik-viz-modal-yaml-pre {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background-color: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  font-family: var(--font-monospace);
+  font-size: 0.78rem;
+  color: var(--text-normal);
+  white-space: pre-wrap;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.rubik-viz-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--background-modifier-border);
+}
+
+.rubik-viz-insert-btn {
+  font-weight: 600;
+  padding: 6px 14px;
+}
+
+@media (max-width: 780px) {
+  .rubik-viz-modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rubik-viz-row-2col,
+  .rubik-viz-row-3col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Real-Life Cube 2D Color Mapper (Pintor de 54 casillas)
+   ========================================================================== */
+
+.rubik-viz-chip-btn.is-mapper-toggle {
+  border-color: var(--interactive-accent);
+  color: var(--interactive-accent);
+  font-weight: 600;
+}
+
+.rubik-viz-chip-btn.is-mapper-toggle.is-active {
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+
+.rubik-viz-mapper-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+}
+
+.rubik-viz-mapper-panel.is-hidden {
+  display: none;
+}
+
+.rubik-viz-mapper-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.rubik-viz-mapper-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-normal);
+}
+
+.rubik-viz-mapper-palette {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.rubik-viz-palette-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--background-modifier-border);
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.rubik-viz-palette-btn.is-selected {
+  border-color: var(--interactive-accent);
+  box-shadow: 0 0 0 2px var(--interactive-accent);
+}
+
+.rubik-viz-palette-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+}
+
+.rubik-viz-palette-count {
+  font-family: var(--font-monospace);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.rubik-viz-palette-count.is-bad-count {
+  color: var(--text-error, #eb5757);
+  font-weight: 700;
+}
+
+.rubik-viz-mapper-net {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  background-color: var(--background-primary);
+  border-radius: 8px;
+  border: 1px solid var(--background-modifier-border);
+  user-select: none;
+}
+
+.rubik-viz-net-empty {
+  width: 72px;
+  height: 72px;
+}
+
+.rubik-viz-net-face {
+  display: grid;
+  grid-template-columns: repeat(3, 22px);
+  grid-template-rows: repeat(3, 22px);
+  gap: 2px;
+  padding: 2px;
+  background-color: #1e293b;
+  border-radius: 4px;
+}
+
+.rubik-viz-sticker-btn {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  margin: 0;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.08s ease;
+}
+
+.rubik-viz-sticker-btn:hover:not(.is-center) {
+  transform: scale(1.1);
+  z-index: 2;
+}
+
+.rubik-viz-sticker-btn.is-center {
+  cursor: default;
+  border: 1.5px solid rgba(15, 23, 42, 0.75);
+}
+
+.rubik-viz-mapper-status {
+  font-size: 0.76rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  line-height: 1.35;
+}
+
+.rubik-viz-mapper-status.is-valid {
+  background-color: rgba(34, 197, 94, 0.12);
+  color: var(--color-green, #22c55e);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.rubik-viz-mapper-status.is-invalid {
+  background-color: rgba(235, 87, 87, 0.12);
+  color: var(--text-error, #eb5757);
+  border: 1px solid rgba(235, 87, 87, 0.35);
+}
+
+.rubik-viz-mapper-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.rubik-viz-mapper-actions .rubik-viz-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
