@@ -17,6 +17,40 @@ import type {
 } from "cubing/twisty";
 
 type SetupAnchor = NonNullable<TwistyPlayerConfig["experimentalSetupAnchor"]>;
+type UiLang = "en" | "es";
+
+/**
+ * Detects Obsidian's active UI language ('es' for Spanish, 'en' default for English and other locales).
+ */
+function getUiLang(): UiLang {
+  try {
+    const winMoment = (
+      window as unknown as { moment?: { locale?: () => string } }
+    ).moment;
+    const momentLoc =
+      typeof winMoment?.locale === "function" ? winMoment.locale() : "";
+    if (momentLoc) {
+      return momentLoc.toLowerCase().startsWith("es") ? "es" : "en";
+    }
+    const htmlLang =
+      typeof document !== "undefined" ? document.documentElement.lang : "";
+    if (htmlLang) {
+      return htmlLang.toLowerCase().startsWith("es") ? "es" : "en";
+    }
+    const navLang =
+      typeof navigator !== "undefined" ? navigator.language : "";
+    if (navLang) {
+      return navLang.toLowerCase().startsWith("es") ? "es" : "en";
+    }
+  } catch {
+    // Fallback to English default
+  }
+  return "en";
+}
+
+function tr(en: string, es: string): string {
+  return getUiLang() === "es" ? es : en;
+}
 
 /**
  * Expected YAML configuration inside a ```rubik-viz code block.
@@ -266,7 +300,7 @@ export default class RubikVisualizerPlugin extends Plugin {
 
     this.addCommand({
       id: "insert-rubik-cube-state",
-      name: "Insertar estado de cubo",
+      name: tr("Insert cube state", "Insertar estado de cubo"),
       editorCallback: (editor: Editor) => {
         new InsertRubikModal(
           this.app,
@@ -276,7 +310,12 @@ export default class RubikVisualizerPlugin extends Plugin {
             const lineText = editor.getLine(cursor.line);
             const prefix = lineText.trim().length > 0 ? "\n\n" : "";
             editor.replaceSelection(`${prefix}${markdownBlock}\n`);
-            new Notice("Bloque rubik-viz insertado en la posición del cursor.");
+            new Notice(
+              tr(
+                "Block rubik-viz inserted at cursor position.",
+                "Bloque rubik-viz insertado en la posición del cursor."
+              )
+            );
           },
           false
         ).open();
@@ -285,7 +324,10 @@ export default class RubikVisualizerPlugin extends Plugin {
 
     this.addCommand({
       id: "map-real-rubik-cube-colors",
-      name: "Mapear colores de cubo real (Calculador de estado inicial 3x3)",
+      name: tr(
+        "Map real cube colors (3x3 initial state calculator)",
+        "Mapear colores de cubo real (Calculador de estado inicial 3x3)"
+      ),
       editorCallback: (editor: Editor) => {
         new InsertRubikModal(
           this.app,
@@ -295,7 +337,12 @@ export default class RubikVisualizerPlugin extends Plugin {
             const lineText = editor.getLine(cursor.line);
             const prefix = lineText.trim().length > 0 ? "\n\n" : "";
             editor.replaceSelection(`${prefix}${markdownBlock}\n`);
-            new Notice("Bloque rubik-viz insertado en la posición del cursor.");
+            new Notice(
+              tr(
+                "Block rubik-viz inserted at cursor position.",
+                "Bloque rubik-viz insertado en la posición del cursor."
+              )
+            );
           },
           true
         ).open();
@@ -329,17 +376,25 @@ export default class RubikVisualizerPlugin extends Plugin {
         } else if (parsed !== null && parsed !== undefined) {
           this.renderError(
             el,
-            "El contenido del bloque debe ser un objeto YAML válido (clave: valor).",
+            tr(
+              "Block content must be a valid YAML object (key: value).",
+              "El contenido del bloque debe ser un objeto YAML válido (clave: valor)."
+            ),
             trimmedSource
           );
           return;
         }
       } catch (err) {
         const message =
-          err instanceof Error ? err.message : "Error desconocido al leer YAML.";
+          err instanceof Error
+            ? err.message
+            : tr("Unknown error reading YAML.", "Error desconocido al leer YAML.");
         this.renderError(
           el,
-          "Error de sintaxis YAML en el bloque rubik-viz",
+          tr(
+            "YAML syntax error in rubik-viz block",
+            "Error de sintaxis YAML en el bloque rubik-viz"
+          ),
           message
         );
         return;
@@ -355,8 +410,12 @@ export default class RubikVisualizerPlugin extends Plugin {
       if (!validation.valid || !validation.state) {
         this.renderError(
           el,
-          "Estado de colores (state) físicamente inválido",
-          validation.error ?? "Revisa los 54 colores del cubo."
+          tr(
+            "Physically invalid color state",
+            "Estado de colores (state) físicamente inválido"
+          ),
+          validation.error ??
+            tr("Check all 54 cube stickers.", "Revisa los 54 colores del cubo.")
         );
         return;
       }
@@ -381,7 +440,10 @@ export default class RubikVisualizerPlugin extends Plugin {
       cls: `rubik-viz-badge ${config.puzzleBadge === "4x4" ? "is-4x4" : "is-3x3"}`,
       text: config.puzzleBadge,
     });
-    badgeEl.setAttribute("aria-label", `Cubo ${config.puzzle}`);
+    badgeEl.setAttribute(
+      "aria-label",
+      tr(`Cube ${config.puzzle}`, `Cubo ${config.puzzle}`)
+    );
 
     // Mask Badge (if not default 'full')
     if (config.mask && config.mask !== "full") {
@@ -400,7 +462,7 @@ export default class RubikVisualizerPlugin extends Plugin {
     } else {
       titleGroupEl.createEl("h4", {
         cls: "rubik-viz-title",
-        text: `Cubo ${config.puzzleBadge}`,
+        text: tr(`Cube ${config.puzzleBadge}`, `Cubo ${config.puzzleBadge}`),
       });
     }
 
@@ -409,20 +471,25 @@ export default class RubikVisualizerPlugin extends Plugin {
 
     const centerBtn = actionsEl.createEl("button", {
       cls: "rubik-viz-btn",
-      text: "🎯 Centrar cubo",
+      text: tr("Center", "Centrar"),
       attr: {
         type: "button",
-        title:
-          "Centrar el ángulo de cámara 3D en la posición natural (caras U, F y R) sin perder el paso actual",
+        title: tr(
+          "Center the 3D camera angle on the natural position (U, F, and R faces) without losing the current step",
+          "Centrar el ángulo de cámara 3D en la posición natural (caras U, F y R) sin perder el paso actual"
+        ),
       },
     });
 
     const resetBtn = actionsEl.createEl("button", {
       cls: "rubik-viz-btn",
-      text: "↺ Reiniciar vista",
+      text: tr("Reset", "Reiniciar"),
       attr: {
         type: "button",
-        title: "Restaurar algoritmo al inicio y centrar la vista del cubo",
+        title: tr(
+          "Reset algorithm to the start and center the cube view",
+          "Restaurar algoritmo al inicio y centrar la vista del cubo"
+        ),
       },
     });
 
@@ -430,10 +497,13 @@ export default class RubikVisualizerPlugin extends Plugin {
     const is2DInitial = currentView === "2D";
     const toggleViewBtn = actionsEl.createEl("button", {
       cls: `rubik-viz-btn ${is2DInitial ? "is-active" : ""}`,
-      text: is2DInitial ? "Vista: 2D (Cambiar a 3D)" : "Vista: 3D (Cambiar a 2D)",
+      text: tr("3D / 2D", "3d o 2d"),
       attr: {
         type: "button",
-        title: "Alternar en vivo entre vista 3D y planta desplegada 2D",
+        title: tr(
+          "Toggle live between 3D view and 2D unfolded net",
+          "Alternar en vivo entre vista 3D y planta desplegada 2D"
+        ),
       },
     });
 
@@ -478,17 +548,22 @@ export default class RubikVisualizerPlugin extends Plugin {
 
     algLabelGroupEl.createSpan({
       cls: "rubik-viz-alg-label",
-      text: `Algoritmo (${moves.length} ${moves.length === 1 ? "movimiento" : "movimientos"})`,
+      text: tr(
+        `Algorithm (${moves.length} ${moves.length === 1 ? "move" : "moves"})`,
+        `Algoritmo (${moves.length} ${moves.length === 1 ? "movimiento" : "movimientos"})`
+      ),
     });
 
     const hasWideOrInner = moves.some((m) => this.isWideOrInnerMove(m));
     if (hasWideOrInner) {
       algLabelGroupEl.createSpan({
         cls: "rubik-viz-wide-legend",
-        text: "● Capa doble / interna (4x4)",
+        text: tr("● Wide / inner slice (4x4)", "● Capa doble / interna (4x4)"),
         attr: {
-          title:
-            "Los movimientos resaltados corresponden a capas dobles o internas (Rw, Uw, r, l, 2R, 2U...)",
+          title: tr(
+            "Highlighted moves correspond to double-layer or inner-slice turns (Rw, Uw, r, l, 2R, 2U...)",
+            "Los movimientos resaltados corresponden a capas dobles o internas (Rw, Uw, r, l, 2R, 2U...)"
+          ),
         },
       });
     }
@@ -502,12 +577,14 @@ export default class RubikVisualizerPlugin extends Plugin {
       text: "",
     });
 
+    const defaultStepHint = tr(
+      "Click Play or click a move button to animate it",
+      "Haz clic en Play o en un movimiento para reproducirlo"
+    );
+
     const stepStatusEl = statusGroupEl.createSpan({
       cls: "rubik-viz-alg-status",
-      text:
-        moves.length > 0
-          ? "Haz clic en Play o en un movimiento para reproducirlo"
-          : "",
+      text: moves.length > 0 ? defaultStepHint : "",
     });
 
     const movesContainerEl = algSectionEl.createDiv({
@@ -533,11 +610,7 @@ export default class RubikVisualizerPlugin extends Plugin {
       if (activeIndex === null || activeIndex < 0 || activeIndex >= moves.length) {
         liveMoveBadgeEl.classList.add("is-hidden");
         liveMoveBadgeEl.classList.remove("is-animating");
-        stepStatusEl.setText(
-          moves.length > 0
-            ? "Haz clic en Play o en un movimiento para reproducirlo"
-            : ""
-        );
+        stepStatusEl.setText(moves.length > 0 ? defaultStepHint : "");
       } else {
         const currentMoveText = moves[activeIndex];
         liveMoveBadgeEl.classList.remove("is-hidden");
@@ -547,8 +620,14 @@ export default class RubikVisualizerPlugin extends Plugin {
         );
         stepStatusEl.setText(
           isAnimating
-            ? `Ejecutando paso ${activeIndex + 1} de ${moves.length}`
-            : `Paso ${activeIndex + 1} de ${moves.length} completado`
+            ? tr(
+                `Executing step ${activeIndex + 1} of ${moves.length}`,
+                `Ejecutando paso ${activeIndex + 1} de ${moves.length}`
+              )
+            : tr(
+                `Step ${activeIndex + 1} of ${moves.length} completed`,
+                `Paso ${activeIndex + 1} de ${moves.length} completado`
+              )
         );
       }
     };
@@ -556,7 +635,10 @@ export default class RubikVisualizerPlugin extends Plugin {
     if (moves.length === 0) {
       movesContainerEl.createSpan({
         cls: "rubik-viz-alg-empty",
-        text: "Sin movimientos definidos (mostrando estado inicial).",
+        text: tr(
+          "No moves defined (showing initial state).",
+          "Sin movimientos definidos (mostrando estado inicial)."
+        ),
       });
     } else {
       moves.forEach((move, idx) => {
@@ -567,8 +649,14 @@ export default class RubikVisualizerPlugin extends Plugin {
           attr: {
             type: "button",
             title: isSpecial4x4Move
-              ? `Reproducir movimiento #${idx + 1}: ${move} (Capa doble / interna 4x4)`
-              : `Reproducir movimiento #${idx + 1}: ${move}`,
+              ? tr(
+                  `Play move #${idx + 1}: ${move} (4x4 wide / inner slice)`,
+                  `Reproducir movimiento #${idx + 1}: ${move} (Capa doble / interna 4x4)`
+                )
+              : tr(
+                  `Play move #${idx + 1}: ${move}`,
+                  `Reproducir movimiento #${idx + 1}: ${move}`
+                ),
           },
         });
 
@@ -613,7 +701,6 @@ export default class RubikVisualizerPlugin extends Plugin {
         currentView = "3D";
         player.visualization = "3D";
         toggleViewBtn.classList.remove("is-active");
-        toggleViewBtn.setText("Vista: 3D (Cambiar a 2D)");
       }
       this.centerCubeCamera(player);
     });
@@ -630,9 +717,6 @@ export default class RubikVisualizerPlugin extends Plugin {
 
       const is2D = currentView === "2D";
       toggleViewBtn.classList.toggle("is-active", is2D);
-      toggleViewBtn.setText(
-        is2D ? "Vista: 2D (Cambiar a 3D)" : "Vista: 3D (Cambiar a 2D)"
-      );
       setActiveStep(null, false);
     });
 
@@ -641,9 +725,6 @@ export default class RubikVisualizerPlugin extends Plugin {
       player.visualization = currentView;
       const is2D = currentView === "2D";
       toggleViewBtn.classList.toggle("is-active", is2D);
-      toggleViewBtn.setText(
-        is2D ? "Vista: 2D (Cambiar a 3D)" : "Vista: 3D (Cambiar a 2D)"
-      );
     });
   }
 
@@ -847,14 +928,16 @@ export default class RubikVisualizerPlugin extends Plugin {
 
 interface RubikPreset {
   id: string;
-  label: string;
+  labelEn: string;
+  labelEs: string;
   config: Required<Omit<RubikVizConfig, "state">>;
 }
 
 const RUBIK_PRESETS: RubikPreset[] = [
   {
     id: "custom",
-    label: "✨ Personalizado (Amarillo arriba z2)",
+    labelEn: "✨ Custom (Yellow on top z2)",
+    labelEs: "✨ Personalizado (Amarillo arriba z2)",
     config: {
       title: "",
       puzzle: "3x3x3",
@@ -869,7 +952,8 @@ const RUBIK_PRESETS: RubikPreset[] = [
   },
   {
     id: "sexy-move",
-    label: "⚡ 3x3 - Trigger Sexy Move (R U R' U')",
+    labelEn: "⚡ 3x3 - Trigger Sexy Move (R U R' U')",
+    labelEs: "⚡ 3x3 - Trigger Sexy Move (R U R' U')",
     config: {
       title: "Trigger: Sexy Move",
       puzzle: "3x3x3",
@@ -884,7 +968,8 @@ const RUBIK_PRESETS: RubikPreset[] = [
   },
   {
     id: "oll-sune",
-    label: "🟨 3x3 - OLL 27 (Sune)",
+    labelEn: "🟨 3x3 - OLL 27 (Sune)",
+    labelEs: "🟨 3x3 - OLL 27 (Sune)",
     config: {
       title: "OLL 27 - Sune",
       puzzle: "3x3x3",
@@ -899,7 +984,8 @@ const RUBIK_PRESETS: RubikPreset[] = [
   },
   {
     id: "pll-tperm",
-    label: "🔄 3x3 - PLL T-Perm",
+    labelEn: "🔄 3x3 - PLL T-Perm",
+    labelEs: "🔄 3x3 - PLL T-Perm",
     config: {
       title: "PLL - T Perm",
       puzzle: "3x3x3",
@@ -914,9 +1000,10 @@ const RUBIK_PRESETS: RubikPreset[] = [
   },
   {
     id: "4x4-oll-parity",
-    label: "🟧 4x4 - Paridad de OLL (Capas dobles Rw / Lw)",
+    labelEn: "🟧 4x4 - OLL Parity (Wide layers Rw / Lw)",
+    labelEs: "🟧 4x4 - Paridad de OLL (Capas dobles Rw / Lw)",
     config: {
-      title: "4x4x4 - Paridad de OLL",
+      title: "4x4x4 - OLL Parity",
       puzzle: "4x4x4",
       view: "3D",
       setup: "z2",
@@ -929,9 +1016,10 @@ const RUBIK_PRESETS: RubikPreset[] = [
   },
   {
     id: "4x4-pll-parity",
-    label: "🟪 4x4 - Paridad de PLL (Capas internas 2R2 / Uw2)",
+    labelEn: "🟪 4x4 - PLL Parity (Inner slices 2R2 / Uw2)",
+    labelEs: "🟪 4x4 - Paridad de PLL (Capas internas 2R2 / Uw2)",
     config: {
-      title: "4x4x4 - Paridad de PLL",
+      title: "4x4x4 - PLL Parity",
       puzzle: "4x4x4",
       view: "3D",
       setup: "z2",
@@ -999,11 +1087,17 @@ class InsertRubikModal extends Modal {
     const headerEl = contentEl.createDiv({ cls: "rubik-viz-modal-header" });
     headerEl.createEl("h3", {
       cls: "rubik-viz-modal-title",
-      text: "🧊 Insertar estado de cubo (Rubik Studio Visualizer)",
+      text: tr(
+        "🧊 Insert cube state (Rubik Studio Visualizer)",
+        "🧊 Insertar estado de cubo (Rubik Studio Visualizer)"
+      ),
     });
     headerEl.createEl("p", {
       cls: "rubik-viz-modal-subtitle",
-      text: "Configura el cubo 3x3 o 4x4, construye el algoritmo con vista previa en tiempo real e insértalo en tu nota.",
+      text: tr(
+        "Configure a 3x3 or 4x4 cube, build the algorithm with real-time preview, and insert it into your note.",
+        "Configura el cubo 3x3 o 4x4, construye el algoritmo con vista previa en tiempo real e insértalo en tu nota."
+      ),
     });
 
     // Two-column layout: Left = Form & Move Pad | Right = Live Preview & YAML output
@@ -1017,7 +1111,7 @@ class InsertRubikModal extends Modal {
     const presetRow = formColEl.createDiv({ cls: "rubik-viz-field" });
     presetRow.createEl("label", {
       cls: "rubik-viz-label",
-      text: "Plantilla rápida (opcional)",
+      text: tr("Quick preset (optional)", "Plantilla rápida (opcional)"),
     });
     const presetSelect = presetRow.createEl("select", {
       cls: "rubik-viz-select",
@@ -1025,7 +1119,7 @@ class InsertRubikModal extends Modal {
     RUBIK_PRESETS.forEach((preset) => {
       presetSelect.createEl("option", {
         value: preset.id,
-        text: preset.label,
+        text: tr(preset.labelEn, preset.labelEs),
       });
     });
     presetSelect.value = "sexy-move";
@@ -1036,7 +1130,7 @@ class InsertRubikModal extends Modal {
     const puzzleField = rowPuzzleTitle.createDiv({ cls: "rubik-viz-field" });
     puzzleField.createEl("label", {
       cls: "rubik-viz-label",
-      text: "Tipo de cubo (puzzle)",
+      text: tr("Cube type (puzzle)", "Tipo de cubo (puzzle)"),
     });
     const puzzleToggleGroup = puzzleField.createDiv({
       cls: "rubik-viz-segmented",
@@ -1055,13 +1149,16 @@ class InsertRubikModal extends Modal {
     const titleField = rowPuzzleTitle.createDiv({ cls: "rubik-viz-field" });
     titleField.createEl("label", {
       cls: "rubik-viz-label",
-      text: "Título de la tarjeta (title)",
+      text: tr("Card title (title)", "Título de la tarjeta (title)"),
     });
     const titleInput = titleField.createEl("input", {
       cls: "rubik-viz-input",
       attr: {
         type: "text",
-        placeholder: "Ej. PLL - T Perm / Paridad OLL",
+        placeholder: tr(
+          "e.g. PLL - T Perm / OLL Parity",
+          "Ej. PLL - T Perm / Paridad OLL"
+        ),
       },
     });
     titleInput.value = this.draft.title;
@@ -1072,14 +1169,14 @@ class InsertRubikModal extends Modal {
     const viewField = rowOptions.createDiv({ cls: "rubik-viz-field" });
     viewField.createEl("label", {
       cls: "rubik-viz-label",
-      text: "Vista (view)",
+      text: tr("View (view)", "Vista (view)"),
     });
     const viewSelect = viewField.createEl("select", {
       cls: "rubik-viz-select",
     });
     [
-      { value: "3D", label: "3D (Interactiva)" },
-      { value: "2D", label: "2D (Desplegado)" },
+      { value: "3D", label: tr("3D (Interactive)", "3D (Interactiva)") },
+      { value: "2D", label: tr("2D (Unfolded net)", "2D (Desplegado)") },
       { value: "PG3D", label: "PG3D" },
     ].forEach((opt) =>
       viewSelect.createEl("option", { value: opt.value, text: opt.label })
@@ -1088,17 +1185,20 @@ class InsertRubikModal extends Modal {
     const maskField = rowOptions.createDiv({ cls: "rubik-viz-field" });
     maskField.createEl("label", {
       cls: "rubik-viz-label",
-      text: "Máscara (mask)",
+      text: tr("Mask (mask)", "Máscara (mask)"),
     });
     const maskSelect = maskField.createEl("select", {
       cls: "rubik-viz-select",
     });
     [
-      { value: "full", label: "full (Completo)" },
-      { value: "OLL", label: "OLL (Capa superior)" },
-      { value: "PLL", label: "PLL (Permutación)" },
-      { value: "F2L", label: "F2L (2 capas)" },
-      { value: "centers", label: "centers (Solo centros)" },
+      { value: "full", label: tr("full (Full cube)", "full (Completo)") },
+      { value: "OLL", label: tr("OLL (Top layer)", "OLL (Capa superior)") },
+      { value: "PLL", label: tr("PLL (Permutation)", "PLL (Permutación)") },
+      { value: "F2L", label: tr("F2L (First 2 layers)", "F2L (2 capas)") },
+      {
+        value: "centers",
+        label: tr("centers (Centers only)", "centers (Solo centros)"),
+      },
     ].forEach((opt) =>
       maskSelect.createEl("option", { value: opt.value, text: opt.label })
     );
@@ -1106,14 +1206,20 @@ class InsertRubikModal extends Modal {
     const anchorField = rowOptions.createDiv({ cls: "rubik-viz-field" });
     anchorField.createEl("label", {
       cls: "rubik-viz-label",
-      text: "Anclaje (anchor)",
+      text: tr("Anchor (anchor)", "Anclaje (anchor)"),
     });
     const anchorSelect = anchorField.createEl("select", {
       cls: "rubik-viz-select",
     });
     [
-      { value: "start", label: "start (Desde Setup)" },
-      { value: "end", label: "end (Termina resuelto)" },
+      {
+        value: "start",
+        label: tr("start (From setup)", "start (Desde Setup)"),
+      },
+      {
+        value: "end",
+        label: tr("end (Ends solved)", "end (Termina resuelto)"),
+      },
     ].forEach((opt) =>
       anchorSelect.createEl("option", { value: opt.value, text: opt.label })
     );
@@ -1125,7 +1231,10 @@ class InsertRubikModal extends Modal {
     });
     setupHeader.createEl("label", {
       cls: "rubik-viz-label",
-      text: "Estado inicial / Orientación (setup)",
+      text: tr(
+        "Initial state / Orientation (setup)",
+        "Estado inicial / Orientación (setup)"
+      ),
     });
     const setupQuickChips = setupHeader.createDiv({
       cls: "rubik-viz-quick-chips",
@@ -1135,16 +1244,19 @@ class InsertRubikModal extends Modal {
       cls: "rubik-viz-input is-mono",
       attr: {
         type: "text",
-        placeholder: "Ej. z2 o F R U R' U' F' (opcional)",
+        placeholder: tr(
+          "e.g. z2 or F R U R' U' F' (optional)",
+          "Ej. z2 o F R U R' U' F' (opcional)"
+        ),
       },
     });
     setupInput.value = this.draft.setup;
 
     [
-      { label: "z2 (Amarillo U)", val: "z2" },
+      { label: tr("z2 (Yellow U)", "z2 (Amarillo U)"), val: "z2" },
       { label: "x2", val: "x2" },
       { label: "y", val: "y" },
-      { label: "Limpiar", val: "" },
+      { label: tr("Clear", "Limpiar"), val: "" },
     ].forEach((chip) => {
       const chipBtn = setupQuickChips.createEl("button", {
         cls: "rubik-viz-chip-btn",
@@ -1166,15 +1278,18 @@ class InsertRubikModal extends Modal {
       });
     });
 
-    // --- 4B. Real-Life Cube 2D Color Mapper (Calculador de Estado Inicial) ---
+    // --- 4B. Real-Life Cube 2D Color Mapper (Initial State Calculator) ---
     const toggleMapperBtn = setupQuickChips.createEl("button", {
       cls: `rubik-viz-chip-btn is-mapper-toggle ${
         this.openMapperByDefault ? "is-active" : ""
       }`,
-      text: "🎨 Mapear Cubo Real (3x3)",
+      text: tr("🎨 Map real cube (3x3)", "🎨 Mapear Cubo Real (3x3)"),
       attr: {
         type: "button",
-        title: "Pinta los 54 colores de tu cubo físico real para calcular su estado inicial y su solución",
+        title: tr(
+          "Paint all 54 stickers of your physical cube to calculate its initial state and solution",
+          "Pinta los 54 colores de tu cubo físico real para calcular su estado inicial y su solución"
+        ),
       },
     });
 
@@ -1189,25 +1304,34 @@ class InsertRubikModal extends Modal {
     });
     mapperTopBar.createSpan({
       cls: "rubik-viz-mapper-title",
-      text: "🎨 Pintor de Cubo Real 3x3 (Selecciona un color y haz clic en las casillas)",
+      text: tr(
+        "🎨 Real 3x3 cube painter (Select a color and click the stickers)",
+        "🎨 Pintor de Cubo Real 3x3 (Selecciona un color y haz clic en las casillas)"
+      ),
     });
     const mapperTopActions = mapperTopBar.createDiv({
       cls: "rubik-viz-quick-chips",
     });
     const syncFromSetupBtn = mapperTopActions.createEl("button", {
       cls: "rubik-viz-chip-btn",
-      text: "🔄 Leer desde Setup",
+      text: tr("🔄 Read from setup", "🔄 Leer desde Setup"),
       attr: {
         type: "button",
-        title: "Pinta en la plantilla el estado que produce el Setup actual",
+        title: tr(
+          "Paint the state produced by the current setup onto the net",
+          "Pinta en la plantilla el estado que produce el Setup actual"
+        ),
       },
     });
     const resetSolvedPainterBtn = mapperTopActions.createEl("button", {
       cls: "rubik-viz-chip-btn",
-      text: "🧼 Cubo Resuelto",
+      text: tr("🧼 Solved cube", "🧼 Cubo Resuelto"),
       attr: {
         type: "button",
-        title: "Reinicia las 54 casillas al cubo resuelto",
+        title: tr(
+          "Reset all 54 stickers to the solved cube",
+          "Reinicia las 54 casillas al cubo resuelto"
+        ),
       },
     });
 
@@ -1217,12 +1341,42 @@ class InsertRubikModal extends Modal {
       short: string;
       hex: string;
     }> = [
-      { face: "U", name: "Blanco (U)", short: "U", hex: "#f8fafc" },
-      { face: "L", name: "Naranja (L)", short: "L", hex: "#f97316" },
-      { face: "F", name: "Verde (F)", short: "F", hex: "#22c55e" },
-      { face: "R", name: "Rojo (R)", short: "R", hex: "#ef4444" },
-      { face: "B", name: "Azul (B)", short: "B", hex: "#3b82f6" },
-      { face: "D", name: "Amarillo (D)", short: "D", hex: "#eab308" },
+      {
+        face: "U",
+        name: tr("White (U)", "Blanco (U)"),
+        short: "U",
+        hex: "#f8fafc",
+      },
+      {
+        face: "L",
+        name: tr("Orange (L)", "Naranja (L)"),
+        short: "L",
+        hex: "#f97316",
+      },
+      {
+        face: "F",
+        name: tr("Green (F)", "Verde (F)"),
+        short: "F",
+        hex: "#22c55e",
+      },
+      {
+        face: "R",
+        name: tr("Red (R)", "Rojo (R)"),
+        short: "R",
+        hex: "#ef4444",
+      },
+      {
+        face: "B",
+        name: tr("Blue (B)", "Azul (B)"),
+        short: "B",
+        hex: "#3b82f6",
+      },
+      {
+        face: "D",
+        name: tr("Yellow (D)", "Amarillo (D)"),
+        short: "D",
+        hex: "#eab308",
+      },
     ];
 
     let activeBrush: FaceletCode = "U";
@@ -1266,10 +1420,6 @@ class InsertRubikModal extends Modal {
     });
 
     // 2D Unfolded Net Grid (4 columns x 3 rows of 3x3 faces)
-    // Layout:
-    //   [ . ] [ U ] [ . ] [ . ]
-    //   [ L ] [ F ] [ R ] [ B ]
-    //   [ . ] [ D ] [ . ] [ . ]
     const netContainerEl = mapperPanelEl.createDiv({
       cls: "rubik-viz-mapper-net",
     });
@@ -1320,18 +1470,30 @@ class InsertRubikModal extends Modal {
     });
     const applySetupOnlyBtn = mapperBottomActions.createEl("button", {
       cls: "rubik-viz-btn is-active",
-      text: "📥 Usar como Estado Inicial (setup)",
+      text: tr(
+        "📥 Use as initial state (setup)",
+        "📥 Usar como Estado Inicial (setup)"
+      ),
       attr: {
         type: "button",
-        title: "Calcula el setup exacto de este cubo físico y actualiza la vista 3D",
+        title: tr(
+          "Calculate the exact setup for this physical cube and update the 3D view",
+          "Calcula el setup exacto de este cubo físico y actualiza la vista 3D"
+        ),
       },
     });
     const applySetupAndSolveBtn = mapperBottomActions.createEl("button", {
       cls: "rubik-viz-btn",
-      text: "🪄 Cargar Estado Inicial + Solución en Algoritmo",
+      text: tr(
+        "🪄 Load initial state + solution into algorithm",
+        "🪄 Cargar Estado Inicial + Solución en Algoritmo"
+      ),
       attr: {
         type: "button",
-        title: "Pone tu cubo real en setup y escribe en alg los pasos para armarlo",
+        title: tr(
+          "Place your physical cube in setup and write the step-by-step solution into alg",
+          "Pone tu cubo real en setup y escribe en alg los pasos para armarlo"
+        ),
       },
     });
 
@@ -1366,7 +1528,10 @@ class InsertRubikModal extends Modal {
       );
       if (check.valid) {
         validationStatusEl.setText(
-          "✅ Cubo físico válido y resoluble. Listo para calcular."
+          tr(
+            "✅ Valid and solvable physical cube. Ready to calculate.",
+            "✅ Cubo físico válido y resoluble. Listo para calcular."
+          )
         );
         validationStatusEl.classList.remove("is-invalid");
         validationStatusEl.classList.add("is-valid");
@@ -1398,8 +1563,14 @@ class InsertRubikModal extends Modal {
           attr: {
             type: "button",
             title: isCenter
-              ? `Centro fijo de la cara ${cell.face}`
-              : `Casilla #${idx + 1} (clic para pintar)`,
+              ? tr(
+                  `Fixed center of face ${cell.face}`,
+                  `Centro fijo de la cara ${cell.face}`
+                )
+              : tr(
+                  `Sticker #${idx + 1} (click to paint)`,
+                  `Casilla #${idx + 1} (clic para pintar)`
+                ),
           },
         });
         stickerButtons[idx] = sBtn;
@@ -1448,10 +1619,18 @@ class InsertRubikModal extends Modal {
           paintedFacelets[i] = stateFromSetup[i] as FaceletCode;
         }
         refreshMapperUI();
-        new Notice("Colores cargados desde el Setup actual.");
+        new Notice(
+          tr(
+            "Colors loaded from current setup.",
+            "Colores cargados desde el Setup actual."
+          )
+        );
       } catch {
         new Notice(
-          "Solo se pueden sincronizar giros estándar 3x3 (U, R, F, D, L, B)."
+          tr(
+            "Only standard 3x3 moves (U, R, F, D, L, B) can be synced.",
+            "Solo se pueden sincronizar giros estándar 3x3 (U, R, F, D, L, B)."
+          )
         );
       }
     });
@@ -1468,7 +1647,12 @@ class InsertRubikModal extends Modal {
       setupInput.value = setup;
       anchorSelect.value = "start";
       updateLivePreview();
-      new Notice("Estado inicial (setup) calculado desde los colores pintados.");
+      new Notice(
+        tr(
+          "Initial state (setup) calculated from painted colors.",
+          "Estado inicial (setup) calculado desde los colores pintados."
+        )
+      );
     });
 
     applySetupAndSolveBtn.addEventListener("click", () => {
@@ -1486,7 +1670,10 @@ class InsertRubikModal extends Modal {
       anchorSelect.value = "start";
       updateLivePreview();
       new Notice(
-        "¡Listo! Estado inicial en 'setup' y solución paso a paso cargada en 'alg'."
+        tr(
+          "Done! Initial state loaded in 'setup' and step-by-step solution loaded in 'alg'.",
+          "¡Listo! Estado inicial en 'setup' y solución paso a paso cargada en 'alg'."
+        )
       );
     });
 
@@ -1495,29 +1682,38 @@ class InsertRubikModal extends Modal {
     const algHeader = algField.createDiv({ cls: "rubik-viz-field-header" });
     algHeader.createEl("label", {
       cls: "rubik-viz-label",
-      text: "Secuencia del Algoritmo (alg)",
+      text: tr(
+        "Algorithm sequence (alg)",
+        "Secuencia del Algoritmo (alg)"
+      ),
     });
 
     const algUtilBtns = algHeader.createDiv({ cls: "rubik-viz-quick-chips" });
     const invertAlgBtn = algUtilBtns.createEl("button", {
       cls: "rubik-viz-chip-btn",
-      text: "⇄ Invertir",
+      text: tr("⇄ Invert", "⇄ Invertir"),
       attr: {
         type: "button",
-        title: "Invierte toda la secuencia del algoritmo",
+        title: tr(
+          "Invert the entire algorithm sequence",
+          "Invierte toda la secuencia del algoritmo"
+        ),
       },
     });
     const backspaceAlgBtn = algUtilBtns.createEl("button", {
       cls: "rubik-viz-chip-btn",
-      text: "⌫ Borrar último",
+      text: tr("⌫ Undo last", "⌫ Borrar último"),
       attr: {
         type: "button",
-        title: "Elimina el último movimiento del algoritmo",
+        title: tr(
+          "Remove the last move from the algorithm",
+          "Elimina el último movimiento del algoritmo"
+        ),
       },
     });
     const clearAlgBtn = algUtilBtns.createEl("button", {
       cls: "rubik-viz-chip-btn",
-      text: "✕ Limpiar",
+      text: tr("✕ Clear", "✕ Limpiar"),
       attr: { type: "button" },
     });
 
@@ -1525,7 +1721,10 @@ class InsertRubikModal extends Modal {
       cls: "rubik-viz-textarea is-mono",
       attr: {
         rows: "2",
-        placeholder: "Escribe o haz clic en los botones de abajo: R U R' U'...",
+        placeholder: tr(
+          "Type or click the move buttons below: R U R' U'...",
+          "Escribe o haz clic en los botones de abajo: R U R' U'..."
+        ),
       },
     });
     algTextarea.value = this.draft.alg;
@@ -1536,7 +1735,10 @@ class InsertRubikModal extends Modal {
     });
     keypadContainer.createDiv({
       cls: "rubik-viz-keypad-label",
-      text: "Teclado rápido de movimientos (clic para añadir):",
+      text: tr(
+        "Quick move keypad (click to append):",
+        "Teclado rápido de movimientos (clic para añadir):"
+      ),
     });
     const outerPadRow = keypadContainer.createDiv({
       cls: "rubik-viz-keypad-row",
@@ -1578,7 +1780,10 @@ class InsertRubikModal extends Modal {
     });
     widePadSection.createDiv({
       cls: "rubik-viz-keypad-label is-wide",
-      text: "Capas dobles e internas 4x4 (Paridad OLL / PLL):",
+      text: tr(
+        "4x4 wide & inner slice moves (OLL / PLL Parity):",
+        "Capas dobles e internas 4x4 (Paridad OLL / PLL):"
+      ),
     });
     const widePadRow = widePadSection.createDiv({
       cls: "rubik-viz-keypad-row",
@@ -1617,7 +1822,10 @@ class InsertRubikModal extends Modal {
     const tempoField = rowFooterOpts.createDiv({ cls: "rubik-viz-field" });
     const tempoLabelEl = tempoField.createEl("label", {
       cls: "rubik-viz-label",
-      text: `Velocidad (tempo): ${this.draft.tempo}x`,
+      text: tr(
+        `Speed (tempo): ${this.draft.tempo}x`,
+        `Velocidad (tempo): ${this.draft.tempo}x`
+      ),
     });
     const tempoSlider = tempoField.createEl("input", {
       cls: "rubik-viz-slider",
@@ -1641,7 +1849,10 @@ class InsertRubikModal extends Modal {
     });
     controlsCheckbox.checked = this.draft.controls;
     controlsLabel.createSpan({
-      text: "Mostrar barra de reproducción (controls: true)",
+      text: tr(
+        "Show playback bar (controls: true)",
+        "Mostrar barra de reproducción (controls: true)"
+      ),
     });
 
     // --- RIGHT COLUMN: Live TwistyPlayer + Move Badges + Code Preview ---
@@ -1657,15 +1868,17 @@ class InsertRubikModal extends Modal {
     });
     const previewTitleEl = previewTopBar.createSpan({
       cls: "rubik-viz-modal-preview-title",
-      text: "Vista previa en tiempo real",
+      text: tr("Real-time preview", "Vista previa en tiempo real"),
     });
     const previewCenterBtn = previewTopBar.createEl("button", {
       cls: "rubik-viz-btn rubik-viz-preview-center-btn",
-      text: "🎯 Centrar cubo",
+      text: tr("Center", "Centrar"),
       attr: {
         type: "button",
-        title:
-          "Centrar la cámara 3D en la posición natural (caras U, F y R)",
+        title: tr(
+          "Center the 3D camera on the natural position (U, F, and R faces)",
+          "Centrar la cámara 3D en la posición natural (caras U, F y R)"
+        ),
       },
     });
     previewCenterBtn.addEventListener("click", () => {
@@ -1738,7 +1951,10 @@ class InsertRubikModal extends Modal {
     });
     yamlPreviewWrapper.createDiv({
       cls: "rubik-viz-label",
-      text: "Bloque Markdown que se insertará:",
+      text: tr(
+        "Markdown block to insert:",
+        "Bloque Markdown que se insertará:"
+      ),
     });
     const yamlPreEl = yamlPreviewWrapper.createEl("pre", {
       cls: "rubik-viz-modal-yaml-pre",
@@ -1750,12 +1966,15 @@ class InsertRubikModal extends Modal {
     });
     const cancelBtn = footerActionsEl.createEl("button", {
       cls: "rubik-viz-btn",
-      text: "Cancelar",
+      text: tr("Cancel", "Cancelar"),
       attr: { type: "button" },
     });
     const insertBtn = footerActionsEl.createEl("button", {
       cls: "rubik-viz-btn is-active rubik-viz-insert-btn",
-      text: "✚ Insertar bloque rubik-viz en el cursor",
+      text: tr(
+        "✚ Insert rubik-viz block at cursor",
+        "✚ Insertar bloque rubik-viz en el cursor"
+      ),
       attr: { type: "button" },
     });
 
@@ -1811,7 +2030,11 @@ class InsertRubikModal extends Modal {
         normalized.puzzleBadge === "4x4" ? "is-4x4" : "is-3x3"
       }`;
       previewTitleEl.setText(
-        normalized.title || `Vista previa (${normalized.puzzleBadge})`
+        normalized.title ||
+          tr(
+            `Live preview (${normalized.puzzleBadge})`,
+            `Vista previa (${normalized.puzzleBadge})`
+          )
       );
 
       if (this.player) {
@@ -1832,7 +2055,10 @@ class InsertRubikModal extends Modal {
       if (moveTokens.length === 0) {
         previewMovesBar.createSpan({
           cls: "rubik-viz-alg-empty",
-          text: "Sin movimientos (mostrando estado inicial).",
+          text: tr(
+            "No moves (showing initial state).",
+            "Sin movimientos (mostrando estado inicial)."
+          ),
         });
       } else {
         moveTokens.forEach((mv, idx) => {
@@ -1843,8 +2069,14 @@ class InsertRubikModal extends Modal {
             attr: {
               type: "button",
               title: isSpecial
-                ? `Reproducir paso #${idx + 1}: ${mv} (Capa doble / interna 4x4)`
-                : `Reproducir paso #${idx + 1}: ${mv}`,
+                ? tr(
+                    `Play step #${idx + 1}: ${mv} (4x4 wide / inner slice)`,
+                    `Reproducir paso #${idx + 1}: ${mv} (Capa doble / interna 4x4)`
+                  )
+                : tr(
+                    `Play step #${idx + 1}: ${mv}`,
+                    `Reproducir paso #${idx + 1}: ${mv}`
+                  ),
             },
           });
           chip.addEventListener("click", () => {
@@ -1887,7 +2119,12 @@ class InsertRubikModal extends Modal {
       setupInput.value = this.draft.setup;
       algTextarea.value = this.draft.alg;
       tempoSlider.value = String(this.draft.tempo);
-      tempoLabelEl.setText(`Velocidad (tempo): ${this.draft.tempo}x`);
+      tempoLabelEl.setText(
+        tr(
+          `Speed (tempo): ${this.draft.tempo}x`,
+          `Velocidad (tempo): ${this.draft.tempo}x`
+        )
+      );
       controlsCheckbox.checked = this.draft.controls;
 
       updateLivePreview();
@@ -1956,7 +2193,12 @@ class InsertRubikModal extends Modal {
 
     tempoSlider.addEventListener("input", () => {
       this.draft.tempo = Number(tempoSlider.value);
-      tempoLabelEl.setText(`Velocidad (tempo): ${this.draft.tempo}x`);
+      tempoLabelEl.setText(
+        tr(
+          `Speed (tempo): ${this.draft.tempo}x`,
+          `Velocidad (tempo): ${this.draft.tempo}x`
+        )
+      );
       updateLivePreview();
     });
 
@@ -2059,14 +2301,25 @@ const EDGE_COLORS: ReadonlyArray<readonly [FaceletCode, FaceletCode]> = [
   ["B", "R"],
 ];
 
-const COLOR_LABEL_ES: Record<FaceletCode, string> = {
-  U: "Blanco (U)",
-  R: "Rojo (R)",
-  F: "Verde (F)",
-  D: "Amarillo (D)",
-  L: "Naranja (L)",
-  B: "Azul (B)",
-};
+function getColorLabel(face: FaceletCode): string {
+  const labelsEn: Record<FaceletCode, string> = {
+    U: "White (U)",
+    R: "Red (R)",
+    F: "Green (F)",
+    D: "Yellow (D)",
+    L: "Orange (L)",
+    B: "Blue (B)",
+  };
+  const labelsEs: Record<FaceletCode, string> = {
+    U: "Blanco (U)",
+    R: "Rojo (R)",
+    F: "Verde (F)",
+    D: "Amarillo (D)",
+    L: "Naranja (L)",
+    B: "Azul (B)",
+  };
+  return getUiLang() === "es" ? labelsEs[face] : labelsEn[face];
+}
 
 /**
  * Validates any 54-sticker 3x3x3 physical cube state and computes its exact
@@ -2165,7 +2418,10 @@ class RealCubeSolver {
     if (!faceletStr || faceletStr.length !== 54) {
       return {
         valid: false,
-        error: `El mapa de colores debe tener 54 casillas (actual: ${faceletStr.length}).`,
+        error: tr(
+          `The color map must have 54 stickers (current: ${faceletStr.length}).`,
+          `El mapa de colores debe tener 54 casillas (actual: ${faceletStr.length}).`
+        ),
       };
     }
 
@@ -2179,7 +2435,13 @@ class RealCubeSolver {
     };
     for (const ch of faceletStr) {
       if (!(ch in counts)) {
-        return { valid: false, error: `Código de color desconocido: "${ch}".` };
+        return {
+          valid: false,
+          error: tr(
+            `Unknown color code: "${ch}".`,
+            `Código de color desconocido: "${ch}".`
+          ),
+        };
       }
       counts[ch as FaceletCode]++;
     }
@@ -2189,11 +2451,14 @@ class RealCubeSolver {
     );
     if (wrongCounts.length > 0) {
       const detail = wrongCounts
-        .map((k) => `${COLOR_LABEL_ES[k]}: ${counts[k]}/9`)
+        .map((k) => `${getColorLabel(k)}: ${counts[k]}/9`)
         .join(", ");
       return {
         valid: false,
-        error: `Cada color debe tener exactamente 9 casillas (${detail}).`,
+        error: tr(
+          `Each color must have exactly 9 stickers (${detail}).`,
+          `Cada color debe tener exactamente 9 casillas (${detail}).`
+        ),
       };
     }
 
@@ -2228,13 +2493,19 @@ class RealCubeSolver {
       if (found === -1) {
         return {
           valid: false,
-          error: `Esquina imposible (${f0}-${f1}-${f2}): esos 3 colores no forman una esquina real.`,
+          error: tr(
+            `Impossible corner (${f0}-${f1}-${f2}): those 3 colors do not form a valid corner piece.`,
+            `Esquina imposible (${f0}-${f1}-${f2}): esos 3 colores no forman una esquina real.`
+          ),
         };
       }
       if (usedCorners.has(found)) {
         return {
           valid: false,
-          error: `La esquina ${CORNER_COLORS[found].join("-")} está repetida dos veces.`,
+          error: tr(
+            `Corner ${CORNER_COLORS[found].join("-")} is duplicated.`,
+            `La esquina ${CORNER_COLORS[found].join("-")} está repetida dos veces.`
+          ),
         };
       }
       usedCorners.add(found);
@@ -2268,13 +2539,19 @@ class RealCubeSolver {
       if (found === -1) {
         return {
           valid: false,
-          error: `Arista imposible (${f0}-${f1}): esos 2 colores son opuestos o iguales.`,
+          error: tr(
+            `Impossible edge (${f0}-${f1}): those 2 colors are opposite or identical.`,
+            `Arista imposible (${f0}-${f1}): esos 2 colores son opuestos o iguales.`
+          ),
         };
       }
       if (usedEdges.has(found)) {
         return {
           valid: false,
-          error: `La arista ${EDGE_COLORS[found].join("-")} está repetida dos veces.`,
+          error: tr(
+            `Edge ${EDGE_COLORS[found].join("-")} is duplicated.`,
+            `La arista ${EDGE_COLORS[found].join("-")} está repetida dos veces.`
+          ),
         };
       }
       usedEdges.add(found);
@@ -2286,8 +2563,10 @@ class RealCubeSolver {
     if (coSum % 3 !== 0) {
       return {
         valid: false,
-        error:
-          "Esquina físicamente girada en el lugar: revisa la orientación de las esquinas de tu cubo real.",
+        error: tr(
+          "Physically twisted corner: check the corner orientations on your real cube.",
+          "Esquina físicamente girada en el lugar: revisa la orientación de las esquinas de tu cubo real."
+        ),
       };
     }
 
@@ -2295,8 +2574,10 @@ class RealCubeSolver {
     if (eoSum % 2 !== 0) {
       return {
         valid: false,
-        error:
-          "Arista físicamente invertida: hay una arista volteada individualmente.",
+        error: tr(
+          "Physically flipped edge: a single edge is flipped in place.",
+          "Arista físicamente invertida: hay una arista volteada individualmente."
+        ),
       };
     }
 
@@ -2313,8 +2594,10 @@ class RealCubeSolver {
     if (parity(cp) !== parity(ep)) {
       return {
         valid: false,
-        error:
-          "Paridad física imposible: hay dos piezas intercambiadas individualmente en el cubo.",
+        error: tr(
+          "Impossible physical parity: two pieces are swapped individually on the cube.",
+          "Paridad física imposible: hay dos piezas intercambiadas individualmente en el cubo."
+        ),
       };
     }
 
@@ -2549,7 +2832,12 @@ class RealCubeSolver {
     for (const t of tokens) {
       const m = this.moveTables![t];
       if (!m) {
-        throw new Error(`Movimiento no soportado en mapeador 3x3: ${t}`);
+        throw new Error(
+          tr(
+            `Unsupported move in 3x3 mapper: ${t}`,
+            `Movimiento no soportado en mapeador 3x3: ${t}`
+          )
+        );
       }
       cur = this.multiplyCubie(cur, m);
     }

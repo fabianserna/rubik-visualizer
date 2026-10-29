@@ -1,25 +1,31 @@
-# 🟧 Tutorial Progresivo: Cómo Armar un Cubo 4x4x4 Desordenado (De Principio a Fin)
+# 🟧 Progressive Tutorial: How to Solve a Scrambled 4x4x4 Cube (From Start to Finish)
 
-> [!info] Un mismo cubo 4x4x4 desarmado que evoluciona paso a paso
-> En este tutorial todos los bloques usan **`anchor: start` sobre el mismo cubo 4x4x4 desordenado**:
-> - En la **Fase 1** armamos los **Centros ($2\times 2$)** y verás que al terminar **las aristas y la última capa siguen desordenadas**.
-> - En la **Fase 2** emparejamos las **Últimas 2 Aristas** sin desarmar los centros, pero la última capa sigue con sus paridades pendientes.
-> - En la **Fase 3** volteamos el cubo (`z2`) y orientamos las esquinas como en un 3x3x3.
-> - En la **Fase 4** resolvemos primero la **Paridad de OLL** (dejando solo la Paridad de PLL pendiente) y finalmente aplicamos la **Paridad de PLL** para dejar el cubo **100% resuelto**.
+> 🌐 **Language / Idioma:** **🇺🇸 English (Current)** | [🇪🇸 Español](./tutorial-4x4x4.es.md)
+
+> [!tip] Before You Start: How does the **Rubik Studio Visualizer** plugin work?
+> This interactive tutorial is powered by the **Rubik Studio Visualizer** plugin (```` ```rubik-viz ```` code blocks).
+> If you want to learn how the interactive controls, `3D`/`2D` views, masks, and step-by-step move buttons work first, check out the reference guide in [**`example.md`**](./example.md) (also available on GitHub at [**`fabianserna/rubik-visualizer/blob/main/example.md`**](https://github.com/fabianserna/rubik-visualizer/blob/main/example.md) or in Spanish at [**`example.es.md`**](./example.es.md)).
+
+> [!info] A single scrambled 4x4x4 cube that evolves step by step
+> In this tutorial, **both the main steps and their alternatives work on a progressively solved 4x4x4 cube** (`anchor: start`):
+> - In **Phase 1** (and its *Alternative A*) we solve the **Centers ($2\times 2$)**, and when finished **the edges and last layer remain scrambled**.
+> - In **Phase 2** (and its *Alternative A*) we pair the **Last 2 Edges** without breaking the centers, while the last layer corners and parities remain unsolved.
+> - In **Phase 3** we flip the cube (`z2`) and orient the corners just like on a 3x3x3.
+> - In **Phase 4** we first solve **OLL Parity** in **Step 4.1** (leaving only PLL Parity pending) and finally apply **PLL Parity** in **Step 4.2** (or its *Alternatives A & B*) to leave the cube **100% solved**.
 >
-> 💡 **Resaltado Automático:** Todos los giros de **capas dobles (`Rw`, `Uw`, `Lw`)** y **capas internas (`2R2`)** aparecen **resaltados en color ámbar** debajo del cubo.
+> 💡 **Automatic Highlighting:** All **wide double-layer moves (`Rw`, `Uw`, `Lw`)** and **inner-slice moves (`2R2`)** are automatically **highlighted in amber** below the cube.
 
 ---
 
-## 🎲 Estado 0: Nuestro Cubo 4x4x4 Desordenado Inicial
+## 🎲 State 0: Our Initial Scrambled 4x4x4 Cube
 
-Aquí tienes el cubo 4x4x4 inicial antes de empezar:
-- Los centros **Verde (`F`)** y **Blanco (`U`)** tienen sus barras partidas.
-- Las aristas frontales (**`FL`** y **`FR`**) están separadas/desparejadas.
-- La capa Amarilla tiene tanto **Paridad de OLL** como **Paridad de PLL** esperando al final.
+Here is the initial 4x4x4 cube before we begin:
+- The **Green (`F`)** and **White (`U`)** centers have split 1x2 bars.
+- The front edges (**`FL`** and **`FR`**) are unpaired.
+- The Yellow layer has both **OLL Parity** and **PLL Parity** waiting at the end.
 
 ```rubik-viz
-title: "Estado 0 - Cubo 4x4x4 Desordenado Inicial (Centros, Aristas y Paridades pendientes)"
+title: "State 0: Initial Scrambled 4x4x4 Cube (Centers, Edges, and Parities Pending)"
 puzzle: 4x4x4
 view: 3D
 setup: "z2 Uw2 2R2 Uw2 2R2 U2 2R2 Rw U2 Rw U2 Rw' U2 Rw U2 Lw' U2 Rw U2 Rw' U2 Rw' x' U2 Rw' R U2 R' U' R U' R' z2 Uw' R' F R F' R U' R' Uw Rw U' Rw'"
@@ -30,18 +36,18 @@ controls: false
 
 ---
 
-## 🎯 Fase 1: Terminar los Centros ($2\times 2$)
+## 🎯 Phase 1: Complete the Centers ($2\times 2$)
 
-> [!warning] Esquema de colores en el 4x4x4 (BOY)
-> Como el 4x4x4 no tiene centros fijos, recuerda que con el **Blanco Arriba (`U`)** y el **Verde al Frente (`F`)**, el **Rojo va siempre a la Derecha (`R`)**, el **Naranja a la Izquierda (`L`)**, el **Azul Atrás (`B`)** y el **Amarillo Abajo (`D`)**.
+> [!warning] 4x4x4 Color Scheme (BOY)
+> Since a 4x4x4 cube has no fixed center pieces, remember that with **White on Top (`U`)** and **Green in Front (`F`)**, **Red always goes on the Right (`R`)**, **Orange on the Left (`L`)**, **Blue in Back (`B`)**, and **Yellow on the Bottom (`D`)**.
 
-### Paso 1.1: Unir las últimas barras de los Centros Superior (`U`) y Frontal (`F`) (`Rw U Rw'`)
-En nuestro cubo inicial, mira la cara **Blanca (`U`)** y la cara **Verde (`F`)**: cada una tiene su barra derecha intercambiada.
-Al ejecutar **`Rw U Rw'`**, subimos la mitad derecha, giramos `U` para emparejar las barras y regresamos `Rw'`.
-**Observa el resultado al final del paso:** Los **6 centros ($2\times 2$) quedan 100% terminados**, pero las aristas frontales (`FL` y `FR`) y el resto del cubo siguen desordenados:
+### Step 1.1: Join the last bars of the Top (`U`) and Front (`F`) Centers (`Rw U Rw'`)
+On our initial cube, look at the **White (`U`)** and **Green (`F`)** faces: each has its right vertical bar swapped.
+By executing **`Rw U Rw'`**, we lift the right half, turn `U` to join the bars, and return `Rw'`.
+**Watch the result at the end of the step:** All **6 centers ($2\times 2$) are 100% completed**, while the front edges (`FL` and `FR`) and the rest of the cube remain scrambled:
 
 ```rubik-viz
-title: "Paso 1.1 - Completar los 6 Centros 2x2 sin resolver aún las Aristas (Rw U Rw')"
+title: "Phase 1 - Step 1.1: Complete All 6 Centers (2x2) While Edges Remain Unsolved (Rw U Rw')"
 puzzle: 4x4x4
 view: 3D
 setup: "z2 Uw2 2R2 Uw2 2R2 U2 2R2 Rw U2 Rw U2 Rw' U2 Rw U2 Lw' U2 Rw U2 Rw' U2 Rw' x' U2 Rw' R U2 R' U' R U' R' z2 Uw' R' F R F' R U' R' Uw Rw U' Rw'"
@@ -52,15 +58,16 @@ tempo: 0.9
 controls: true
 ```
 
-#### 💡 Opción Alternativa en Fase 1: Subir una barra al Centro Superior (`U`) sin romper el Centro Inferior (`D`) (`Rw U2 Rw'`)
-*(Caso independiente)*: Cuando ya tienes el **Centro Blanco resuelto abajo (`D`)** y estás armando el **Centro Amarillo opuesto arriba (`U`)**, si subes una barra amarilla desde el frente (`F`) con `Rw`, sacarás una barra blanca de abajo hacia atrás.
-Para **insertar la barra amarilla arriba y devolver intacta la barra blanca a su sitio abajo**, coloca ambas barras en la mitad derecha de `U` y `F` y ejecuta **`Rw U2 Rw'`**:
+#### 💡 Phase 1 - Alternative A: Insert a bar into the Top Center (`U`) without breaking the Bottom Center (`D`) (`Rw U2 Rw'`)
+When you already have the **White Center solved on the bottom (`D`)** and are building the opposite **Yellow Center on top (`U`)**, lifting a yellow bar from the front (`F`) with `Rw` temporarily pushes a white bar from the bottom to the back.
+To **insert the yellow bar on top and return the white bar intact to the bottom**, align both bars on the right half of `U` and `F` and execute **`Rw U2 Rw'`**.
+Notice that when finished, **only the 6 centers ($2\times 2$) are completed**, while the edges and corners remain scrambled as expected in Phase 1:
 
 ```rubik-viz
-title: "Fase 1 (Opción Alternativa) - Subir Barra al Centro Opuesto sin desarmar Abajo (Rw U2 Rw')"
+title: "Phase 1 - Alternative A: Insert Bar into Opposite Center Without Breaking D (Rw U2 Rw')"
 puzzle: 4x4x4
 view: 3D
-setup: "z2 Rw U2 Rw'"
+setup: "z2 Uw2 2R2 Uw2 2R2 U2 2R2 Rw U2 Rw U2 Rw' U2 Rw U2 Lw' U2 Rw U2 Rw' U2 Rw' x' U2 Rw' R U2 R' U' R U' R' z2 Uw' R' F R F' R U' R' Uw z2 Rw U2 Rw'"
 alg: "Rw U2 Rw'"
 anchor: start
 mask: full
@@ -70,19 +77,19 @@ controls: true
 
 ---
 
-## 🔗 Fase 2: Emparejar las Aristas (*Edge Pairing - Slice, Flip, Slice*)
+## 🔗 Phase 2: Pair the Edges (*Edge Pairing - Slice, Flip, Slice*)
 
-Partimos exactamente del estado donde nos dejó el Paso 1.1: **los 6 centros ya están armados**, pero mira las dos columnas de adelante (**Frontal-Izquierda `FL`** y **Frontal-Derecha `FR`**): sus piezas de arista están desparejadas y enfrentadas en la misma fila horizontal.
+We start in the exact state where Step 1.1 left off: **all 6 centers are solved**, but look at the two front columns (**Front-Left `FL`** and **Front-Right `FR`**): their edge pieces are unpaired and sit across from each other in the same horizontal row.
 
-### Paso 2.1: Emparejar las 2 Aristas Frontales (`Uw' R U R' F R' F' R Uw`)
-Aplicamos la técnica **Cortar (`Uw'`) + Voltear arista derecha (`R U R' F R' F' R`) + Restaurar centros (`Uw`)**:
-1. **`Uw'`** → Desplaza las dos capas superiores para juntar temporalmente el par.
-2. **`R U R' F R' F' R`** → Voltea la arista Frontal-Derecha (`FR`) sobre sí misma.
-3. **`Uw`** → Regresa las dos capas superiores.
-**Observa cómo termina el cubo:** ¡Los 6 centros siguen intactos y las **12 aristas dobles ya están emparejadas**, pero las esquinas y paridades de la capa amarilla siguen sin resolver!
+### Step 2.1: Pair the 2 Front Edges (`Uw' R U R' F R' F' R Uw`)
+We apply the **Slice (`Uw'`) + Flip right edge (`R U R' F R' F' R`) + Restore centers (`Uw`)** technique:
+1. **`Uw'`** → Shifts the top two layers to temporarily join the first pair.
+2. **`R U R' F R' F' R`** → Flips the Front-Right (`FR`) edge in place.
+3. **`Uw`** → Slices the top two layers back to restore the centers and pair the second edge.
+**Watch how the cube ends:** All 6 centers remain intact and **all 12 double edges are now paired**, while the corners and parities of the yellow layer remain unsolved!
 
 ```rubik-viz
-title: "Paso 2.1 - Emparejar las Aristas Frontales con Slice-Flip-Slice (Uw' R U R' F R' F' R Uw)"
+title: "Phase 2 - Step 2.1: Pair the Front Edges with Slice-Flip-Slice (Uw' R U R' F R' F' R Uw)"
 puzzle: 4x4x4
 view: 3D
 setup: "z2 Uw2 2R2 Uw2 2R2 U2 2R2 Rw U2 Rw U2 Rw' U2 Rw U2 Lw' U2 Rw U2 Rw' U2 Rw' x' U2 Rw' R U2 R' U' R U' R' z2 Uw' R' F R F' R U' R' Uw"
@@ -93,14 +100,15 @@ tempo: 1.0
 controls: true
 ```
 
-#### 💡 Opción Alternativa en Fase 2: Cuando las 2 piezas de arista están en Diagonal (Una arriba en `FL` y su pareja abajo en `FR`)
-*(Caso independiente)*: Si las dos piezas que quieres emparejar tienen los mismos colores mirándote de frente en `FL` y `FR`, pero **están en diagonal** (una en la mitad superior y otra en la mitad inferior), **primero** aplica el algoritmo de volteo **`R U R' F R' F' R`** para ponerlas en la misma fila horizontal, y enseguida ejecuta **`Uw' R U R' F R' F' R Uw`**:
+#### 💡 Phase 2 - Alternative A: When the 2 Edge Pieces Are Diagonal (One on top in `FL` and its partner on bottom in `FR`)
+If during this second phase the two edge pieces you want to pair have matching colors facing you in `FL` and `FR` but **sit diagonally** (one in the upper slot and the other in the lower slot), **first** apply the flipping algorithm **`R U R' F R' F' R`** to put them in the same horizontal row, and then execute **`Uw' R U R' F R' F' R Uw`**.
+Notice that when finished, **all 6 centers and 12 edges are paired**, while the last-layer corners and parities remain pending for Phases 3 and 4:
 
 ```rubik-viz
-title: "Fase 2 (Opción Alternativa) - Piezas en Diagonal: Voltear primero y luego Slice-Flip-Slice"
+title: "Phase 2 - Alternative A: Diagonal Edge Pieces — Flip First, Then Slice-Flip-Slice"
 puzzle: 4x4x4
 view: 3D
-setup: "Uw' R' F R F' R U' R' Uw R' F R F' R U' R'"
+setup: "z2 Uw2 2R2 Uw2 2R2 U2 2R2 Rw U2 Rw U2 Rw' U2 Rw U2 Lw' U2 Rw U2 Rw' U2 Rw' x' U2 Rw' R U2 R' U' R U' R' z2 Uw' R' F R F' R U' R' Uw R' F R F' R U' R'"
 alg: "R U R' F R' F' R Uw' R U R' F R' F' R Uw"
 anchor: start
 mask: full
@@ -110,16 +118,18 @@ controls: true
 
 ---
 
-## 🧩 Fase 3: Voltear el Cubo (`z2`) y Etapa 3x3x3
+## 🧩 Phase 3: Flip the Cube (`z2`) and 3x3x3 Stage
 
-Con los 6 centros y las 12 aristas emparejadas, el 4x4x4 ya se mueve como un **3x3x3**.
-En este bloque partimos del estado exacto donde terminó el Paso 2.1:
-1. Primero damos la vuelta al cubo (**`z2`**) para poner la **cara Amarilla Arriba (`U`)** y dejar la capa Blanca ya armada abajo (`D`).
-2. Luego aplicamos **Sune (`R U R' U R U2 R'`)** usando solo las capas externas para orientar las 4 esquinas amarillas.
-**Observa cómo queda el cubo al terminar:** ¡Las 4 esquinas amarillas quedan orientadas, revelando claramente en el frente superior (`UF`) la **Paridad de OLL**!
+With all 6 centers and 12 edges paired, the 4x4x4 now turns like a standard **3x3x3**.
+
+### Step 3.1: Flip to the Yellow Face (`z2`) and Orient Corners with Sune (`z2 R U R' U R U2 R'`)
+In this block we start from the exact state where Phase 2 finished:
+1. First we flip the cube upside down (**`z2`**) to bring the **Yellow Face to the Top (`U`)** and place the solved White layer at the bottom (`D`).
+2. Next we apply **Sune (`R U R' U R U2 R'`)** using only outer layers to orient the 4 yellow corners.
+**Watch how the cube looks when finished:** All 4 yellow corners are oriented, clearly revealing **OLL Parity** on the top-front edge (`UF`)!
 
 ```rubik-viz
-title: "Paso 3.1 - Voltear a la Cara Amarilla (z2) y Orientar Esquinas con Sune"
+title: "Phase 3 - Step 3.1: Flip to the Yellow Face (z2) and Orient Corners with Sune"
 puzzle: 4x4x4
 view: 3D
 setup: "z2 Uw2 2R2 Uw2 2R2 U2 2R2 Rw U2 Rw U2 Rw' U2 Rw U2 Lw' U2 Rw U2 Rw' U2 Rw' x' U2 Rw' R U2 R' U' R U' R' z2"
@@ -132,18 +142,18 @@ controls: true
 
 ---
 
-## ⚡ Fase 4: Resolver las 2 Paridades en la Cara Amarilla (`U`)
+## ⚡ Phase 4: Solve the 2 Parities on the Yellow Face (`U`)
 
-### 🟧 Paso 4.1: Resolver la Paridad de OLL (Arista Amarilla-Verde volteada en `UF`)
-Arrancamos exactamente donde terminó el Paso 3.1.
-Mira la cara superior (`U`): toda es amarilla **excepto la arista doble frontal (`UF`)**, que tiene el color **Verde hacia arriba** y el **Amarillo hacia ti**.
-Ejecutamos el algoritmo de **Paridad de OLL**:
+### 🟧 Step 4.1: Solve OLL Parity (Flipped Yellow-Green Edge at `UF`)
+We start right where Step 3.1 left off.
+Look at the top face (`U`): everything is yellow **except the front double edge (`UF`)**, which has **Green facing up** and **Yellow facing you**.
+We execute the **OLL Parity** algorithm:
 **`Rw U2 x Rw U2 Rw U2 Rw' U2 Lw U2 Rw' U2 Rw U2 Rw' U2 Rw'`**
 
-**Observa el estado al terminar este paso:** ¡La arista frontal ya se volteó y toda la cara superior (`U`) es 100% amarilla! Pero fíjate en el color lateral de la arista frontal (`UF` es Azul sobre el centro Verde) y trasera (`UB` es Verde sobre el centro Azul): **aún nos queda la Paridad de PLL**.
+**Watch the state at the end of this step:** The front edge is now flipped and the entire top face (`U`) is 100% yellow! However, look at the side color of the front edge (`UF` is Blue above the Green center) and back edge (`UB` is Green above the Blue center): **PLL Parity is still waiting**.
 
 ```rubik-viz
-title: "Paso 4.1 - Resolver Paridad de OLL (Quedando pendiente solo la Paridad de PLL)"
+title: "Phase 4 - Step 4.1: Solve OLL Parity (Leaving Only PLL Parity Pending)"
 puzzle: 4x4x4
 view: 3D
 setup: "z2 Uw2 2R2 Uw2 2R2 U2 2R2 Rw U2 Rw U2 Rw' U2 Rw U2 Lw' U2 Rw U2 Rw' U2 Rw' x' U2 Rw'"
@@ -156,14 +166,14 @@ controls: true
 
 ---
 
-### 🟪 Paso 4.2: Paso Final — Resolver la Paridad de PLL (`2R2 U2 2R2 Uw2 2R2 Uw2`)
-Arrancamos en el estado exacto que nos dejó el Paso 4.1: todo el cubo está armado salvo las **dos aristas opuestas `UF` (Azul) y `UB` (Verde)** que están intercambiadas entre sí.
-Ejecuta los 6 movimientos de la **Paridad de PLL**:
+### 🟪 Step 4.2: Final Step — Solve PLL Parity (`2R2 U2 2R2 Uw2 2R2 Uw2`)
+We start in the exact state left by Step 4.1: the entire cube is solved except for the **two opposite edges `UF` (Blue) and `UB` (Green)** swapped with each other.
+Execute the 6 moves of **PLL Parity**:
 **`2R2 U2 2R2 Uw2 2R2 Uw2`**
-¡Y observa cómo al terminar el sexto movimiento el cubo **4x4x4 queda 100% resuelto**!
+And watch how on the sixth move the **4x4x4 cube is 100% solved**!
 
 ```rubik-viz
-title: "Paso 4.2 - Resolver Paridad de PLL e Intercambiar las 2 Últimas Aristas (Cubo 100% Resuelto)"
+title: "Phase 4 - Step 4.2: Solve PLL Parity and Swap the Last 2 Edges (100% Solved Cube)"
 puzzle: 4x4x4
 view: 3D
 setup: "z2 Uw2 2R2 Uw2 2R2 U2 2R2"
@@ -174,14 +184,14 @@ tempo: 1.0
 controls: true
 ```
 
-#### 💡 Opción Alternativa A en 4.2: Cuando las 2 Aristas Intercambiadas son Adyacentes (`UF` y `UR`)
-*(Caso independiente)*: Si al llegar al final las dos únicas aristas dobles intercambiadas están **una al lado de la otra** (en el Frente `UF` y en la Derecha `UR`):
-1. Hacemos **`R U R' U'`** para colocarlas temporalmente una frente a la otra (opuestas).
-2. Ejecutamos la **Paridad de PLL (`2R2 U2 2R2 Uw2 2R2 Uw2`)**.
-3. Deshacemos la preparación con **`U R U' R'`**:
+#### 💡 Step 4.2 - Alternative A: When the 2 Swapped Edges Are Adjacent (`UF` and `UR`)
+If at this final step the two swapped double edges are **next to each other** (at Front `UF` and Right `UR`):
+1. Execute **`R U R' U'`** to temporarily place them opposite each other.
+2. Execute **PLL Parity (`2R2 U2 2R2 Uw2 2R2 Uw2`)**.
+3. Undo the setup moves with **`U R U' R'`** to leave the cube **100% solved**:
 
 ```rubik-viz
-title: "Paso 4.2 (Opción Aristas Adyacentes) - Intercambiar UF y UR (R U R' U' 2R2 U2 2R2 Uw2 2R2 Uw2 U R U' R')"
+title: "Step 4.2 - Alternative A: Adjacent Swapped Edges UF and UR (R U R' U' 2R2 U2 2R2 Uw2 2R2 Uw2 U R U' R')"
 puzzle: 4x4x4
 view: 3D
 setup: "z2 R U R' U' Uw2 2R2 Uw2 2R2 U2 2R2 U R U' R'"
@@ -192,13 +202,13 @@ tempo: 1.1
 controls: true
 ```
 
-#### 💡 Opción Alternativa B en 4.2: Cuando parecen estar intercambiadas solo 2 Esquinas Superiores
-*(Caso independiente)*: Si todas las aristas parecen resueltas pero te quedan **solo 2 esquinas intercambiadas** (por ejemplo las dos de la derecha `UFR` y `UBR`), también es **Paridad de PLL**:
-1. Aplica la **Paridad de PLL (`2R2 U2 2R2 Uw2 2R2 Uw2`)** para convertir el caso en un 3x3x3 normal.
-2. Gira **`U'`** y aplica **T-Perm (`R U R' U' R' F R2 U' R' U' R U R' F'`)** seguido de **`U`**:
+#### 💡 Step 4.2 - Alternative B: When Only 2 Top Corners Appear Swapped
+If at this final step all edges appear solved but **only 2 corners are swapped** (for example the two right corners `UFR` and `UBR`), this is also **PLL Parity**:
+1. Apply **PLL Parity (`2R2 U2 2R2 Uw2 2R2 Uw2`)** to convert the case into a standard 3x3x3 PLL.
+2. Turn **`U'`** and apply **T-Perm (`R U R' U' R' F R2 U' R' U' R U R' F'`)** followed by **`U`** to finish the cube:
 
 ```rubik-viz
-title: "Paso 4.2 (Opción 2 Esquinas Intercambiadas) - Paridad de PLL + T-Perm"
+title: "Step 4.2 - Alternative B: 2 Top Corners Swapped (PLL Parity + T-Perm)"
 puzzle: 4x4x4
 view: 3D
 setup: "z2 U' F R U' R' U R U R2 F' R U R U' R' U Uw2 2R2 Uw2 2R2 U2 2R2"

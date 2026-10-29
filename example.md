@@ -1,59 +1,62 @@
-# 🧊 Guía Interactiva: Movimientos, Posición Inicial y Funciones de Rubik Studio Visualizer
+# 🧊 Interactive Guide: Moves, Initial Orientation, and Features of Rubik Studio Visualizer
 
-Esta nota de ejemplo está diseñada para abrirse en **Obsidian** con el plugin **Rubik Studio Visualizer** activo. En cada ejemplo verás primero el **bloque de código (`yaml`)** para que puedas leer y copiar los parámetros, e inmediatamente debajo el **bloque `rubik-viz` renderizado en vivo** por el plugin.
+> 🌐 **Language / Idioma:** **🇺🇸 English (Current)** | [🇪🇸 Español](./example.es.md)
 
----
-
-## 🛠️ 1. Funciones Propias del Plugin y Cómo Usarlas en esta Guía
-
-Cada bloque `rubik-viz` incorpora herramientas interactivas diseñadas específicamente en el plugin para estudiar algoritmos y ubicaciones espaciales:
-
-1. **Botonera Interactiva de Movimientos Paso a Paso (`tokenizeAlg` + `setActiveStep`):**
-   - Debajo del cubo, el plugin divide automáticamente el parámetro `alg` en **botones individuales por movimiento**.
-   - Haz clic sobre cualquier botón (por ejemplo, el 3.er movimiento): el plugin posicionará el cubo **exactamente en el estado posterior a ese giro**, iluminará el movimiento actual (`is-active`) y marcará los movimientos previos ya aplicados (`is-past`).
-2. **Conmutador en Vivo `Vista: 3D (Cambiar a 2D)`:**
-   - En la esquina superior derecha de cada tarjeta tienes un botón para alternar en vivo entre **3D** y la **planta desplegada 2D (Net)** sin editar la nota.
-   - En 3D solo ves 3 caras a la vez (`U`, `F`, `R`). Si haces clic en un movimiento y luego pulsas **`Vista: 3D (Cambiar a 2D)`**, verás al instante qué pasó en las caras traseras e inferiores (`B`, `L`, `D`).
-3. **Botón `↺ Reiniciar vista`:**
-   - Si estuviste inspeccionando pasos intermedios con los botones de movimiento o cambiaste entre 2D/3D, pulsa **`↺ Reiniciar vista`** para restaurar el algoritmo completo al inicio (`jumpToStart()`) y devolver el cubo a su configuración original.
-4. **Cálculo de Inversión Automática (`invertMoves` con `anchor: end`):**
-   - Cuando configuras `anchor: end`, el plugin calcula internamente la secuencia inversa del algoritmo junto con tu `setup` para que puedas usar los **botones de movimiento paso a paso** y ver cómo el cubo desordenado converge hasta quedar resuelto en el último botón.
-5. **Barra de Estado `Setup:` y Badges de Cabecera (`3x3` / `4x4` + `mask`):**
-   - La cabecera identifica automáticamente el tamaño del cubo (`3x3` o `4x4`) y la máscara activa (`OLL`, `PLL`, `F2L`, `centers`). Además, cuando defines una ubicación inicial con `setup`, el plugin muestra debajo del visor la barra `Setup:`.
+This example note is designed to be opened in **Obsidian** with the **Rubik Studio Visualizer** plugin enabled. In each section you will first see the **YAML code block** so you can inspect and copy its parameters, followed immediately by the **live `rubik-viz` block** rendered by the plugin.
 
 ---
 
-## 🧭 2. Ubicación de la Posición Inicial del Cubo
+## 🛠️ 1. Built-in Plugin Features and How to Use Them in This Guide
 
-Antes de ejecutar cualquier movimiento, necesitas saber **dónde está cada color** y cómo el plugin ubica el cubo en el espacio.
+Every `rubik-viz` block includes interactive tools purpose-built for studying algorithms and spatial orientations:
 
-### 2.1 Orientación Estándar Inicial (`setup` vacío)
-Cuando no especificas `setup`, el cubo se inicializa con la orientación oficial WCA:
+1. **Interactive Step-by-Step Move Bar (`tokenizeAlg` + `setActiveStep`):**
+   - Below the cube, the plugin automatically splits the `alg` parameter into **individual move buttons**.
+   - Click any move button (for example, the 3rd move): the plugin jumps the cube to that move, animates that single rotation in 3D, highlights the active move (`is-active`), and marks previous moves (`is-past`).
+2. **Live `3D / 2D` (`3d o 2d`) View Switcher:**
+   - In the top-right corner of every card you have a button to switch live between **3D** and the **unfolded 2D Net** without editing the note.
+   - In 3D you see 3 faces at a time (`U`, `F`, `R`). If you click a move button and then press **`3D / 2D`**, you can immediately inspect what happened on the back and bottom faces (`B`, `L`, `D`).
+3. **`Center` (`Centrar`) and `Reset` (`Reiniciar`) Buttons:**
+   - Press **`Center`** to restore the natural 3D camera angle (`U`, `F`, `R`) without losing your current step in the sequence.
+   - If you were inspecting intermediate steps or switched between 2D/3D, press **`Reset`** to return the algorithm to the start (`jumpToStart()`) and restore the original view.
+4. **Automatic Move Inversion (`invertMoves` with `anchor: end`):**
+   - When you set `anchor: end`, the plugin computes the inverse sequence of the algorithm alongside your `setup` so you can step through the move buttons and watch the scrambled case converge to a solved state on the final move.
+5. **`Setup:` Status Bar and Header Badges (`3x3` / `4x4` + `mask`):**
+   - The card header automatically displays the puzzle badge (`3x3` or `4x4`) and active stickering mask (`OLL`, `PLL`, `F2L`, `centers`). When `setup` is defined, the plugin also displays the `Setup:` bar below the viewport.
 
-| Cara | Letra | Ubicación en el visor 3D | Color inicial |
+---
+
+## 🧭 2. Initial Cube Orientation in Space
+
+Before executing any move, it is essential to know **where each color starts** and how the plugin orients the cube in 3D space.
+
+### 2.1 Standard WCA Initial Orientation (Empty `setup`)
+When `setup` is omitted, the cube initializes in official WCA orientation:
+
+| Face | Letter | Location in 3D Viewport | Initial Color |
 | :--- | :---: | :--- | :--- |
-| **Up** | `U` | Cara superior | ⬜ **Blanco** |
-| **Down** | `D` | Cara inferior (oculta en 3D) | 🟨 **Amarillo** |
-| **Front** | `F` | Cara frontal izquierda | 🟩 **Verde** |
-| **Right** | `R` | Cara frontal derecha | 🟥 **Rojo** |
-| **Back** | `B` | Cara trasera derecha (oculta en 3D) | 🟦 **Azul** |
-| **Left** | `L` | Cara trasera izquierda (oculta en 3D) | 🟧 **Naranja** |
+| **Up** | `U` | Top face | ⬜ **White** |
+| **Down** | `D` | Bottom face (hidden in 3D) | 🟨 **Yellow** |
+| **Front** | `F` | Front-left face | 🟩 **Green** |
+| **Right** | `R` | Front-right face | 🟥 **Red** |
+| **Back** | `B` | Back-right face (hidden in 3D) | 🟦 **Blue** |
+| **Left** | `L` | Back-left face (hidden in 3D) | 🟧 **Orange** |
 
 > [!TIP]
-> Usa el botón **`Vista: 3D (Cambiar a 2D)`** en la esquina superior derecha de la tarjeta para desplegar las 6 caras y comprobar dónde se ubican **Amarillo (`D`)**, **Naranja (`L`)** y **Azul (`B`)**.
+> Use the **`3D / 2D`** button in the top-right corner of the card to unfold all 6 faces and verify where **Yellow (`D`)**, **Orange (`L`)**, and **Blue (`B`)** are located.
 
-**Código del bloque (`rubik-viz`):**
+**Block code (`rubik-viz`):**
 ```yaml
-# Bloque ```rubik-viz
-title: "Orientación Estándar Inicial (U = Blanco, F = Verde)"
+# ```rubik-viz block
+title: "Standard Initial Orientation (U = White, F = Green)"
 puzzle: 3x3x3
 view: 3D
 controls: false
 ```
 
-**Resultado renderizado por el plugin:**
+**Live rendered result:**
 ```rubik-viz
-title: "Orientación Estándar Inicial (U = Blanco, F = Verde)"
+title: "Standard Initial Orientation (U = White, F = Green)"
 puzzle: 3x3x3
 view: 3D
 controls: false
@@ -61,22 +64,22 @@ controls: false
 
 ---
 
-### 2.2 Orientación Speedcubing con `setup: "z2"` (Amarillo arriba, Blanco abajo)
-En speedcubing (F2L, OLL y PLL), la cara `U` suele ser la **amarilla** y la `D` la **blanca**. Aplicando `setup: "z2"` el plugin ubica el cubo en esa posición inicial y muestra la barra inferior `Setup: z2`:
+### 2.2 Speedcubing Orientation with `setup: "z2"` (Yellow on Top, White on Bottom)
+In speedcubing (F2L, OLL, and PLL), the `U` face is typically **Yellow** and `D` is **White**. Using `setup: "z2"` places the cube in that starting orientation and displays `Setup: z2` below the viewport:
 
-**Código del bloque (`rubik-viz`):**
+**Block code (`rubik-viz`):**
 ```yaml
-# Bloque ```rubik-viz
-title: "Orientación Speedcubing (setup: z2 → Amarillo arriba, Blanco abajo)"
+# ```rubik-viz block
+title: "Speedcubing Orientation (setup: z2 → Yellow on Top, White on Bottom)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2"
 controls: false
 ```
 
-**Resultado renderizado por el plugin:**
+**Live rendered result:**
 ```rubik-viz
-title: "Orientación Speedcubing (setup: z2 → Amarillo arriba, Blanco abajo)"
+title: "Speedcubing Orientation (setup: z2 → Yellow on Top, White on Bottom)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2"
@@ -85,13 +88,13 @@ controls: false
 
 ---
 
-### 2.3 Reubicar la Posición Inicial con Rotaciones (`x`, `y`, `z`) y `mask: centers`
-Si usamos `mask: centers` (que oculta aristas y esquinas dejando solo los **6 centros**), podemos ver con total claridad cómo las rotaciones espaciales cambian la ubicación del cubo. Haz clic en cada botón inferior (`x`, `x'`, `y`, `y'`, `z`, `z'`) para inspeccionar cómo se mueven los centros:
+### 2.3 Reorienting the Cube with Whole-Cube Rotations (`x`, `y`, `z`) and `mask: centers`
+Using `mask: centers` (which dims edges and corners to highlight only the **6 centers**), we can clearly see how whole-cube rotations reorient the puzzle in space. Click each bottom move button (`x`, `x'`, `y`, `y'`, `z`, `z'`) to inspect how the centers move:
 
-**Código del bloque (`rubik-viz`):**
+**Block code (`rubik-viz`):**
 ```yaml
-# Bloque ```rubik-viz
-title: "Ubicación de Centros con Rotaciones Espaciales (mask: centers)"
+# ```rubik-viz block
+title: "Center Positions with Spatial Rotations (mask: centers)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2"
@@ -101,9 +104,9 @@ tempo: 0.8
 controls: true
 ```
 
-**Resultado renderizado por el plugin:**
+**Live rendered result:**
 ```rubik-viz
-title: "Ubicación de Centros con Rotaciones Espaciales (mask: centers)"
+title: "Center Positions with Spatial Rotations (mask: centers)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2"
@@ -115,20 +118,20 @@ controls: true
 
 ---
 
-## 🔄 3. Cómo Funciona Cada Movimiento (Inspección Paso a Paso)
+## 🔄 3. How Each Move Works (Step-by-Step Inspection)
 
-Cada letra gira su cara **90°** como si la miraras de frente:
-- **Letra sola (`R`, `U`, `F`, `L`, `D`, `B`):** Giro de **90° en sentido horario**.
-- **Letra con apóstrofe (`R'`, `U'`, `F'`, `L'`, `D'`, `B'`):** Giro de **90° en sentido antihorario**.
-- **Letra con `2` (`R2`, `U2`, `F2`, ...):** Giro doble de **180°**.
+Each letter rotates its corresponding face **90°** as if looking directly at that face:
+- **Single letter (`R`, `U`, `F`, `L`, `D`, `B`):** **90° clockwise** turn.
+- **Letter with apostrophe (`R'`, `U'`, `F'`, `L'`, `D'`, `B'`):** **90° counter-clockwise** (prime) turn.
+- **Letter with `2` (`R2`, `U2`, `F2`, ...):** **180°** double turn.
 
-### 3.1 Giros de las 6 Caras Externas (`R`, `U`, `F`, `L`, `D`, `B`)
-Haz clic en cada botón de movimiento debajo del cubo (`R`, `U`, `F`, `L`, `D`, `B`) para congelar el cubo en ese paso exacto, y usa **`Vista: 3D (Cambiar a 2D)`** para ver el efecto en las caras traseras:
+### 3.1 Turns of All 6 Outer Faces (`R`, `U`, `F`, `L`, `D`, `B`)
+Click each move button below the cube (`R`, `U`, `F`, `L`, `D`, `B`) to animate that exact step, and toggle **`3D / 2D`** to inspect the effect on the back faces:
 
-**Código del bloque (`rubik-viz`):**
+**Block code (`rubik-viz`):**
 ```yaml
-# Bloque ```rubik-viz
-title: "Giros Horarios de las 6 Caras (90°)"
+# ```rubik-viz block
+title: "Clockwise Turns of All 6 Faces (90°)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2"
@@ -137,9 +140,9 @@ tempo: 0.8
 controls: true
 ```
 
-**Resultado renderizado por el plugin:**
+**Live rendered result:**
 ```rubik-viz
-title: "Giros Horarios de las 6 Caras (90°)"
+title: "Clockwise Turns of All 6 Faces (90°)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2"
@@ -150,13 +153,13 @@ controls: true
 
 ---
 
-### 3.2 Comparación: Horario (`R`), Antihorario (`R'`) y Doble (`R2`)
-Haz clic sucesivamente en los botones inferiores para ver cómo `R` sube la capa derecha 90°, `R'` la devuelve a su posición inicial y `R2` realiza un giro de 180°:
+### 3.2 Comparison: Clockwise (`R`), Counter-Clockwise (`R'`), and Double (`R2`)
+Click through the bottom buttons in order to see how `R` lifts the right layer 90°, `R'` returns it to its starting state, and `R2` performs a 180° turn:
 
-**Código del bloque (`rubik-viz`):**
+**Block code (`rubik-viz`):**
 ```yaml
-# Bloque ```rubik-viz
-title: "Modificadores: Normal (90°), Prima (-90°) y Doble (180°)"
+# ```rubik-viz block
+title: "Move Modifiers: Normal (90°), Prime (-90°), and Double (180°)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2"
@@ -165,9 +168,9 @@ tempo: 0.8
 controls: true
 ```
 
-**Resultado renderizado por el plugin:**
+**Live rendered result:**
 ```rubik-viz
-title: "Modificadores: Normal (90°), Prima (-90°) y Doble (180°)"
+title: "Move Modifiers: Normal (90°), Prime (-90°), and Double (180°)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2"
@@ -178,16 +181,16 @@ controls: true
 
 ---
 
-### 3.3 Capas Centrales / Slices (`M`, `E`, `S`)
-Las capas intermedias del cubo 3x3 se mueven con tres letras:
-- **`M` (Middle):** Entre `L` y `R` (gira en la misma dirección que **`L`**, hacia abajo por el frente).
-- **`E` (Equatorial):** Entre `U` y `D` (gira en la misma dirección que **`D`**).
-- **`S` (Standing):** Entre `F` y `B` (gira en la misma dirección que **`F`**).
+### 3.3 Middle Slice Moves (`M`, `E`, `S`)
+The inner slices of a 3x3 cube use three letters:
+- **`M` (Middle):** Between `L` and `R` (follows the direction of **`L`**, rotating downward in front).
+- **`E` (Equatorial):** Between `U` and `D` (follows the direction of **`D`**).
+- **`S` (Standing):** Between `F` and `B` (follows the direction of **`F`**).
 
-**Código del bloque (`rubik-viz`):**
+**Block code (`rubik-viz`):**
 ```yaml
-# Bloque ```rubik-viz
-title: "Capas Centrales: M, E, S y sus inversos"
+# ```rubik-viz block
+title: "Middle Slices: M, E, S and Their Inverses"
 puzzle: 3x3x3
 view: 3D
 setup: "z2"
@@ -196,9 +199,9 @@ tempo: 0.8
 controls: true
 ```
 
-**Resultado renderizado por el plugin:**
+**Live rendered result:**
 ```rubik-viz
-title: "Capas Centrales: M, E, S y sus inversos"
+title: "Middle Slices: M, E, S and Their Inverses"
 puzzle: 3x3x3
 view: 3D
 setup: "z2"
@@ -209,13 +212,13 @@ controls: true
 
 ---
 
-### 3.4 Giros de Doble Capa / Wide Moves (`Rw`, `Uw`, `Fw`)
-Mueven **dos capas simultáneamente** (la cara externa junto con su capa central adyacente):
+### 3.4 Double-Layer / Wide Moves (`Rw`, `Uw`, `Fw`)
+Move **two layers simultaneously** (the outer face together with its adjacent middle slice):
 
-**Código del bloque (`rubik-viz`):**
+**Block code (`rubik-viz`):**
 ```yaml
-# Bloque ```rubik-viz
-title: "Giros de Doble Capa (Wide Moves)"
+# ```rubik-viz block
+title: "Double-Layer Turns (Wide Moves)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2"
@@ -224,9 +227,9 @@ tempo: 0.8
 controls: true
 ```
 
-**Resultado renderizado por el plugin:**
+**Live rendered result:**
 ```rubik-viz
-title: "Giros de Doble Capa (Wide Moves)"
+title: "Double-Layer Turns (Wide Moves)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2"
@@ -237,15 +240,15 @@ controls: true
 
 ---
 
-## 🎯 4. Ubicación de Casos con `anchor: start` vs `anchor: end` y Máscaras
+## 🎯 4. Setting Up Cases with `anchor: start` vs `anchor: end` and Masks
 
-### 4.1 Modo `anchor: start` (Aplica `setup` y ejecuta `alg` desde ahí)
-El cubo aplica primero `setup: "z2 F' U' F"` y luego anima `alg: "U R U' R'"`. Con `mask: F2L`, el plugin atenúa la capa superior para resaltar únicamente las dos primeras capas:
+### 4.1 `anchor: start` Mode (Applies `setup` and executes `alg` from there)
+The cube first applies `setup: "z2 F' U' F"` and then animates `alg: "U R U' R'"`. With `mask: F2L`, the plugin dims the top layer so you can focus exclusively on the first two layers:
 
-**Código del bloque (`rubik-viz`):**
+**Block code (`rubik-viz`):**
 ```yaml
-# Bloque ```rubik-viz
-title: "F2L Básico - Inserción del par Frontal-Derecho (anchor: start)"
+# ```rubik-viz block
+title: "Basic F2L - Front-Right Pair Insertion (anchor: start)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 F' U' F"
@@ -256,9 +259,9 @@ tempo: 1
 controls: true
 ```
 
-**Resultado renderizado por el plugin:**
+**Live rendered result:**
 ```rubik-viz
-title: "F2L Básico - Inserción del par Frontal-Derecho (anchor: start)"
+title: "Basic F2L - Front-Right Pair Insertion (anchor: start)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 F' U' F"
@@ -271,12 +274,12 @@ controls: true
 
 ---
 
-### 4.2 Modo `anchor: end` con `mask: OLL` (Termina con el cubo resuelto)
-Con `anchor: end`, el plugin calcula automáticamente el estado inverso (`invertMoves`) para mostrar el caso **OLL 27 (Sune)** listo para resolver. Haz clic desde el primer hasta el último botón de movimiento para ver cómo se orienta toda la cara superior amarilla:
+### 4.2 `anchor: end` Mode with `mask: OLL` (Finishes Solved)
+With `anchor: end`, the plugin automatically computes the inverse state (`invertMoves`) to display the **OLL 27 (Sune)** case ready to be solved. Click from the first to the last move button to watch the entire yellow top face orient:
 
-**Código del bloque (`rubik-viz`):**
+**Block code (`rubik-viz`):**
 ```yaml
-# Bloque ```rubik-viz
+# ```rubik-viz block
 title: "OLL 27 - Sune (anchor: end, mask: OLL)"
 puzzle: 3x3x3
 view: 3D
@@ -288,7 +291,7 @@ tempo: 1.2
 controls: true
 ```
 
-**Resultado renderizado por el plugin:**
+**Live rendered result:**
 ```rubik-viz
 title: "OLL 27 - Sune (anchor: end, mask: OLL)"
 puzzle: 3x3x3
@@ -303,12 +306,12 @@ controls: true
 
 ---
 
-### 4.3 Modo `anchor: end` con `mask: PLL`
-Aquí el plugin resalta las piezas de la última capa (`mask: PLL`) y termina con el cubo resuelto al finalizar la **T Perm**:
+### 4.3 `anchor: end` Mode with `mask: PLL`
+Here the plugin highlights the last-layer pieces (`mask: PLL`) and finishes with the cube solved at the end of the **T-Perm**:
 
-**Código del bloque (`rubik-viz`):**
+**Block code (`rubik-viz`):**
 ```yaml
-# Bloque ```rubik-viz
+# ```rubik-viz block
 title: "PLL - T Perm (anchor: end, mask: PLL)"
 puzzle: 3x3x3
 view: 3D
@@ -320,7 +323,7 @@ tempo: 1.5
 controls: true
 ```
 
-**Resultado renderizado por el plugin:**
+**Live rendered result:**
 ```rubik-viz
 title: "PLL - T Perm (anchor: end, mask: PLL)"
 puzzle: 3x3x3
@@ -335,14 +338,14 @@ controls: true
 
 ---
 
-## 🧩 5. Cubo 4x4x4 (`puzzle: 4x4x4`) y Capas Internas
+## 🧩 5. 4x4x4 Cube (`puzzle: 4x4x4`) and Inner Slices
 
-En el cubo **4x4x4**, el plugin activa el badge `4x4` y soporta giros de capa externa (`R`), doble capa (`Rw`) y **segunda capa interna sola** (`2R`, `2U`):
+On the **4x4x4** cube, the plugin displays the `4x4` badge and supports outer-layer turns (`R`), double-layer wide turns (`Rw`), and **single inner-slice turns** (`2R`, `2U`):
 
-**Código del bloque (`rubik-viz`):**
+**Block code (`rubik-viz`):**
 ```yaml
-# Bloque ```rubik-viz
-title: "Movimientos en 4x4x4: Externa (R), Doble (Rw) e Interna (2R)"
+# ```rubik-viz block
+title: "4x4x4 Moves: Outer (R), Wide (Rw), and Inner Slice (2R)"
 puzzle: 4x4x4
 view: 3D
 setup: "z2"
@@ -351,9 +354,9 @@ tempo: 0.9
 controls: true
 ```
 
-**Resultado renderizado por el plugin:**
+**Live rendered result:**
 ```rubik-viz
-title: "Movimientos en 4x4x4: Externa (R), Doble (Rw) e Interna (2R)"
+title: "4x4x4 Moves: Outer (R), Wide (Rw), and Inner Slice (2R)"
 puzzle: 4x4x4
 view: 3D
 setup: "z2"
@@ -364,14 +367,14 @@ controls: true
 
 ---
 
-### 5.1 Paridad de OLL en 4x4x4
+### 5.1 OLL Parity on 4x4x4
 
-Observa cómo los movimientos de capas dobles (`Rw`, `Lw`) se **resaltan automáticamente en color ámbar/naranja** debajo del cubo para distinguirlos de los giros externos (`U2`) y rotaciones (`x`):
+Notice how double-layer wide moves (`Rw`, `Lw`) are **automatically highlighted in amber/orange** below the cube to distinguish them from outer turns (`U2`) and whole-cube rotations (`x`):
 
-**Código del bloque (`rubik-viz`):**
+**Block code (`rubik-viz`):**
 ```yaml
-# Bloque ```rubik-viz
-title: "4x4x4 - Algoritmo de Paridad de OLL"
+# ```rubik-viz block
+title: "4x4x4 - OLL Parity Algorithm"
 puzzle: 4x4x4
 view: 3D
 setup: "z2"
@@ -381,9 +384,9 @@ tempo: 1.5
 controls: true
 ```
 
-**Resultado renderizado por el plugin:**
+**Live rendered result:**
 ```rubik-viz
-title: "4x4x4 - Algoritmo de Paridad de OLL"
+title: "4x4x4 - OLL Parity Algorithm"
 puzzle: 4x4x4
 view: 3D
 setup: "z2"
@@ -395,14 +398,14 @@ controls: true
 
 ---
 
-### 5.2 Paridad de PLL en 4x4x4
+### 5.2 PLL Parity on 4x4x4
 
-En la paridad de PLL se combinan movimientos de **segunda capa interna sola** (`2R2`), **capas dobles** (`Uw2`) y **capa externa** (`U2`). El plugin resalta tanto `2R2` como `Uw2`:
+PLL Parity combines **single inner-slice turns** (`2R2`), **double-layer wide turns** (`Uw2`), and **outer turns** (`U2`). The plugin highlights both `2R2` and `Uw2`:
 
-**Código del bloque (`rubik-viz`):**
+**Block code (`rubik-viz`):**
 ```yaml
-# Bloque ```rubik-viz
-title: "4x4x4 - Algoritmo de Paridad de PLL"
+# ```rubik-viz block
+title: "4x4x4 - PLL Parity Algorithm"
 puzzle: 4x4x4
 view: 3D
 setup: "z2"
@@ -412,9 +415,9 @@ tempo: 1.2
 controls: true
 ```
 
-**Resultado renderizado por el plugin:**
+**Live rendered result:**
 ```rubik-viz
-title: "4x4x4 - Algoritmo de Paridad de PLL"
+title: "4x4x4 - PLL Parity Algorithm"
 puzzle: 4x4x4
 view: 3D
 setup: "z2"

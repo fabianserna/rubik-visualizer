@@ -1,4 +1,6 @@
-# 🧊 Rubik Studio Visualizer — Plugin para Obsidian
+# 🧊 Rubik Studio Visualizer — Obsidian Plugin
+
+> 🌐 **Language / Idioma:** **🇺🇸 English (Current)** | [🇪🇸 Español](./README.es.md)
 
 <div align="center">
 
@@ -13,62 +15,63 @@
 ```
 
 ![Obsidian Plugin](https://img.shields.io/badge/Obsidian-Plugin-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white)
-![Version](https://img.shields.io/badge/Version-1.0.0-22C55E?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-1.0.1-22C55E?style=for-the-badge)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![cubing.js](https://img.shields.io/badge/Engine-cubing.js-F97316?style=for-the-badge)
 ![Antigravity](https://img.shields.io/badge/Built%20with-Google%20Antigravity-4285F4?style=for-the-badge&logo=google&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-EAB308?style=for-the-badge)
 
-**Visualizador interactivo 3D y 2D de Cubos de Rubik (`3x3x3` y `4x4x4`), reproductor paso a paso sincronizado en tiempo real y calculador de estados desde cubos físicos reales directamente dentro de tus notas de Obsidian.**
+**Interactive 3D & 2D Rubik's Cube visualizer (`3x3x3` and `4x4x4`), real-time step-by-step algorithm player, and physical cube state calculator directly inside your Obsidian notes.**
 
-[**📖 Tutorial 3x3x3**](./tutorial-3x3x3.md) · [**🟧 Tutorial 4x4x4**](./tutorial-4x4x4.md) · [**🧪 Galería de Ejemplos**](./example.md)
+[**📖 3x3x3 Tutorial**](./tutorial-3x3x3.md) · [**🟧 4x4x4 Tutorial**](./tutorial-4x4x4.md) · [**🧪 Examples Gallery**](./example.md) · [**🇪🇸 Documentación en Español**](./README.es.md)
 
 </div>
 
 ---
 
-## 💡 Créditos, Idea Original y Ecosistema Tecnológico
+## 💡 Credits, Original Idea & Technology Stack
 
-- **Autor e Idea Original:** **Fabian Serna** (**`FabiDev<3`**) — Concepción funcional, diseño pedagógico de los tutoriales progresivos 3x3x3 / 4x4x4, arquitectura de experiencia de usuario y calculador de mapeo desde cubos físicos reales.
-- **Entorno de Desarrollo Agéntico:** Desarrollado desde **Google Antigravity**, integrando empaquetado autónomo de Web Workers, motor de resolución constructiva por fases (BFS) y sincronización reactiva con el DOM virtual de Obsidian.
-- **Plugins, Librerías y Motores Consumidos:**
-  - [**`obsidian` API**](https://github.com/obsidianmd/obsidian-api): API oficial de plugins de Obsidian (`Plugin`, `Modal`, `MarkdownRenderChild`, `parseYaml`, `Command Palette`) para el renderizado reactivo de bloques de código ```` ```rubik-viz ```` y modales interactivos.
-  - [**`cubing` (`cubing.js` / `TwistyPlayer`)**](https://js.cubing.net/cubing/): Motor criptográfico y gráfico WebGL/3D/2D de *Lucas Garron* y la comunidad de speedcubing usado para la simulación geométrica de puzzles `3x3x3` y `4x4x4`, máscaras de stickering (`OLL`, `PLL`, `F2L`, `centers-only`) y línea de tiempo de animaciones.
-  - [**`esbuild`**](https://esbuild.github.io/) + **TypeScript**: Empaquetador de alto rendimiento con inyección inline del Web Worker de búsqueda de `cubing.js` y parche de registro idempotente de Custom Elements (`customElements.define`) para evitar colisiones en el *virtual scroller* de Obsidian.
-
----
-
-## ✨ Características Principales
-
-### 1. 🎮 Visualización 3D y 2D Interactiva en Bloques Markdown (`rubik-viz`)
-Renderiza cubos **3x3x3** y **4x4x4** dentro de cualquier nota usando bloques YAML limpios:
-- **Alternancia en vivo `3D ↔ 2D`**: Cambia entre el cubo 3D orbital y la planta desplegada 2D con un solo clic sin editar la nota.
-- **Botón `🎯 Centrar cubo`**: Restablece al instante la órbita de la cámara 3D a su posición natural de lectura (priorizando las caras Superior **`U`**, Frontal **`F`** y Derecha **`R`**) **sin perder el paso actual** de la secuencia.
-- **Botón `↺ Reiniciar vista`**: Regresa la línea de tiempo al estado inicial y centra la cámara.
-
-### 2. ⚡ Sincronización en Tiempo Real con la Animación 3D
-- **Iluminación en vivo movimiento por movimiento**: Conectado directamente a `player.experimentalModel.currentMoveInfo` de `cubing.js`. A medida que el cubo gira en 3D, se ilumina debajo el botón exacto del movimiento que se está ejecutando en ese instante (ej. `R`, luego `U`, luego `R'`) junto con una píldora animada (`▶ R` / `✓ R`).
-- **Reproducción individual al hacer clic**: Al hacer clic sobre cualquier movimiento de la lista inferior, el cubo salta a ese instante y **reproduce únicamente la animación 3D de ese giro**, deteniéndose al terminar el movimiento.
-- **Resaltado automático para `4x4x4`**: Distingue automáticamente con etiquetas ámbar los movimientos de **capas dobles (`Rw`, `Uw`, `Lw`, `r`, `l`)** y **capas internas (`2R`, `2R2`, `2U`)** esenciales para las paridades de OLL y PLL.
-
-### 3. 🎨 Calculador de Estado Inicial desde un Cubo Real (`Mapear Cubo Real 3x3`)
-¿Tienes un cubo de Rubik físico desordenado en la mano?
-- Abre la paleta de comandos (`Ctrl + P` / `Cmd + P`) y ejecuta:
-  - **`Rubik Studio Visualizer: Mapear colores de cubo real (Calculador de estado inicial 3x3)`**
-- **Pintor interactivo de 54 casillas**: Pinta las 6 caras (`U`, `L`, `F`, `R`, `B`, `D`) con validación física en tiempo real:
-  - Verifica conteo exacto de 9 colores por cara, existencia de las 12 aristas y 8 esquinas reales, orientación de esquinas ($\sum co \equiv 0 \pmod 3$), orientación de aristas ($\sum eo \equiv 0 \pmod 2$) y paridad de permutación.
-- **Motor Solver 3x3 integrado (`RealCubeSolver`)**: Calcula en menos de `5 ms` tanto el **`setup`** exacto de tu cubo real como una **solución paso a paso en `alg`** para que veas en 3D cómo se arma tu propio cubo.
-
-### 4. 🧰 Constructor Visual con Vista Previa en Vivo
-- Ejecuta **`Rubik Studio Visualizer: Insertar estado de cubo`** desde la paleta de comandos para abrir el estudio interactivo con plantillas rápidas (*Sexy Move*, *Sune*, *T-Perm*, *Paridad OLL 4x4*, *Paridad PLL 4x4*), teclado de movimientos y previsualización 3D instantánea.
+- **Author & Original Concept:** **Fabian Serna** (**`FabiDev<3`**) — Functional vision, pedagogical design of the progressive 3x3x3 / 4x4x4 tutorials, UX architecture, and physical cube color mapper/solver.
+- **Agentic Development Environment:** Built with **Google Antigravity**, featuring self-contained Web Worker bundling, a multi-stage constructive BFS solver engine, and reactive synchronization with Obsidian's virtual DOM.
+- **Core Libraries & Engines:**
+  - [**`obsidian` API**](https://github.com/obsidianmd/obsidian-api): Official Obsidian Plugin API (`Plugin`, `Modal`, `MarkdownRenderChild`, `parseYaml`, `Command Palette`) for reactive rendering of ```` ```rubik-viz ```` code blocks and interactive modals.
+  - [**`cubing` (`cubing.js` / `TwistyPlayer`)**](https://js.cubing.net/cubing/): WebGL/3D/2D engine by *Lucas Garron* and the speedcubing community, powering `3x3x3` and `4x4x4` geometric simulation, stickering masks (`OLL`, `PLL`, `F2L`, `centers-only`), and animation timelines.
+  - [**`esbuild`**](https://esbuild.github.io/) + **TypeScript**: High-performance bundler with inline Web Worker injection and idempotent Custom Elements registration (`customElements.define`) to prevent duplicate renders in Obsidian's virtual scroller.
 
 ---
 
-## 🚀 Sintaxis del Bloque `rubik-viz`
+## ✨ Key Features
+
+### 1. 🎮 Interactive 3D & 2D Visualization in Markdown Blocks (`rubik-viz`)
+Render **3x3x3** and **4x4x4** cubes inside any note using clean YAML blocks:
+- **Live `3D / 2D` (`3d o 2d`) Toggle**: Switch between the interactive 3D cube and the unfolded 2D net with a single click without editing the note.
+- **`Center` (`Centrar`) Button**: Instantly restores the 3D camera orbit to its natural reading angle (prioritizing the Top **`U`**, Front **`F`**, and Right **`R`** faces) **without losing your current move step**.
+- **`Reset` (`Reiniciar`) Button**: Returns the timeline to the initial state and centers the camera.
+- **Automatic Language Detection (`EN` / `ES`)**: Automatically adapts plugin buttons, modals, commands, and validation messages to your Obsidian interface language (English or Spanish).
+
+### 2. ⚡ Real-Time Synchronization with 3D Animation
+- **Live move-by-move highlighting**: Connected directly to `player.experimentalModel.currentMoveInfo` in `cubing.js`. As the cube rotates in 3D, the exact move button currently executing lights up below the cube (e.g., `R`, then `U`, then `R'`) alongside an animated status pill (`▶ R` / `✓ R`).
+- **Single-move playback on click**: Clicking any move button in the bottom bar jumps to that point in the timeline and **plays only that single 3D rotation**, pausing automatically when the move completes.
+- **Automatic `4x4x4` move highlighting**: Automatically highlights **double-layer wide moves (`Rw`, `Uw`, `Lw`, `r`, `l`)** and **inner-slice moves (`2R`, `2R2`, `2U`)** in amber—essential for OLL and PLL parity algorithms.
+
+### 3. 🎨 Physical Cube State Calculator & Solver (`Map Real 3x3 Cube`)
+Holding a scrambled physical Rubik's Cube in your hands?
+- Open the Command Palette (`Ctrl + P` / `Cmd + P`) and run:
+  - **`Rubik Studio Visualizer: Map real cube colors (3x3 initial state calculator)`**
+- **Interactive 54-sticker painter**: Paint all 6 faces (`U`, `L`, `F`, `R`, `B`, `D`) with real-time physical validation:
+  - Verifies exact 9-sticker counts per color, valid existence of all 12 edges and 8 corners, corner orientation ($\sum co \equiv 0 \pmod 3$), edge orientation ($\sum eo \equiv 0 \pmod 2$), and permutation parity.
+- **Built-in 3x3 Solver Engine (`RealCubeSolver`)**: Computes both the exact **`setup`** of your physical cube and a **step-by-step `alg` solution** in under `5 ms` so you can watch in 3D how to solve your own cube.
+
+### 4. 🧰 Visual Studio Builder with Live Preview
+- Run **`Rubik Studio Visualizer: Insert cube state`** from the Command Palette to open the interactive studio featuring quick presets (*Sexy Move*, *Sune*, *T-Perm*, *4x4 OLL Parity*, *4x4 PLL Parity*), a move keypad, and instant 3D preview.
+
+---
+
+## 🚀 `rubik-viz` Block Syntax
 
 ````markdown
 ```rubik-viz
-title: "4x4x4 - Resolver Paridad de PLL"
+title: "4x4x4 - Solve PLL Parity"
 puzzle: 4x4x4
 view: 3D
 setup: "z2 Uw2 2R2 Uw2 2R2 U2 2R2"
@@ -80,60 +83,69 @@ controls: true
 ```
 ````
 
-### Parámetros YAML soportados
+### Supported YAML Parameters
 
-| Parámetro | Valores permitidos | Por defecto | Descripción |
+| Parameter | Allowed Values | Default | Description |
 | :--- | :--- | :---: | :--- |
-| `title` | Texto libre | `"Cubo 3x3"` | Título mostrado en el encabezado de la tarjeta. |
-| `puzzle` | `3x3x3`, `3x3`, `4x4x4`, `4x4` | `3x3x3` | Tipo de cubo a renderizar. |
-| `view` | `3D`, `2D`, `PG3D` | `3D` | Vista inicial del cubo (`3D` interactiva o `2D` desplegada). |
-| `setup` | Notación WCA (`z2`, scrambles, etc.) | `""` | Giros previos que definen el estado inicial del cubo antes de `alg`. |
-| `state` | Cadena de 54 caracteres (`U,R,F,D,L,B` o `W,R,G,Y,O,B`) | `""` | *(Opcional)* Define el estado inicial pintando directamente las 54 pegatinas de un cubo 3x3 real. |
-| `alg` | Notación WCA (`R U R' U'`, `Rw`, `2R2`...) | `""` | Secuencia de movimientos que se animará paso a paso. |
-| `anchor` | `start`, `end` | `start` | `start`: inicia en `setup` y ejecuta `alg`. `end`: termina resuelto al finalizar `alg`. |
-| `mask` | `full`, `OLL`, `PLL`, `F2L`, `centers` | `full` | Máscara de colores para resaltar únicamente las piezas de una etapa específica. |
-| `tempo` | Número positivo (`0.3` a `3.0`) | `1.0` | Velocidad de reproducción de la animación. |
-| `controls` | `true`, `false` | `true` | Muestra u oculta la barra inferior de reproducción de `cubing.js`. |
+| `title` | Free text | `"Cube 3x3"` / `"Cubo 3x3"` | Title displayed in the card header. |
+| `puzzle` | `3x3x3`, `3x3`, `4x4x4`, `4x4` | `3x3x3` | Cube puzzle type to render. |
+| `view` | `3D`, `2D`, `PG3D` | `3D` | Initial visualization mode (`3D` interactive or `2D` unfolded net). |
+| `setup` | WCA notation (`z2`, scrambles, etc.) | `""` | Pre-moves defining the initial state of the cube before `alg`. |
+| `state` | 54-character string (`U,R,F,D,L,B` or `W,R,G,Y,O,B`) | `""` | *(Optional)* Defines the initial 3x3 state directly from 54 sticker colors. |
+| `alg` | WCA notation (`R U R' U'`, `Rw`, `2R2`...) | `""` | Sequence of moves animated step by step. |
+| `anchor` | `start`, `end` | `start` | `start`: begins at `setup` and executes `alg`. `end`: finishes solved at the end of `alg`. |
+| `mask` | `full`, `OLL`, `PLL`, `F2L`, `centers` | `full` | Stickering mask to highlight only pieces relevant to a specific stage. |
+| `tempo` | Positive number (`0.3` to `3.0`) | `1.0` | Animation playback speed multiplier. |
+| `controls` | `true`, `false` | `true` | Shows or hides the bottom `cubing.js` playback scrubber bar. |
 
 ---
 
-## 📚 Tutoriales Interactivos Incluidos
+## 📚 Interactive Tutorials & Documentation (English & Spanish)
 
-El repositorio incluye tres documentos listos para abrir en tu bóveda de Obsidian:
-1. [**`tutorial-3x3x3.md`**](./tutorial-3x3x3.md): Tutorial progresivo que parte de un único cubo 3x3x3 desordenado y lo va armando fase por fase (Cruz Blanca en `U`, Esquinas Blancas, Segunda Capa, giro `z2` después de la Fase 3, OLL y PLL), incluyendo **casos alternativos independientes** (Forma de "L", Punto Amarillo, Anti-Sune, Doble Sune, Y-Perm, Ub-Perm, H-Perm, etc.).
-2. [**`tutorial-4x4x4.md`**](./tutorial-4x4x4.md): Tutorial progresivo por reducción para el 4x4x4 (Centros $2\times 2$, Emparejamiento de Aristas *Slice-Flip-Slice*, Etapa 3x3x3, Paridad de OLL y Paridad de PLL con casos adyacentes y de esquinas).
-3. [**`example.md`**](./example.md): Galería de referencia con ejemplos de todas las vistas, máscaras y configuraciones del plugin.
+All documentation and interactive tutorials are available in both **English** (`.md`) and **Spanish** (`.es.md`), ready to open directly inside your Obsidian vault:
+
+| Document | 🇺🇸 English (Primary) | 🇪🇸 Español | Description |
+| :--- | :--- | :--- | :--- |
+| **Main README** | [`README.md`](./README.md) | [`README.es.md`](./README.es.md) | Overview, installation, and YAML syntax reference. |
+| **3x3x3 Tutorial** | [`tutorial-3x3x3.md`](./tutorial-3x3x3.md) | [`tutorial-3x3x3.es.md`](./tutorial-3x3x3.es.md) | Progressive 3x3x3 beginner-to-full solve tutorial with phase alternatives. |
+| **4x4x4 Tutorial** | [`tutorial-4x4x4.md`](./tutorial-4x4x4.md) | [`tutorial-4x4x4.es.md`](./tutorial-4x4x4.es.md) | Progressive 4x4x4 reduction tutorial (Centers, Edge Pairing, OLL/PLL Parities). |
+| **Examples Gallery** | [`example.md`](./example.md) | [`example.es.md`](./example.es.md) | Interactive reference guide for views, spatial rotations, masks, and moves. |
 
 ---
 
-## 📦 Instalación en Obsidian
+## 📦 Installation in Obsidian
 
-### Instalación Manual
-1. Descarga los archivos de la última versión (`main.js`, `manifest.json` y `styles.css`).
-2. Crea la carpeta `<TuBoveda>/.obsidian/plugins/rubik-visualizer/`.
-3. Copia dentro `main.js`, `manifest.json` y `styles.css`.
-4. En Obsidian, ve a **Ajustes → Plugins comunitarios**, recarga la lista y activa **Rubik Studio Visualizer**.
+### From Obsidian Community Plugins
+1. Open Obsidian and go to **Settings → Community plugins → Browse**.
+2. Search for **Rubik Studio Visualizer**.
+3. Click **Install** and then **Enable**.
 
-### Compilación desde el Código Fuente
+### Manual Installation
+1. Download the latest release assets (`main.js`, `manifest.json`, and `styles.css`).
+2. Create the folder `<YourVault>/.obsidian/plugins/rubik-visualizer/`.
+3. Copy `main.js`, `manifest.json`, and `styles.css` into that folder.
+4. In Obsidian, go to **Settings → Community plugins**, reload the list, and enable **Rubik Studio Visualizer**.
+
+### Building from Source
 ```bash
-# 1. Instalar dependencias
+# 1. Install dependencies
 npm install
 
-# 2. Compilar en modo producción (genera main.js empaquetado con Web Workers inline)
+# 2. Build for production (generates main.js with inline Web Workers)
 npm run build
 
-# 3. Modo desarrollo con recarga en caliente (watch)
+# 3. Development mode with hot-reload (watch)
 npm run dev
 ```
 
 ---
 
-## 📄 Licencia
+## 📄 License
 
-Distribuido bajo la licencia **MIT**. Consulta el archivo [`LICENSE`](./LICENSE) para más detalles.
+Distributed under the **MIT** License. See [`LICENSE`](./LICENSE) for more information.
 
 ---
 
 <div align="center">
-  <sub>Creado con ❤️ por <b>Fabian Serna (FabiDev&lt;3)</b> · Impulsado por <b>Google Antigravity</b> &amp; <b>cubing.js</b></sub>
+  <sub>Created with ❤️ by <b>Fabian Serna (FabiDev&lt;3)</b> · Powered by <b>Google Antigravity</b> &amp; <b>cubing.js</b></sub>
 </div>

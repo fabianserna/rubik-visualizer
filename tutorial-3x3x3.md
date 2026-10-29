@@ -1,22 +1,28 @@
-# 🧩 Tutorial Progresivo: Cómo Armar un Cubo 3x3x3 Desordenado (De Principio a Fin)
+# 🧩 Progressive Tutorial: How to Solve a Scrambled 3x3x3 Cube (From Start to Finish)
 
-> [!info] Un mismo cubo desordenado que se va armando paso a paso
-> En este tutorial **todos los bloques trabajan sobre el mismo cubo desordenado** (`anchor: start`):
-> - Durante las **Fases 1, 2 y 3** mantenemos siempre el **Centro Blanco Arriba (`U`)**, el **Verde al Frente (`F`)** y el **Rojo a la Derecha (`R`)**:
->   - Al terminar la **Fase 1**, queda lista la **Cruz Blanca**.
->   - Al terminar la **Fase 2**, queda lista toda la **Primera Capa Blanca**.
->   - Al terminar la **Fase 3**, quedan listas **las Dos Primeras Capas completas (F2L)**.
-> - **Después de terminar la Fase 3**, damos la vuelta al cubo (**`z2`**) para enviar las dos capas ya armadas hacia abajo (`D`) y subir la **Capa Amarilla a la vista (`U`)** para resolver las **Fases 4 (OLL) y 5 (PLL)**.
+> 🌐 **Language / Idioma:** **🇺🇸 English (Current)** | [🇪🇸 Español](./tutorial-3x3x3.es.md)
+
+> [!tip] Before You Start: How does the **Rubik Studio Visualizer** plugin work?
+> This interactive tutorial is powered by the **Rubik Studio Visualizer** plugin (```` ```rubik-viz ```` code blocks).
+> If you want to learn how the interactive controls, `3D`/`2D` views, masks, and step-by-step move buttons work first, check out the reference guide in [**`example.md`**](./example.md) (also available on GitHub at [**`fabianserna/rubik-visualizer/blob/main/example.md`**](https://github.com/fabianserna/rubik-visualizer/blob/main/example.md) or in Spanish at [**`example.es.md`**](./example.es.md)).
+
+> [!info] A single scrambled cube that progresses step by step
+> In this tutorial, **both the main steps and their alternatives work on a progressively solved cube** (`anchor: start`):
+> - During **Phases 1, 2, and 3**, we always keep the **White Center on Top (`U`)**, **Green in Front (`F`)**, and **Red on the Right (`R`)**:
+>   - At the end of **Phase 1** (and its *Alternative A*), only the **White Cross** is completed, while the rest of the cube remains scrambled.
+>   - At the end of **Phase 2** (and its *Alternatives A & B*), the entire **First White Layer** is completed, while the other two layers remain scrambled.
+>   - At the end of **Phase 3** (and its *Alternative A*), **the First Two Layers (F2L)** are completed, leaving only the bottom layer unsolved.
+> - **After completing Phase 3**, we flip the cube upside down (**`z2`**) to send the two solved layers to the bottom (`D`) and bring the **Yellow Layer to the top (`U`)** to solve **Phases 4 (OLL) and 5 (PLL)**.
 
 ---
 
-## 🎲 Estado 0: Nuestro Cubo Desordenado Inicial (*Scramble Maestro*)
+## 🎲 State 0: Our Initial Scrambled Cube (*Master Scramble*)
 
-Este es el cubo revuelto con el que vamos a empezar.
-Observa que tenemos el **Centro Blanco Arriba (`U`)**, el **Centro Verde al Frente (`F`)** y el **Centro Rojo a la Derecha (`R`)**, pero todas sus aristas y esquinas están desordenadas:
+This is the scrambled cube we will start with.
+Notice that we have the **White Center on Top (`U`)**, the **Green Center in Front (`F`)**, and the **Red Center on the Right (`R`)**, while all edges and corners are scrambled:
 
 ```rubik-viz
-title: "Estado 0 - Cubo 3x3x3 Desordenado Inicial (Blanco Arriba U, Verde al Frente F, Rojo a la Derecha R)"
+title: "State 0: Initial Scrambled 3x3x3 Cube (White on U, Green on F, Red on R)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' F U R U' R' F' z2 F D F' D' R' D' R D F' D' F D L D L' D' F D' F' L D L' U' R' U F' R2"
@@ -27,16 +33,16 @@ controls: false
 
 ---
 
-## ➕ Fase 1: Armar la Cruz Blanca en la Cara Superior (`U`)
+## ➕ Phase 1: Build the White Cross on the Top Face (`U`)
 
-**Objetivo:** Subir las 4 aristas blancas alrededor del **Centro Blanco (`U`)** haciendo que coincidan con los centros laterales (**Verde, Rojo, Azul y Naranja**).
+**Goal:** Bring the 4 white edges around the **White Center (`U`)** while matching each edge with its lateral center (**Green, Red, Blue, and Orange**).
 
-### Paso 1.1: Subir la arista Blanco-Rojo desde abajo (`R2`)
-Mira la cara derecha (`R`): la arista **Blanco-Rojo** está en la parte inferior (`DR`) alineada con su centro Rojo.
-Haz clic en **Play (▶)** o en el botón **`R2`** para subirla a su lugar en la cara superior (`UR`):
+### Step 1.1: Bring up the White-Red edge from the bottom (`R2`)
+Look at the right face (`R`): the **White-Red** edge is at the bottom (`DR`), already aligned with its Red center.
+Click **Play (▶)** or click the **`R2`** button to bring it up to its spot on the top face (`UR`):
 
 ```rubik-viz
-title: "Paso 1.1 - Subir Arista Blanco-Rojo a la Cruz Superior (R2)"
+title: "Phase 1 - Step 1.1: Bring the White-Red Edge to the Top Cross (R2)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' F U R U' R' F' z2 F D F' D' R' D' R D F' D' F D L D L' D' F D' F' L D L' U' R' U F' R2"
@@ -47,13 +53,13 @@ tempo: 0.9
 controls: true
 ```
 
-### Paso 1.2: Voltear la arista Blanco-Verde invertida (`F U' R U`)
-Nuestro cubo arranca exactamente donde quedó el Paso 1.1.
-Observa la arista **Blanco-Verde** en el frente superior (`UF`): está en su posición pero **al revés** (el verde mira hacia arriba y el blanco hacia ti).
-Ejecuta **`F U' R U`** y observa cómo al terminar la animación **las 4 aristas de la Cruz Blanca quedan 100% armadas arriba**, mientras las esquinas y el resto del cubo siguen desordenados:
+### Step 1.2: Flip the inverted White-Green edge (`F U' R U`)
+Our cube starts right where Step 1.1 left off.
+Look at the **White-Green** edge on the top-front (`UF`): it is in position but **flipped** (green faces up and white faces you).
+Execute **`F U' R U`** and watch how, at the end of the animation, **all 4 edges of the White Cross are 100% solved on top**, while the corners and the rest of the cube remain scrambled:
 
 ```rubik-viz
-title: "Paso 1.2 - Voltear Arista Blanco-Verde y Completar la Cruz Blanca (F U' R U)"
+title: "Phase 1 - Step 1.2: Flip the White-Green Edge and Complete the White Cross (F U' R U)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' F U R U' R' F' z2 F D F' D' R' D' R D F' D' F D L D L' D' F D' F' L D L' U' R' U F'"
@@ -64,14 +70,15 @@ tempo: 0.9
 controls: true
 ```
 
-#### 💡 Opción Alternativa en Fase 1: Cuando la arista blanca está en la capa media lateral (`U' R U`)
-*(Caso independiente para otros escenarios comunes)*: Si la arista **Blanco-Verde** está en la capa media derecha (`FR`) con el **Blanco mirando al frente (`F`)**, abrimos su espacio arriba con **`U'`**, subimos la arista con **`R`** y devolvemos la cruz con **`U`**:
+#### 💡 Phase 1 - Alternative A: When the white edge is in the middle layer (`U' R U`)
+If at this early stage of the solve the **White-Green** edge is in the **front-right middle layer (`FR`)** with **White facing Front (`F`)**, we move its top slot over with **`U'`**, lift the edge with **`R`**, and restore the cross with **`U`**.
+Notice that when the move finishes, **only the top White Cross is solved**, while the corners, middle layer, and bottom layer remain scrambled:
 
 ```rubik-viz
-title: "Fase 1 (Opción Alternativa) - Insertar Arista desde la Capa Media sin desarmar la Cruz (U' R U)"
+title: "Phase 1 - Alternative A: Insert Edge from the Middle Layer (U' R U)"
 puzzle: 3x3x3
 view: 3D
-setup: "U' R' U"
+setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' F U R U' R' F' z2 F D F' D' R' D' R D F' D' F D L D L' D' F D' F' L D L' U' R' U"
 alg: "U' R U"
 anchor: start
 mask: full
@@ -81,16 +88,16 @@ controls: true
 
 ---
 
-## 📐 Fase 2: Colocar las Esquinas Blancas (Completar la Primera Capa Superior)
+## 📐 Phase 2: Insert the White Corners (Complete the First Top Layer)
 
-Ya tenemos la **Cruz Blanca armada en `U`**, pero nos faltan las dos esquinas blancas frontales (`UFL` y `UFR`), que están abajo en la capa inferior (`D`).
+We now have the **White Cross solved on `U`**, but we are missing the two front white corners (`UFL` and `UFR`), which are in the bottom layer (`D`).
 
-### Paso 2.1: Subir la esquina Blanco-Verde-Naranja a la izquierda (`L D' L'`)
-La esquina **Blanco-Verde-Naranja** está abajo a la izquierda con el blanco mirándote de frente.
-Al ejecutar **`L D' L'`**, bajamos la columna izquierda, encajamos la esquina y la subimos a `UFL` sin desarmar la Cruz Blanca:
+### Step 2.1: Insert the White-Green-Orange corner on the left (`L D' L'`)
+The **White-Green-Orange** corner is at the bottom-left with its white sticker facing you.
+By executing **`L D' L'`**, we lower the left column, tuck the corner in, and lift it up to `UFL` without disturbing the White Cross:
 
 ```rubik-viz
-title: "Paso 2.1 - Insertar Esquina Blanca Frontal-Izquierda (L D' L')"
+title: "Phase 2 - Step 2.1: Insert Front-Left White Corner (L D' L')"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' F U R U' R' F' z2 F D F' D' R' D' R D F' D' F D L D L' D' F D' F' L D L'"
@@ -101,12 +108,12 @@ tempo: 0.9
 controls: true
 ```
 
-### Paso 2.2: Subir la última esquina Blanco-Verde-Rojo (`F D F'`)
-Ahora solo falta una esquina blanca en `UFR`. La esquina **Blanco-Verde-Rojo** está justo debajo (`DFR`) con el blanco apuntando al frente (`F`).
-Ejecuta **`F D F'`** y observa el resultado final: **¡Toda la Primera Capa Blanca superior está 100% terminada, mientras la capa media y la inferior siguen desordenadas!**
+### Step 2.2: Insert the last White-Green-Red corner (`F D F'`)
+Now only one white corner is missing at `UFR`. The **White-Green-Red** corner is directly below it (`DFR`) with white facing front (`F`).
+Execute **`F D F'`** and observe the result: **The entire First White Layer on top is 100% completed, while the middle and bottom layers remain scrambled!**
 
 ```rubik-viz
-title: "Paso 2.2 - Completar Toda la Primera Capa Blanca Superior (F D F')"
+title: "Phase 2 - Step 2.2: Complete the Entire Top White Layer (F D F')"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' F U R U' R' F' z2 F D F' D' R' D' R D F' D' F D L D L' D' F D' F'"
@@ -117,14 +124,15 @@ tempo: 0.9
 controls: true
 ```
 
-#### 💡 Opción Alternativa A en Fase 2: Cuando el Blanco apunta hacia la Derecha (`R' D' R`)
-*(Caso independiente)*: Si la esquina **Blanco-Verde-Rojo** está abajo en `DFR` pero con la pegatina **Blanca mirando hacia la Derecha (`R`)**, la insertamos bajando la cara derecha con **`R' D' R`**:
+#### 💡 Phase 2 - Alternative A: When White faces Right (`R' D' R`)
+If during this second phase the **White-Green-Red** corner is at the bottom in `DFR` with the **White sticker facing Right (`R`)**, we insert it by lowering the right face with **`R' D' R`**.
+Notice that when finished, **the entire First White Layer is solved**, while the second and third layers remain scrambled:
 
 ```rubik-viz
-title: "Fase 2 (Opción A) - Esquina con el Blanco mirando a la Derecha (R' D' R)"
+title: "Phase 2 - Alternative A: Corner with White Facing Right (R' D' R)"
 puzzle: 3x3x3
 view: 3D
-setup: "R' D R"
+setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' F U R U' R' F' z2 F D F' D' R' D' R D F' D' F D L D L' D' R' D R"
 alg: "R' D' R"
 anchor: start
 mask: full
@@ -132,16 +140,16 @@ tempo: 0.9
 controls: true
 ```
 
-#### 💡 Opción Alternativa B en Fase 2: Cuando el Blanco apunta hacia Abajo (`R' D2 R D R' D' R`)
-*(Caso independiente)*: Si la esquina está abajo en `DFR` pero la pegatina **Blanca apunta directo hacia el suelo (`D`)**:
-1. Primero hacemos **`R' D2 R`** para girar la esquina y lograr que el blanco pase a mirar de lado.
-2. Luego la colocamos bajo su esquina con **`D`** y la subimos con **`R' D' R`**:
+#### 💡 Phase 2 - Alternative B: When White faces Down (`R' D2 R D R' D' R`)
+If the corner is at the bottom in `DFR` with the **White sticker pointing straight Down (`D`)**:
+1. First execute **`R' D2 R`** to twist the corner so the white sticker faces the side.
+2. Then position it under its slot with **`D`** and insert it with **`R' D' R`**, completing the **First White Layer** while the rest of the cube remains scrambled:
 
 ```rubik-viz
-title: "Fase 2 (Opción B) - Esquina con el Blanco mirando hacia Abajo D (R' D2 R D R' D' R)"
+title: "Phase 2 - Alternative B: Corner with White Facing Down D (R' D2 R D R' D' R)"
 puzzle: 3x3x3
 view: 3D
-setup: "R' D R D' R' D2 R"
+setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' F U R U' R' F' z2 F D F' D' R' D' R D F' D' F D L D L' D' R' D R D' R' D2 R"
 alg: "R' D2 R D R' D' R"
 anchor: start
 mask: full
@@ -151,18 +159,18 @@ controls: true
 
 ---
 
-## 🧱 Fase 3: Armar la Segunda Capa (Manteniendo el Blanco Arriba en `U`)
+## 🧱 Phase 3: Solve the Middle Layer (Keeping White on Top `U`)
 
-Seguimos con la **cara Blanca armada arriba (`U`)**, el **Verde al Frente (`F`)**, el **Rojo a la Derecha (`R`)** y el **Naranja a la Izquierda (`L`)**.
-Ahora vamos a subir las aristas de la capa media desde la capa inferior (`D`) hacia los huecos **Frontal-Izquierdo (`FL`)** y **Frontal-Derecho (`FR`)** sin desarmar la cara blanca superior.
+We keep the **solved White face on Top (`U`)**, **Green in Front (`F`)**, **Red on the Right (`R`)**, and **Orange on the Left (`L`)**.
+Now we will insert the middle-layer edges from the bottom layer (`D`) into the **Front-Left (`FL`)** and **Front-Right (`FR`)** slots without disturbing the top white layer.
 
-### Paso 3.1: Insertar la arista Verde-Naranja hacia la Izquierda (`D L D' L' D' F' D F`)
-La arista **Verde-Naranja** está abajo en el frente (`DF`), alineada con el centro Verde (`F`), y debe subir al hueco de la **izquierda (`FL`, entre Verde y Naranja)**:
-1. **`D L D' L'`** → Aleja la arista por abajo hacia la derecha (`D`), baja la esquina izquierda (`L`), engancha la arista (`D'`) y sube (`L'`).
-2. **`D' F' D F`** → Vuelve a meter la esquina blanca junto con su arista **Verde-Naranja** en la columna frontal-izquierda (`FL`).
+### Step 3.1: Insert the Green-Orange edge to the Left (`D L D' L' D' F' D F`)
+The **Green-Orange** edge is at the bottom-front (`DF`), aligned with the Green center (`F`), and needs to go into the **left slot (`FL`, between Green and Orange)**:
+1. **`D L D' L'`** → Move the edge away to the right (`D`), lower the left corner (`L`), hook the edge (`D'`), and lift back up (`L'`).
+2. **`D' F' D F`** → Reinsert the white corner together with its **Green-Orange** edge into the front-left column (`FL`).
 
 ```rubik-viz
-title: "Paso 3.1 - Insertar Arista Verde-Naranja en la Capa Media Izquierda (D L D' L' D' F' D F)"
+title: "Phase 3 - Step 3.1: Insert Green-Orange Edge into the Left Middle Slot (D L D' L' D' F' D F)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' F U R U' R' F' z2 F D F' D' R' D' R D F' D' F D L D L' D'"
@@ -173,16 +181,16 @@ tempo: 1.0
 controls: true
 ```
 
-### Paso 3.2: Insertar la arista Verde-Rojo hacia la Derecha (`D' R' D R D F D' F'`)
-Arrancamos donde terminó el Paso 3.1: el lado izquierdo ya tiene su arista media puesta.
-Ahora la arista **Verde-Rojo** está abajo en el frente (`DF`), alineada con el centro Verde (`F`), lista para subir al hueco de la **derecha (`FR`, entre Verde y Rojo)**:
-1. **`D' R' D R`** → Aleja la arista por abajo hacia la izquierda (`D'`), baja la derecha (`R'`), recupera (`D`) y sube (`R`).
-2. **`D F D' F'`** → Inserta la esquina blanca junto con su arista **Verde-Rojo** en la columna frontal-derecha (`FR`).
+### Step 3.2: Insert the Green-Red edge to the Right (`D' R' D R D F D' F'`)
+We start right where Step 3.1 finished: the left middle edge is in place.
+Now the **Green-Red** edge is at the bottom-front (`DF`), aligned with the Green center (`F`), ready to go into the **right slot (`FR`, between Green and Red)**:
+1. **`D' R' D R`** → Move the edge away to the left (`D'`), lower the right side (`R'`), reconnect (`D`), and lift (`R`).
+2. **`D F D' F'`** → Insert the white corner together with its **Green-Red** edge into the front-right column (`FR`).
 
-**Observa cómo queda el cubo al terminar este paso:** ¡Tanto la **Primera Capa Blanca (`U`)** como **toda la Segunda Capa Media** están **100% armadas** frente a tus ojos!
+**Watch how the cube looks when this step finishes:** Both the **First White Layer (`U`)** and **the entire Second Middle Layer** are **100% solved** right in front of you!
 
 ```rubik-viz
-title: "Paso 3.2 - Insertar Arista Verde-Rojo a la Derecha y Completar las 2 Primeras Capas (D' R' D R D F D' F')"
+title: "Phase 3 - Step 3.2: Insert Green-Red Edge to the Right and Complete the First 2 Layers (D' R' D R D F D' F')"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' F U R U' R' F' z2 F D F' D' R' D' R D"
@@ -193,17 +201,17 @@ tempo: 1.0
 controls: true
 ```
 
-#### 💡 Opción Alternativa en Fase 3: Cuando la arista ya está en la Capa Media (`FR`) pero volteada al revés
-*(Caso independiente)*: Si la arista **Verde-Rojo** ya está metida en la columna `FR` pero **con los colores invertidos** (Rojo en el frente y Verde a la derecha):
-1. Aplicamos una vez el algoritmo de la derecha (**`D' R' D R D F D' F'`**) para **sacarla** hacia la capa inferior (`D`).
-2. Giramos **`D2`** para alinearla con su centro Verde (`F`).
-3. Volvemos a aplicar **`D' R' D R D F D' F'`** para **reinsertarla derecha**:
+#### 💡 Phase 3 - Alternative A: Take Out and Reinsert a Flipped Edge in the Middle Layer
+If during Phase 3 the **Green-Red** edge is already inside the `FR` slot but **flipped backwards** (Red on front and Green on right):
+1. Apply the right-hand algorithm once (**`D' R' D R D F D' F'`**) to **pop it out** into the bottom layer (`D`).
+2. Turn **`D2`** to align it with its Green center (`F`).
+3. Apply **`D' R' D R D F D' F'`** again to **reinsert it correctly**, leaving the **first two layers (F2L)** solved while the bottom layer remains scrambled:
 
 ```rubik-viz
-title: "Fase 3 (Opción Alternativa) - Sacar y Reinsertar una Arista Invertida en la Capa Media"
+title: "Phase 3 - Alternative A: Take Out and Reinsert a Flipped Edge in the Middle Layer"
 puzzle: 3x3x3
 view: 3D
-setup: "F D F' D' R' D' R D D2 F D F' D' R' D' R D"
+setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' F U R U' R' F' z2 F D F' D' R' D' R D D2 F D F' D' R' D' R D"
 alg: "D' R' D R D F D' F' D2 D' R' D R D F D' F'"
 anchor: start
 mask: full
@@ -213,17 +221,17 @@ controls: true
 
 ---
 
-## 🔄 Transición (Después de la Fase 3): Damos la Vuelta al Cubo (`z2`)
+## 🔄 Transition (After Phase 3): Flip the Cube Upside Down (`z2`)
 
-¡Ya completamos **las dos primeras capas enteras** (la capa Blanca y la capa Media)!
-Como la única capa que falta por resolver es la **Capa Amarilla** que estaba escondida abajo (`D`), ahora **damos media vuelta completa al cubo (`z2`)**:
-- Las **dos primeras capas ya terminadas pasan hacia Abajo (`D`)**.
-- La **Última Capa Amarilla sube a la Cara Superior (`U`)**, donde la veremos de frente para las Fases 4 y 5.
+We have now completed **the entire first two layers** (the White layer and the Middle layer)!
+Since the only remaining layer is the **Yellow Layer** hidden at the bottom (`D`), we now **flip the entire cube upside down (`z2`)**:
+- The **two solved layers move to the Bottom (`D`)**.
+- The **Last Yellow Layer moves to the Top (`U`)**, where we can clearly see it for Phases 4 and 5.
 
-Dale a **Play (▶)** para ver cómo volteamos el cubo:
+Press **Play (▶)** to watch the cube flip:
 
 ```rubik-viz
-title: "Transición - Voltear el Cubo después de la Fase 3 (z2: Las 2 Capas Armadas pasan Abajo y Amarillo sube a U)"
+title: "Transition: Flip the Cube After Phase 3 (z2: Solved F2L Moves to D and Yellow Moves to U)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' F U R U' R' F' z2"
@@ -236,16 +244,16 @@ controls: true
 
 ---
 
-## 🟨 Fase 4: Orientar la Cara Amarilla Superior (OLL en 2 Pasos)
+## 🟨 Phase 4: Orient the Top Yellow Face (2-Look OLL)
 
-Mira cómo quedó la cara superior (`U`) tras voltear el cubo con `z2`: las dos capas inferiores están resueltas y arriba tenemos una **Línea Amarilla horizontal**.
+Look at the top face (`U`) after flipping the cube with `z2`: the bottom two layers are solved and on top we have a **Horizontal Yellow Line**.
 
-### Paso 4.1 (Caso A - Continuidad del tutorial): De Línea Horizontal a Cruz Amarilla (`F R U R' U' F'`)
-Con la línea amarilla en posición horizontal (de izquierda a derecha), aplicamos **`F R U R' U' F'`**.
-Al finalizar el movimiento, observa que **ya tienes la Cruz Amarilla armada en `U`** (formando la figura de "el Pez" con 1 esquina amarilla en `UFL`), pero las otras 3 esquinas y los lados aún no están resueltos:
+### Step 4.1: From Horizontal Line to Yellow Cross (`F R U R' U' F'`)
+With the yellow line positioned horizontally (left to right), apply **`F R U R' U' F'`**.
+When the move finishes, notice that **you now have the Yellow Cross formed on `U`** (forming the "Fish" pattern with 1 yellow corner at `UFL`), while the other 3 corners and side colors are still unsolved:
 
 ```rubik-viz
-title: "Paso 4.1 (Caso Línea) - Formar la Cruz Amarilla desde la Línea Horizontal (F R U R' U' F')"
+title: "Phase 4 - Step 4.1: Form the Yellow Cross from the Horizontal Line (F R U R' U' F')"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' F U R U' R' F'"
@@ -256,18 +264,16 @@ tempo: 1.0
 controls: true
 ```
 
-#### 💡 Opción Alternativa en 4.1 (Caso B): Cuando queda el Centro y 2 Aristas en forma de "L" (`F U R U' R' F'`)
-*(Nota: Este bloque es un ejemplo independiente para cuando en tu cubo te sale la **"L" pequeña** en lugar de la línea horizontal).*
-
-Si al mirar la cara superior (`U`) ves el **Centro Amarillo y 2 aristas amarillas adyacentes formando una "L"**:
-1. Gira la capa superior (`U`) hasta colocar la **"L" mirando hacia Atrás (`UB`) y hacia la Izquierda (`UL`)** (como las agujas del reloj marcando las **9 y las 12**).
-2. Aplica el algoritmo inverso **`F U R U' R' F'`** (o aplica dos veces seguidas `F R U R' U' F'`) para pasar directamente de la **"L"** a la **Cruz Amarilla**:
+#### 💡 Step 4.1 - Alternative A: When the Center and 2 Edges Form an "L" Shape (`F U R U' R' F'`)
+If looking at the top face (`U`) you see the **Yellow Center and 2 adjacent yellow edges forming an "L"**:
+1. Rotate the top layer (`U`) until the **"L" points to the Back (`UB`) and Left (`UL`)** (like clock hands at **9:00 and 12:00**).
+2. Apply **`F U R U' R' F'`** to jump directly from the **"L"** to the **Yellow Cross**, leaving the corners and side colors for the next steps:
 
 ```rubik-viz
-title: "Paso 4.1 (Opción Caso en 'L') - De Forma de 'L' (9 y 12 del reloj) a Cruz Amarilla (F U R U' R' F')"
+title: "Step 4.1 - Alternative A: From 'L' Shape (9 and 12 o'clock) to Yellow Cross (F U R U' R' F')"
 puzzle: 3x3x3
 view: 3D
-setup: "z2 R U2 R' U' R U' R' F R U R' U' F'"
+setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' F R U R' U' F'"
 alg: "F U R U' R' F'"
 anchor: start
 mask: full
@@ -275,16 +281,16 @@ tempo: 1.0
 controls: true
 ```
 
-#### 💡 Opción Alternativa en 4.1 (Caso C): El Punto Amarillo (Sin ninguna arista amarilla arriba)
-*(Caso independiente)*: Si al voltear el cubo ves únicamente el **Centro Amarillo (El Punto)** sin ninguna de las 4 aristas amarillas mirando hacia arriba:
-1. Aplica el algoritmo de la Línea (**`F R U R' U' F'`**) desde cualquier cara para hacer aparecer la **"L"**.
-2. Gira **`U2`** para ubicar la **"L" a las 9 y 12 del reloj** y aplica el algoritmo de la "L" (**`F U R U' R' F'`**):
+#### 💡 Step 4.1 - Alternative B: From Yellow Dot to Yellow Cross (`F R U R' U' F' U2 F U R U' R' F'`)
+If after flipping the cube you only see the **Yellow Center (Dot Case)** with no yellow edges facing up:
+1. Apply the Line algorithm (**`F R U R' U' F'`**) from any angle to create the **"L" shape**.
+2. Turn **`U2`** to place the **"L" at 9:00 and 12:00**, then apply the "L" algorithm (**`F U R U' R' F'`**). Notice that at the end **the Yellow Cross is formed**, while the corners and side colors remain pending for Step 4.2:
 
 ```rubik-viz
-title: "Paso 4.1 (Opción Caso Punto) - Del Punto Amarillo a la Cruz Amarilla (F R U R' U' F' U2 F U R U' R' F')"
+title: "Step 4.1 - Alternative B: From Yellow Dot to Yellow Cross (F R U R' U' F' U2 F U R U' R' F')"
 puzzle: 3x3x3
 view: 3D
-setup: "z2 F R U R' U' F' U2 F U R U' R' F'"
+setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' F R U R' U' F' U2 F U R U' R' F'"
 alg: "F R U R' U' F' U2 F U R U' R' F'"
 anchor: start
 mask: full
@@ -292,12 +298,12 @@ tempo: 1.1
 controls: true
 ```
 
-### Paso 4.2: Orientar las Esquinas Amarillas con Sune (`R U R' U R U2 R'`)
-Partiendo exactamente del "Pez" que nos dejó el Paso 4.1 (con la única esquina amarilla arriba ubicada en **Frontal-Izquierda `UFL`**), aplicamos **Sune (`R U R' U R U2 R'`)**.
-Al terminar la animación, **toda la cara superior (`U`) es 100% amarilla**, pero si miras los colores laterales de arriba verás que las esquinas y aristas aún están desordenadas:
+### Step 4.2: Orient the Yellow Corners with Sune (`R U R' U R U2 R'`)
+Starting from the exact "Fish" state left by Step 4.1 (with the single oriented yellow corner at **Front-Left `UFL`**), we apply **Sune (`R U R' U R U2 R'`)**.
+When the animation ends, **the entire top face (`U`) is 100% yellow**, though looking at the upper side colors shows the corners and edges still need permutation:
 
 ```rubik-viz
-title: "Paso 4.2 - Completar toda la Cara Amarilla con Sune (R U R' U R U2 R')"
+title: "Phase 4 - Step 4.2: Complete the Entire Yellow Face with Sune (R U R' U R U2 R')"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R'"
@@ -308,14 +314,15 @@ tempo: 1.1
 controls: true
 ```
 
-#### 💡 Opción Alternativa A en 4.2: Caso Anti-Sune (`R U2 R' U' R U' R'`)
-*(Caso independiente)*: Si tienes la figura de "el Pez" (1 sola esquina amarilla arriba), pero al poner esa esquina en `UFL` la pegatina amarilla de `UFR` **no te mira de frente**, gira `U2` para colocar la esquina amarilla resuelta en **Trasera-Derecha (`UBR`)** (con una pegatina amarilla mirándote de frente en `UFR`) y aplica **Anti-Sune (`R U2 R' U' R U' R'`)**:
+#### 💡 Step 4.2 - Alternative A: Anti-Sune Case (`R U2 R' U' R U' R'`)
+If you have the "Fish" pattern (only 1 yellow corner on top), but when placing that corner at `UFL` the yellow sticker at `UFR` **does not face you**, place the solved yellow corner at **Back-Right (`UBR`)** (with a yellow sticker facing you at `UFR`) and apply **Anti-Sune (`R U2 R' U' R U' R'`)**.
+Notice that when finished, **the entire top face (`U`) is yellow**, while the lateral colors of the last layer (Phase 5) remain scrambled:
 
 ```rubik-viz
-title: "Paso 4.2 (Opción Anti-Sune) - Orientar las Esquinas con Anti-Sune (R U2 R' U' R U' R')"
+title: "Step 4.2 - Alternative A: Orient Corners with Anti-Sune (R U2 R' U' R U' R')"
 puzzle: 3x3x3
 view: 3D
-setup: "z2 R U R' U R U2 R'"
+setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U R' U R U2 R'"
 alg: "R U2 R' U' R U' R'"
 anchor: start
 mask: full
@@ -323,14 +330,15 @@ tempo: 1.1
 controls: true
 ```
 
-#### 💡 Opción Alternativa B en 4.2: Cuando tienes 0 o 2 Esquinas Amarillas arriba (Doble Sune)
-*(Caso independiente)*: Si tienes la Cruz Amarilla pero **ninguna** (0) o **dos** (2) esquinas amarillas miran hacia arriba, basta con aplicar **Sune**, reorientar `U'` y volver a aplicar **Sune**:
+#### 💡 Step 4.2 - Alternative B: When 0 or 2 Yellow Corners Face Up (Double Sune)
+If you have the Yellow Cross with **zero** (0) or **two** (2) yellow corners facing up, simply apply **Sune**, adjust with `U'`, and apply **Sune** a second time.
+Notice that when finished, **the entire top face (`U`) is yellow**, leaving only the lateral colors to be permuted in Phase 5:
 
 ```rubik-viz
-title: "Paso 4.2 (Opción 0 Esquinas / Cruz Doble) - Resolver con Doble Sune (R U R' U R U2 R' U' R U R' U R U2 R')"
+title: "Step 4.2 - Alternative B: Solve 0 Corners / Double Cross with Double Sune (R U R' U R U2 R' U' R U R' U R U2 R')"
 puzzle: 3x3x3
 view: 3D
-setup: "z2 R U2 R' U' R U' R' U R U2 R' U' R U' R'"
+setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R' R U2 R' U' R U' R' U R U2 R' U' R U' R'"
 alg: "R U R' U R U2 R' U' R U R' U R U2 R'"
 anchor: start
 mask: full
@@ -340,16 +348,16 @@ controls: true
 
 ---
 
-## 🏁 Fase 5: Permutar los Colores Laterales de la Última Capa (PLL en 2 Pasos)
+## 🏁 Phase 5: Permute the Last Layer Lateral Colors (2-Look PLL)
 
-Estamos en la recta final: las dos primeras capas y toda la cara amarilla están listas. Solo falta ordenar el borde de la capa superior.
+We are in the home stretch: the first two layers and the entire yellow face are complete. All that remains is ordering the outer rim of the top layer.
 
-### Paso 5.1: Ordenar las 4 Esquinas Superiores con T-Perm
-En el estado donde nos dejó el Paso 4.2, las dos esquinas de la izquierda (`L`) ya son del mismo color ("faros"), mientras que las dos esquinas de la derecha (`R`) están intercambiadas.
-Ejecutamos **T-Perm (`R U R' U' R' F R2 U' R' U' R U R' F'`)**: al terminar, **las 4 esquinas superiores quedan en sus caras correctas** (y la cara Azul trasera queda completa), faltando únicamente rotar las 3 aristas de adelante:
+### Step 5.1: Permute the 4 Top Corners with T-Perm
+In the state left by Step 4.2, the two left corners (`L`) already share the same color ("headlights"), while the two right corners (`R`) are swapped.
+We execute **T-Perm (`R U R' U' R' F R2 U' R' U' R U R' F'`)**: when finished, **all 4 top corners are in their correct faces** (and the back Blue face is completely solved), leaving only the 3 front edges to cycle:
 
 ```rubik-viz
-title: "Paso 5.1 - Ordenar las 4 Esquinas Superiores con T-Perm"
+title: "Phase 5 - Step 5.1: Permute the 4 Top Corners with T-Perm"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U R U R2 F' R U R U' R'"
@@ -360,14 +368,15 @@ tempo: 1.2
 controls: true
 ```
 
-#### 💡 Opción Alternativa en 5.1: Sin "Faros" — Intercambio Diagonal de Esquinas (Y-Perm)
-*(Caso independiente)*: Si al revisar los 4 lados superiores **ninguna cara tiene dos esquinas del mismo color** ("sin faros"), significa que hay que intercambiar dos esquinas en diagonal. Puedes aplicar **Y-Perm (`F R U' R' U' R U R' F' R U R' U' R' F R F'`)** (o aplicar T-Perm dos veces):
+#### 💡 Step 5.1 - Alternative A: No "Headlights" — Diagonal Corner Swap (Y-Perm)
+If you check all 4 upper sides and **no face has two matching corners** ("no headlights"), two corners need to be swapped diagonally. Apply **Y-Perm (`F R U' R' U' R U R' F' R U R' U' R' F R F'`)** (or apply T-Perm twice).
+Notice that when finished, **all 4 top corners are solved on their respective faces**, while the 3 top edges remain pending for Step 5.2:
 
 ```rubik-viz
-title: "Paso 5.1 (Opción Sin Faros) - Intercambio Diagonal de Esquinas con Y-Perm"
+title: "Step 5.1 - Alternative A: Diagonal Corner Swap with Y-Perm (No Headlights)"
 puzzle: 3x3x3
 view: 3D
-setup: "z2 F R U' R' U' R U R' F' R U R' U' R' F R F'"
+setup: "z2 R2 U R U R' U' R' U' R' U R' F R U' R' U' R U R' F' R U R' U' R' F R F'"
 alg: "F R U' R' U' R U R' F' R U R' U' R' F R F'"
 anchor: start
 mask: full
@@ -375,12 +384,12 @@ tempo: 1.2
 controls: true
 ```
 
-### Paso 5.2: Paso Final — Rotar las Últimas 3 Aristas (Ua-Perm)
-Arrancamos en el estado exacto que dejó el Paso 5.1: solo las 3 aristas superiores están intercambiadas entre sí, con la cara Azul resuelta atrás (`B`).
-Ejecuta **`R U' R U R U R U' R' U' R2`** (ciclo antihorario de 3 aristas) y ahora sí: **¡El cubo queda 100% resuelto!**
+### Step 5.2: Final Step — Cycle the Last 3 Edges (Ua-Perm)
+We start in the exact state left by Step 5.1: only the 3 top edges are swapped among themselves, with the solved Blue face at the back (`B`).
+Execute **`R U' R U R U R U' R' U' R2`** (counter-clockwise 3-edge cycle) and now: **The cube is 100% solved!**
 
 ```rubik-viz
-title: "Paso 5.2 - Ciclo Final Antihorario de 3 Aristas y Cubo 100% Resuelto (Ua-Perm)"
+title: "Phase 5 - Step 5.2: Final Counter-Clockwise 3-Edge Cycle & 100% Solved Cube (Ua-Perm)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 R2 U R U R' U' R' U' R' U R'"
@@ -391,11 +400,11 @@ tempo: 1.1
 controls: true
 ```
 
-#### 💡 Opción Alternativa A en 5.2: Ciclo Horario de 3 Aristas (Ub-Perm: `R2 U R U R' U' R' U' R' U R'`)
-*(Caso independiente)*: Si con la cara completa atrás (`B`) las 3 aristas deben rotar en **sentido horario** (Izquierda → Derecha → Frente), aplica **Ub-Perm (`R2 U R U R' U' R' U' R' U R'`)**:
+#### 💡 Step 5.2 - Alternative A: Clockwise 3-Edge Cycle (Ub-Perm: `R2 U R U R' U' R' U' R' U R'`)
+If in this final step—with the solved face at the back (`B`)—the 3 edges need to cycle **clockwise** (Left → Right → Front), apply **Ub-Perm (`R2 U R U R' U' R' U' R' U R'`)**:
 
 ```rubik-viz
-title: "Paso 5.2 (Opción Ub-Perm) - Ciclo Horario de las 3 Aristas Superiores (R2 U R U R' U' R' U' R' U R')"
+title: "Step 5.2 - Alternative A: Clockwise Cycle of the 3 Top Edges (Ub-Perm)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 R U' R U R U R U' R' U' R2"
@@ -406,11 +415,11 @@ tempo: 1.1
 controls: true
 ```
 
-#### 💡 Opción Alternativa B en 5.2: Las 4 Aristas Opuestas Intercambiadas (H-Perm: `M2 U M2 U2 M2 U M2`)
-*(Caso independiente)*: Si ninguna de las 4 aristas superiores está resuelta y cada una debe ir al lado **opuesto** (Verde ↔ Azul y Rojo ↔ Naranja), aplica **H-Perm (`M2 U M2 U2 M2 U M2`)**:
+#### 💡 Step 5.2 - Alternative B: All 4 Opposite Edges Swapped (H-Perm: `M2 U M2 U2 M2 U M2`)
+If in this final step none of the 4 top edges are solved and each needs to swap with its **opposite** side (Green ↔ Blue and Red ↔ Orange), apply **H-Perm (`M2 U M2 U2 M2 U M2`)**:
 
 ```rubik-viz
-title: "Paso 5.2 (Opción H-Perm) - Intercambiar las 4 Aristas Opuestas (M2 U M2 U2 M2 U M2)"
+title: "Step 5.2 - Alternative B: Swap All 4 Opposite Edges (H-Perm)"
 puzzle: 3x3x3
 view: 3D
 setup: "z2 M2 U' M2 U2 M2 U' M2"
