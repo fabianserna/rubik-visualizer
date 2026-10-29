@@ -110,6 +110,7 @@ All documentation and interactive tutorials are available in both **English** (`
 | **3x3x3 Tutorial** | [`tutorial-3x3x3.md`](./tutorial-3x3x3.md) | [`tutorial-3x3x3.es.md`](./tutorial-3x3x3.es.md) | Progressive 3x3x3 beginner-to-full solve tutorial with phase alternatives. |
 | **4x4x4 Tutorial** | [`tutorial-4x4x4.md`](./tutorial-4x4x4.md) | [`tutorial-4x4x4.es.md`](./tutorial-4x4x4.es.md) | Progressive 4x4x4 reduction tutorial (Centers, Edge Pairing, OLL/PLL Parities). |
 | **Examples Gallery** | [`example.md`](./example.md) | [`example.es.md`](./example.es.md) | Interactive reference guide for views, spatial rotations, masks, and moves. |
+| **Changelog** | [`CHANGELOG.md`](./CHANGELOG.md) | [`CHANGELOG.es.md`](./CHANGELOG.es.md) | Version history and release notes (`1.0.0`, `1.0.1`, ...). |
 
 ---
 

@@ -110,6 +110,7 @@ El repositorio incluye toda su documentación y tutoriales en **Inglés** (archi
 | **Tutorial 3x3x3** | [`tutorial-3x3x3.md`](./tutorial-3x3x3.md) | [`tutorial-3x3x3.es.md`](./tutorial-3x3x3.es.md) | Tutorial progresivo 3x3x3 de principio a fin con casos alternativos por fase. |
 | **Tutorial 4x4x4** | [`tutorial-4x4x4.md`](./tutorial-4x4x4.md) | [`tutorial-4x4x4.es.md`](./tutorial-4x4x4.es.md) | Tutorial progresivo 4x4x4 por reducción (Centros, Aristas y Paridades OLL/PLL). |
 | **Galería de Ejemplos** | [`example.md`](./example.md) | [`example.es.md`](./example.es.md) | Guía de referencia con ejemplos de vistas, rotaciones, máscaras y parámetros. |
+| **Historial de Cambios** | [`CHANGELOG.md`](./CHANGELOG.md) | [`CHANGELOG.es.md`](./CHANGELOG.es.md) | Registro histórico de versiones y novedades (`1.0.0`, `1.0.1`, ...). |
 
 ---
 
