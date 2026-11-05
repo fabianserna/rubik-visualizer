@@ -63,6 +63,10 @@
   user-select: none;
 }
 
+.rubik-viz-badge.is-2x2 {
+  background-color: var(--color-cyan, #06b6d4);
+}
+
 .rubik-viz-badge.is-4x4 {
   background-color: var(--color-purple, var(--interactive-accent));
 }
@@ -816,6 +820,16 @@
   height: 72px;
 }
 
+.rubik-viz-net-empty.is-grid-2 {
+  width: 60px;
+  height: 60px;
+}
+
+.rubik-viz-net-empty.is-grid-4 {
+  width: 82px;
+  height: 82px;
+}
+
 .rubik-viz-net-face {
   display: grid;
   grid-template-columns: repeat(3, 22px);
@@ -824,6 +838,16 @@
   padding: 2px;
   background-color: #1e293b;
   border-radius: 4px;
+}
+
+.rubik-viz-net-face.is-grid-2 {
+  grid-template-columns: repeat(2, 27px);
+  grid-template-rows: repeat(2, 27px);
+}
+
+.rubik-viz-net-face.is-grid-4 {
+  grid-template-columns: repeat(4, 18px);
+  grid-template-rows: repeat(4, 18px);
 }
 
 .rubik-viz-sticker-btn {
@@ -836,20 +860,33 @@
   cursor: pointer;
   font-size: 0.65rem;
   font-weight: 800;
-  color: #0f172a;
+  color: #0f172a !important;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.08s ease;
+  box-shadow: none !important;
 }
 
-.rubik-viz-sticker-btn:hover:not(.is-center) {
+.rubik-viz-net-face.is-grid-2 .rubik-viz-sticker-btn {
+  width: 27px;
+  height: 27px;
+  font-size: 0.68rem;
+}
+
+.rubik-viz-net-face.is-grid-4 .rubik-viz-sticker-btn {
+  width: 18px;
+  height: 18px;
+  font-size: 0.55rem;
+}
+
+.rubik-viz-sticker-btn:hover {
   transform: scale(1.1);
   z-index: 2;
 }
 
 .rubik-viz-sticker-btn.is-center {
-  cursor: default;
   border: 1.5px solid rgba(15, 23, 42, 0.75);
 }
 
@@ -883,26 +920,56 @@
   cursor: not-allowed;
 }
 
-.rubik-viz-face-U {
-  background-color: #f8fafc;
+.rubik-viz-face-U,
+button.rubik-viz-sticker-btn.rubik-viz-face-U,
+button.rubik-viz-sticker-btn.rubik-viz-face-U:hover,
+button.rubik-viz-sticker-btn.rubik-viz-face-U:active,
+button.rubik-viz-sticker-btn.rubik-viz-face-U:focus {
+  background: #f8fafc !important;
+  background-color: #f8fafc !important;
 }
 
-.rubik-viz-face-L {
-  background-color: #f97316;
+.rubik-viz-face-L,
+button.rubik-viz-sticker-btn.rubik-viz-face-L,
+button.rubik-viz-sticker-btn.rubik-viz-face-L:hover,
+button.rubik-viz-sticker-btn.rubik-viz-face-L:active,
+button.rubik-viz-sticker-btn.rubik-viz-face-L:focus {
+  background: #f97316 !important;
+  background-color: #f97316 !important;
 }
 
-.rubik-viz-face-F {
-  background-color: #22c55e;
+.rubik-viz-face-F,
+button.rubik-viz-sticker-btn.rubik-viz-face-F,
+button.rubik-viz-sticker-btn.rubik-viz-face-F:hover,
+button.rubik-viz-sticker-btn.rubik-viz-face-F:active,
+button.rubik-viz-sticker-btn.rubik-viz-face-F:focus {
+  background: #22c55e !important;
+  background-color: #22c55e !important;
 }
 
-.rubik-viz-face-R {
-  background-color: #ef4444;
+.rubik-viz-face-R,
+button.rubik-viz-sticker-btn.rubik-viz-face-R,
+button.rubik-viz-sticker-btn.rubik-viz-face-R:hover,
+button.rubik-viz-sticker-btn.rubik-viz-face-R:active,
+button.rubik-viz-sticker-btn.rubik-viz-face-R:focus {
+  background: #ef4444 !important;
+  background-color: #ef4444 !important;
 }
 
-.rubik-viz-face-B {
-  background-color: #3b82f6;
+.rubik-viz-face-B,
+button.rubik-viz-sticker-btn.rubik-viz-face-B,
+button.rubik-viz-sticker-btn.rubik-viz-face-B:hover,
+button.rubik-viz-sticker-btn.rubik-viz-face-B:active,
+button.rubik-viz-sticker-btn.rubik-viz-face-B:focus {
+  background: #3b82f6 !important;
+  background-color: #3b82f6 !important;
 }
 
-.rubik-viz-face-D {
-  background-color: #eab308;
+.rubik-viz-face-D,
+button.rubik-viz-sticker-btn.rubik-viz-face-D,
+button.rubik-viz-sticker-btn.rubik-viz-face-D:hover,
+button.rubik-viz-sticker-btn.rubik-viz-face-D:active,
+button.rubik-viz-sticker-btn.rubik-viz-face-D:focus {
+  background: #eab308 !important;
+  background-color: #eab308 !important;
 }

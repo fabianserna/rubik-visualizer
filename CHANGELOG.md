@@ -7,6 +7,26 @@ This project adheres to [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
 ---
 
+## [1.0.2] - 2026-11-05
+
+### Added
+- **2x2x2 Cube Support (`puzzle: 2x2x2` / `2x2`)**:
+  - Enabled 3D and 2D visualization for `2x2x2` Pocket Cubes in `rubik-viz` blocks, with cyan `2x2` header badges (`.rubik-viz-badge.is-2x2`), `2x2x2` segmented button selector in the studio modal, and quick presets (`2x2 - OLL Sune`, `2x2 - PLL T-Perm`).
+  - Added bilingual progressive **2x2x2 Pocket Cube Layer-by-Layer Tutorials** ([`tutorial-2x2x2.md`](./tutorial-2x2x2.md) and [`tutorial-2x2x2.es.md`](./tutorial-2x2x2.es.md)) covering First White Layer with matching side bars, `z2` transition, OLL (`Sune`, `Anti-Sune`, `Double Sune`), and PLL (`T-Perm`, `Y-Perm`) with partial-solve `Phase X - Alternative A/B` examples (resolves [Issue #1](https://github.com/fabianserna/rubik-visualizer/issues/1)).
+- **Real Cube Color Mapper & Solver for `2x2x2`, `3x3x3`, and `4x4x4`**:
+  - Extended the **Map Real Cube** 2D unfolded net painter to dynamically adapt to `2x2x2` ($2 \times 2$ grid per face, 24 stickers, `4/4` counters), `3x3x3` ($3 \times 3$ grid per face, 54 stickers, `9/9` counters), and `4x4x4` ($4 \times 4$ grid per face, 96 stickers, `16/16` counters).
+  - Added `2x2x2` and `4x4x4` physical state validation and automatic `setup` + step-by-step `alg` solution calculation in `RealCubeSolver` (including `4x4x4` OLL/PLL parity handling) as well as `Read from Setup` (`faceletsFromAlgForSize`) and `state:` YAML support for 24, 54, and 96 stickers.
+- **Live 3D & 2D Sticker Preview While Painting (`Cube3D` & `PG3D`)**:
+  - Clicking or dragging across stickers in the **Map Real Cube** 2D unfolded net immediately paints each individual sticker on the live 3D (`Cube3D` for `3x3x3`, `PG3D` for `2x2x2` and `4x4x4`) and 2D SVG preview cube in real time.
+
+### Fixed
+- **2D Net Sticker Button Color Visibility**:
+  - Enforced sticker background colors with high-specificity CSS rules and inline `!important` styles so Obsidian's default `button:not(.clickable-icon)` theme rule no longer overrides sticker colors with white in the bottom 2D net.
+- **TypeScript Type Assertion Cleanup**:
+  - Removed an unnecessary `as unknown as number` type assertion on `window.setTimeout` in `main.ts` flagged by the Obsidian Community Plugin review bot.
+
+---
+
 ## [1.0.1] - 2026-10-29
 
 ### Added

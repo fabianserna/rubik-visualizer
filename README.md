@@ -15,15 +15,15 @@
 ```
 
 ![Obsidian Plugin](https://img.shields.io/badge/Obsidian-Plugin-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white)
-![Version](https://img.shields.io/badge/Version-1.0.1-22C55E?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-1.0.2-22C55E?style=for-the-badge)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![cubing.js](https://img.shields.io/badge/Engine-cubing.js-F97316?style=for-the-badge)
 ![Antigravity](https://img.shields.io/badge/Built%20with-Google%20Antigravity-4285F4?style=for-the-badge&logo=google&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-EAB308?style=for-the-badge)
 
-**Interactive 3D & 2D Rubik's Cube visualizer (`3x3x3` and `4x4x4`), real-time step-by-step algorithm player, and physical cube state calculator directly inside your Obsidian notes.**
+**Interactive 3D & 2D Rubik's Cube visualizer (`2x2x2`, `3x3x3`, and `4x4x4`), real-time step-by-step algorithm player, and physical cube state calculator directly inside your Obsidian notes.**
 
-[**📖 3x3x3 Tutorial**](./tutorial-3x3x3.md) · [**🟧 4x4x4 Tutorial**](./tutorial-4x4x4.md) · [**🧪 Examples Gallery**](./example.md) · [**🇪🇸 Documentación en Español**](./README.es.md)
+[**🟦 2x2x2 Tutorial**](./tutorial-2x2x2.md) · [**📖 3x3x3 Tutorial**](./tutorial-3x3x3.md) · [**🟧 4x4x4 Tutorial**](./tutorial-4x4x4.md) · [**🧪 Examples Gallery**](./example.md) · [**🇪🇸 Documentación en Español**](./README.es.md)
 
 </div>
 
@@ -43,7 +43,7 @@
 ## ✨ Key Features
 
 ### 1. 🎮 Interactive 3D & 2D Visualization in Markdown Blocks (`rubik-viz`)
-Render **3x3x3** and **4x4x4** cubes inside any note using clean YAML blocks:
+Render **2x2x2**, **3x3x3**, and **4x4x4** cubes inside any note using clean YAML blocks:
 - **Live `3D / 2D` (`3d o 2d`) Toggle**: Switch between the interactive 3D cube and the unfolded 2D net with a single click without editing the note.
 - **`Center` (`Centrar`) Button**: Instantly restores the 3D camera orbit to its natural reading angle (prioritizing the Top **`U`**, Front **`F`**, and Right **`R`** faces) **without losing your current move step**.
 - **`Reset` (`Reiniciar`) Button**: Returns the timeline to the initial state and centers the camera.
@@ -54,13 +54,13 @@ Render **3x3x3** and **4x4x4** cubes inside any note using clean YAML blocks:
 - **Single-move playback on click**: Clicking any move button in the bottom bar jumps to that point in the timeline and **plays only that single 3D rotation**, pausing automatically when the move completes.
 - **Automatic `4x4x4` move highlighting**: Automatically highlights **double-layer wide moves (`Rw`, `Uw`, `Lw`, `r`, `l`)** and **inner-slice moves (`2R`, `2R2`, `2U`)** in amber—essential for OLL and PLL parity algorithms.
 
-### 3. 🎨 Physical Cube State Calculator & Solver (`Map Real 3x3 Cube`)
+### 3. 🎨 Physical Cube State Calculator & Solver (`Map Real Cube: 2x2x2, 3x3x3 & 4x4x4`)
 Holding a scrambled physical Rubik's Cube in your hands?
 - Open the Command Palette (`Ctrl + P` / `Cmd + P`) and run:
-  - **`Rubik Studio Visualizer: Map real cube colors (3x3 initial state calculator)`**
-- **Interactive 54-sticker painter**: Paint all 6 faces (`U`, `L`, `F`, `R`, `B`, `D`) with real-time physical validation:
-  - Verifies exact 9-sticker counts per color, valid existence of all 12 edges and 8 corners, corner orientation ($\sum co \equiv 0 \pmod 3$), edge orientation ($\sum eo \equiv 0 \pmod 2$), and permutation parity.
-- **Built-in 3x3 Solver Engine (`RealCubeSolver`)**: Computes both the exact **`setup`** of your physical cube and a **step-by-step `alg` solution** in under `5 ms` so you can watch in 3D how to solve your own cube.
+  - **`Rubik Studio Visualizer: Map real cube colors (2x2, 3x3 & 4x4 state calculator)`**
+- **Interactive 24 / 54 / 96-sticker painter**: Paint all 6 faces (`U`, `L`, `F`, `R`, `B`, `D`) in $2 \times 2$, $3 \times 3$, or $4 \times 4$ grids with real-time 3D/2D sticker painting and physical validation:
+  - Verifies exact sticker counts per color (`4/4`, `9/9`, or `16/16`), valid corner/edge/wing pieces, corner orientation ($\sum co \equiv 0 \pmod 3$), edge orientation ($\sum eo \equiv 0 \pmod 2$), and permutation parity.
+- **Built-in Solver Engine (`RealCubeSolver`)**: Computes both the exact **`setup`** of your physical cube and a **step-by-step `alg` solution** (including `4x4x4` OLL/PLL parity handling) so you can watch in 3D how to solve your own cube.
 
 ### 4. 🧰 Visual Studio Builder with Live Preview
 - Run **`Rubik Studio Visualizer: Insert cube state`** from the Command Palette to open the interactive studio featuring quick presets (*Sexy Move*, *Sune*, *T-Perm*, *4x4 OLL Parity*, *4x4 PLL Parity*), a move keypad, and instant 3D preview.
@@ -88,7 +88,7 @@ controls: true
 | Parameter | Allowed Values | Default | Description |
 | :--- | :--- | :---: | :--- |
 | `title` | Free text | `"Cube 3x3"` / `"Cubo 3x3"` | Title displayed in the card header. |
-| `puzzle` | `3x3x3`, `3x3`, `4x4x4`, `4x4` | `3x3x3` | Cube puzzle type to render. |
+| `puzzle` | `2x2x2`, `2x2`, `3x3x3`, `3x3`, `4x4x4`, `4x4` | `3x3x3` | Cube puzzle type to render. |
 | `view` | `3D`, `2D`, `PG3D` | `3D` | Initial visualization mode (`3D` interactive or `2D` unfolded net). |
 | `setup` | WCA notation (`z2`, scrambles, etc.) | `""` | Pre-moves defining the initial state of the cube before `alg`. |
 | `state` | 54-character string (`U,R,F,D,L,B` or `W,R,G,Y,O,B`) | `""` | *(Optional)* Defines the initial 3x3 state directly from 54 sticker colors. |
@@ -107,6 +107,7 @@ All documentation and interactive tutorials are available in both **English** (`
 | Document | 🇺🇸 English (Primary) | 🇪🇸 Español | Description |
 | :--- | :--- | :--- | :--- |
 | **Main README** | [`README.md`](./README.md) | [`README.es.md`](./README.es.md) | Overview, installation, and YAML syntax reference. |
+| **2x2x2 Tutorial** | [`tutorial-2x2x2.md`](./tutorial-2x2x2.md) | [`tutorial-2x2x2.es.md`](./tutorial-2x2x2.es.md) | Progressive 2x2x2 Pocket Cube layer-by-layer tutorial (First Layer, OLL, PLL). |
 | **3x3x3 Tutorial** | [`tutorial-3x3x3.md`](./tutorial-3x3x3.md) | [`tutorial-3x3x3.es.md`](./tutorial-3x3x3.es.md) | Progressive 3x3x3 beginner-to-full solve tutorial with phase alternatives. |
 | **4x4x4 Tutorial** | [`tutorial-4x4x4.md`](./tutorial-4x4x4.md) | [`tutorial-4x4x4.es.md`](./tutorial-4x4x4.es.md) | Progressive 4x4x4 reduction tutorial (Centers, Edge Pairing, OLL/PLL Parities). |
 | **Examples Gallery** | [`example.md`](./example.md) | [`example.es.md`](./example.es.md) | Interactive reference guide for views, spatial rotations, masks, and moves. |

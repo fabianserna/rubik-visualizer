@@ -15,15 +15,15 @@
 ```
 
 ![Obsidian Plugin](https://img.shields.io/badge/Obsidian-Plugin-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white)
-![Version](https://img.shields.io/badge/Version-1.0.1-22C55E?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-1.0.2-22C55E?style=for-the-badge)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![cubing.js](https://img.shields.io/badge/Engine-cubing.js-F97316?style=for-the-badge)
 ![Antigravity](https://img.shields.io/badge/Built%20with-Google%20Antigravity-4285F4?style=for-the-badge&logo=google&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-EAB308?style=for-the-badge)
 
-**Visualizador interactivo 3D y 2D de Cubos de Rubik (`3x3x3` y `4x4x4`), reproductor paso a paso sincronizado en tiempo real y calculador de estados desde cubos físicos reales directamente dentro de tus notas de Obsidian.**
+**Visualizador interactivo 3D y 2D de Cubos de Rubik (`2x2x2`, `3x3x3` y `4x4x4`), reproductor paso a paso sincronizado en tiempo real y calculador de estados desde cubos físicos reales directamente dentro de tus notas de Obsidian.**
 
-[**📖 Tutorial 3x3x3 (ES)**](./tutorial-3x3x3.es.md) · [**🟧 Tutorial 4x4x4 (ES)**](./tutorial-4x4x4.es.md) · [**🧪 Galería de Ejemplos (ES)**](./example.es.md) · [**🇺🇸 English Docs**](./README.md)
+[**🟦 Tutorial 2x2x2 (ES)**](./tutorial-2x2x2.es.md) · [**📖 Tutorial 3x3x3 (ES)**](./tutorial-3x3x3.es.md) · [**🟧 Tutorial 4x4x4 (ES)**](./tutorial-4x4x4.es.md) · [**🧪 Galería de Ejemplos (ES)**](./example.es.md) · [**🇺🇸 English Docs**](./README.md)
 
 </div>
 
@@ -43,7 +43,7 @@
 ## ✨ Características Principales
 
 ### 1. 🎮 Visualización 3D y 2D Interactiva en Bloques Markdown (`rubik-viz`)
-Renderiza cubos **3x3x3** y **4x4x4** dentro de cualquier nota usando bloques YAML limpios:
+Renderiza cubos **2x2x2**, **3x3x3** y **4x4x4** dentro de cualquier nota usando bloques YAML limpios:
 - **Alternancia en vivo `3d o 2d` (`3D / 2D`)**: Cambia entre el cubo 3D orbital y la planta desplegada 2D con un solo clic sin editar la nota.
 - **Botón `Centrar` (`Center`)**: Restablece al instante la órbita de la cámara 3D a su posición natural de lectura (priorizando las caras Superior **`U`**, Frontal **`F`** y Derecha **`R`**) **sin perder el paso actual** de la secuencia.
 - **Botón `Reiniciar` (`Reset`)**: Regresa la línea de tiempo al estado inicial y centra la cámara.
@@ -54,13 +54,13 @@ Renderiza cubos **3x3x3** y **4x4x4** dentro de cualquier nota usando bloques YA
 - **Reproducción individual al hacer clic**: Al hacer clic sobre cualquier movimiento de la lista inferior, el cubo salta a ese instante y **reproduce únicamente la animación 3D de ese giro**, deteniéndose al terminar el movimiento.
 - **Resaltado automático para `4x4x4`**: Distingue automáticamente con etiquetas ámbar los movimientos de **capas dobles (`Rw`, `Uw`, `Lw`, `r`, `l`)** y **capas internas (`2R`, `2R2`, `2U`)** esenciales para las paridades de OLL y PLL.
 
-### 3. 🎨 Calculador de Estado Inicial desde un Cubo Real (`Mapear Cubo Real 3x3`)
+### 3. 🎨 Calculador de Estado Inicial desde un Cubo Real (`Mapear Cubo Real: 2x2x2, 3x3x3 y 4x4x4`)
 ¿Tienes un cubo de Rubik físico desordenado en la mano?
 - Abre la paleta de comandos (`Ctrl + P` / `Cmd + P`) y ejecuta:
-  - **`Rubik Studio Visualizer: Mapear colores de cubo real (Calculador de estado inicial 3x3)`**
-- **Pintor interactivo de 54 casillas**: Pinta las 6 caras (`U`, `L`, `F`, `R`, `B`, `D`) con validación física en tiempo real:
-  - Verifica conteo exacto de 9 colores por cara, existencia de las 12 aristas y 8 esquinas reales, orientación de esquinas ($\sum co \equiv 0 \pmod 3$), orientación de aristas ($\sum eo \equiv 0 \pmod 2$) y paridad de permutación.
-- **Motor Solver 3x3 integrado (`RealCubeSolver`)**: Calcula en menos de `5 ms` tanto el **`setup`** exacto de tu cubo real como una **solución paso a paso en `alg`** para que veas en 3D cómo se arma tu propio cubo.
+  - **`Rubik Studio Visualizer: Mapear colores de cubo real (Calculador 2x2, 3x3 y 4x4)`**
+- **Pintor interactivo de 24 / 54 / 96 casillas**: Pinta las 6 caras (`U`, `L`, `F`, `R`, `B`, `D`) en cuadrícula $2 \times 2$, $3 \times 3$ o $4 \times 4$ con pintado 3D/2D en vivo y validación física en tiempo real:
+  - Verifica conteo exacto de colores por cara (`4/4`, `9/9` o `16/16`), existencia de piezas reales, orientación de esquinas ($\sum co \equiv 0 \pmod 3$), orientación de aristas ($\sum eo \equiv 0 \pmod 2$) y paridad de permutación.
+- **Motor Solver integrado (`RealCubeSolver`)**: Calcula tanto el **`setup`** exacto de tu cubo real como una **solución paso a paso en `alg`** (incluyendo manejo de paridades OLL/PLL en `4x4x4`) para que veas en 3D cómo se arma tu propio cubo.
 
 ### 4. 🧰 Constructor Visual con Vista Previa en Vivo
 - Ejecuta **`Rubik Studio Visualizer: Insertar estado de cubo`** desde la paleta de comandos para abrir el estudio interactivo con plantillas rápidas (*Sexy Move*, *Sune*, *T-Perm*, *Paridad OLL 4x4*, *Paridad PLL 4x4*), teclado de movimientos y previsualización 3D instantánea.
@@ -88,7 +88,7 @@ controls: true
 | Parámetro | Valores permitidos | Por defecto | Descripción |
 | :--- | :--- | :---: | :--- |
 | `title` | Texto libre | `"Cube 3x3"` / `"Cubo 3x3"` | Título mostrado en el encabezado de la tarjeta. |
-| `puzzle` | `3x3x3`, `3x3`, `4x4x4`, `4x4` | `3x3x3` | Tipo de cubo a renderizar. |
+| `puzzle` | `2x2x2`, `2x2`, `3x3x3`, `3x3`, `4x4x4`, `4x4` | `3x3x3` | Tipo de cubo a renderizar. |
 | `view` | `3D`, `2D`, `PG3D` | `3D` | Vista inicial del cubo (`3D` interactiva o `2D` desplegada). |
 | `setup` | Notación WCA (`z2`, scrambles, etc.) | `""` | Giros previos que definen el estado inicial del cubo antes de `alg`. |
 | `state` | Cadena de 54 caracteres (`U,R,F,D,L,B` o `W,R,G,Y,O,B`) | `""` | *(Opcional)* Define el estado inicial pintando directamente las 54 pegatinas de un cubo 3x3 real. |
@@ -107,6 +107,7 @@ El repositorio incluye toda su documentación y tutoriales en **Inglés** (archi
 | Documento | 🇺🇸 Inglés (Principal) | 🇪🇸 Español | Descripción |
 | :--- | :--- | :--- | :--- |
 | **README Principal** | [`README.md`](./README.md) | [`README.es.md`](./README.es.md) | Descripción general, instalación y sintaxis YAML. |
+| **Tutorial 2x2x2** | [`tutorial-2x2x2.md`](./tutorial-2x2x2.md) | [`tutorial-2x2x2.es.md`](./tutorial-2x2x2.es.md) | Tutorial progresivo 2x2x2 Pocket Cube por capas (Primera Capa, OLL, PLL). |
 | **Tutorial 3x3x3** | [`tutorial-3x3x3.md`](./tutorial-3x3x3.md) | [`tutorial-3x3x3.es.md`](./tutorial-3x3x3.es.md) | Tutorial progresivo 3x3x3 de principio a fin con casos alternativos por fase. |
 | **Tutorial 4x4x4** | [`tutorial-4x4x4.md`](./tutorial-4x4x4.md) | [`tutorial-4x4x4.es.md`](./tutorial-4x4x4.es.md) | Tutorial progresivo 4x4x4 por reducción (Centros, Aristas y Paridades OLL/PLL). |
 | **Galería de Ejemplos** | [`example.md`](./example.md) | [`example.es.md`](./example.es.md) | Guía de referencia con ejemplos de vistas, rotaciones, máscaras y parámetros. |
